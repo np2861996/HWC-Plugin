@@ -13,9 +13,9 @@
 	----------------------------------------------------------------*/
 add_action('init', 'hwc_register_custom_post_type_Players');
 add_action('init', 'hwc_register_player_role_taxonomy', 0);
-add_action('init', 'hwc_add_default_player_roles');
+add_action('init', 'hwc_add_default_player_roles', 1);
 add_action('acf/init', 'hwc_add_players_acf_fields');
-add_action('acf/init', 'hwc_populate_players_data');
+add_action('acf/init', 'hwc_populate_players_data', 2);
 
 
 /*--------------------------------------------------------------
@@ -522,7 +522,7 @@ function hwc_populate_players_data()
 
         // If a player with the same title already exists, skip this iteration
         if ($existing_player->have_posts()) {
-            error_log('Player with title ' . $player_data['title'] . ' already exists, skipping...');
+            //error_log('Player with title ' . $player_data['title'] . ' already exists, skipping...');
             continue;
         }
 
@@ -544,14 +544,20 @@ function hwc_populate_players_data()
             ));
 
             // Check if terms were retrieved successfully
-            if (
-                !is_wp_error($terms) && !empty($terms)
-            ) {
-                // Select a random term
-                $random_term = $terms[array_rand($terms)]->term_id;
+            if (!is_wp_error($terms) && !empty($terms)) {
+                // Find the term that matches the player's role
+                $role_term_id = null;
+                foreach ($terms as $term) {
+                    if ($term->name === $player_data['role']) {
+                        $role_term_id = $term->term_id;
+                        break; // Exit loop once the matching term is found
+                    }
+                }
 
-                // Assign the random term to the player post
-                wp_set_post_terms($player_id, array($random_term), $taxonomy);
+                // Assign the matching term to the player post if found
+                if ($role_term_id) {
+                    wp_set_post_terms($player_id, array($role_term_id), $taxonomy);
+                }
             }
         }
 

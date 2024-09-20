@@ -13,10 +13,9 @@
 ----------------------------------------------------------------*/
 add_action('init', 'hwc_register_custom_post_type_Staff');
 add_action('init', 'hwc_register_staff_role_taxonomy', 0);
-add_action('init', 'hwc_add_default_staff_roles');
+add_action('init', 'hwc_add_default_staff_roles', 1);
 add_action('acf/init', 'hwc_add_staff_acf_fields');
-add_action('acf/init', 'hwc_populate_staff_data');
-
+add_action('acf/init', 'hwc_populate_staff_data', 2);
 
 /*--------------------------------------------------------------
 	>>> Register Staff Post Type
@@ -316,7 +315,7 @@ function hwc_populate_staff_data()
             'number' => 1,
             'first_name' => 'Tony',
             'last_name' => 'Pennock',
-            'role' => 'Manager',
+            'role_staff' => 'Manager',
             'right_card_image' => 'thatfootballdrawing.png',
             'right_card_title' => 'That Football Drawing',
             'right_card_title_2' => 'Staff Sponsor',
@@ -343,7 +342,7 @@ function hwc_populate_staff_data()
             'number' => 12,
             'first_name' => 'Gary',
             'last_name' => 'Richards',
-            'role' => 'Assistant Manager',
+            'role_staff' => 'Assistant Manager',
             'right_card_image' => '',
             'right_card_title' => 'Weston Geotech',
             'right_card_title_2' => 'Staff Sponsor',
@@ -365,12 +364,12 @@ function hwc_populate_staff_data()
         ),
         array(
             'background_image' => '2023-05-13-Newtown-AFC-vs-Haverfordwest-County-AFC-248.jpg',
-            'featured_image' => '51HFC290815_StaffProfiles2425RhysAbu.jpg',
+            'featured_image' => '32HFC0805_StaffProfilesBlank.jpg',
             'title' => 'Rob Abbruzzese',
             'number' => 3,
             'first_name' => 'Rob',
             'last_name' => 'Abbruzzese',
-            'role' => 'Goalkeeping Coach',
+            'role_staff' => 'Goalkeeping Coach',
             'right_card_image' => '',
             'right_card_title' => 'Staff Sponsorship',
             'right_card_title_2' => 'Available',
@@ -397,7 +396,7 @@ function hwc_populate_staff_data()
             'number' => 5,
             'first_name' => 'Dylan',
             'last_name' => 'Rees',
-            'role' => 'Doctor',
+            'role_staff' => 'Doctor',
             'right_card_image' => '',
             'right_card_title' => 'Rib & Oyster',
             'right_card_title_2' => 'Staff Sponsor',
@@ -424,7 +423,7 @@ function hwc_populate_staff_data()
             'number' => 6,
             'first_name' => 'Lee',
             'last_name' => 'Jenkins',
-            'role' => 'Sports Therapist',
+            'role_staff' => 'Sports Therapist',
             'right_card_image' => '',
             'right_card_title' => 'Staff Sponsorship',
             'right_card_title_2' => 'Available',
@@ -451,7 +450,7 @@ function hwc_populate_staff_data()
             'number' => 24,
             'first_name' => 'Ricky',
             'last_name' => 'Watts',
-            'role' => 'Kitman',
+            'role_staff' => 'Kitman',
             'right_card_image' => '',
             'right_card_title' => 'Cleddau Casuals',
             'right_card_title_2' => 'Staff Sponsor',
@@ -495,7 +494,7 @@ function hwc_populate_staff_data()
             ));
 
             if ($existing_staff->have_posts()) {
-                error_log('Staff with title ' . $staff_data_item['title'] . ' already exists, skipping...');
+                //error_log('Staff with title ' . $staff_data_item['title'] . ' already exists, skipping...');
                 continue;
             }
 
@@ -512,32 +511,33 @@ function hwc_populate_staff_data()
                 continue;
             }
 
-            // Retrieve terms from the 'staff_role' taxonomy
-            $taxonomy = 'staff_role';
-            $terms = get_terms(array(
-                'taxonomy'   => $taxonomy,
-                'hide_empty' => false,
-            ));
+            // Check if the staff post was created successfully
+            if (!is_wp_error($staff_id)) {
+                // Retrieve terms from the 'player_role' taxonomy
+                $taxonomy = 'staff_role';
+                $terms = get_terms(array(
+                    'taxonomy'   => $taxonomy,
+                    'hide_empty' => false,
+                ));
 
-            if (!is_wp_error($terms) && !empty($terms)) {
-                $role = $staff_data_item['role'];
-                $matched_term = null;
+                // Check if terms were retrieved successfully
+                if (!is_wp_error($terms) && !empty($terms)) {
+                    // Find the term that matches the player's role
+                    $role_term_id = null;
+                    foreach ($terms as $term) {
+                        if ($term->name === $staff_data_item['role_staff']) {
+                            $role_term_id = $term->term_id;
+                            break; // Exit loop once the matching term is found
+                        }
+                    }
 
-                foreach ($terms as $term) {
-                    if ($role === $term->name) {
-                        $matched_term = $term;
-                        break;
+                    // Assign the matching term to the player post if found
+                    if ($role_term_id) {
+                        wp_set_post_terms($staff_id, array($role_term_id), $taxonomy);
                     }
                 }
-
-                if ($matched_term) {
-                    wp_set_post_terms($staff_id, $matched_term->term_id, $taxonomy);
-                } else {
-                    error_log("No matching role found for staff post ID: $staff_id.");
-                }
-            } else {
-                error_log("Error retrieving terms from $taxonomy taxonomy.");
             }
+
 
             // Assign a random team to the staff
             if (!empty($hwc_teams)) {
@@ -609,11 +609,14 @@ function hwc_populate_staff_data()
 
             // Set featured image
             if ($staff_data_item['featured_image']) {
-                $staff_image_id = hwc_create_image_from_plugin($staff_data_item['featured_image'], $staff_id);
-                if (!is_wp_error($staff_image_id)) {
+
+                $staff_image_filename = $staff_data_item['featured_image'];
+
+                $staff_image_id = hwc_create_image_from_plugin($staff_image_filename, $staff_id);
+                if ($staff_image_id) {
                     set_post_thumbnail($staff_id, $staff_image_id);
                 } else {
-                    error_log('Failed to set featured image: ' . $staff_image_id->get_error_message());
+                    error_log('Failed to set featured image for player ' . $staff_data_item['title']);
                 }
             }
         }

@@ -70,7 +70,7 @@ function hwc_populate_default_team_data()
 
         // If a team with the same title already exists, skip this iteration
         if ($existing_team_query->have_posts()) {
-            error_log('Team with title ' . sanitize_text_field($team['title']) . ' already exists, skipping...');
+            //error_log('Team with title ' . sanitize_text_field($team['title']) . ' already exists, skipping...');
             wp_reset_postdata(); // Always reset the query to prevent conflicts
             continue;
         }

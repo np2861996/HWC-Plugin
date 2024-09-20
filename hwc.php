@@ -58,6 +58,7 @@ function hwc_plugin_activation()
     hwc_plugin_check_acf_pro_before_activation();  // Check if ACF Pro is installed.
     hwc_create_categories_and_manual_posts();
     hwc_populate_default_team_data();
+    flush_rewrite_rules();
 }
 
 /*--------------------------------------------------------------
