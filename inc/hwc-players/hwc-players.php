@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Code For Players info, add data ehen install and activate the theme.
+ * Code For Players info, add data when install and activate the theme.
  *
  * @link https://codex.wordpress.org/Creating_an_Error_404_Page
  *
@@ -12,25 +12,117 @@
 	>>> All Action and Filter Functions
 	----------------------------------------------------------------*/
 add_action('init', 'hwc_register_custom_post_type_Players');
+add_action('init', 'hwc_register_player_role_taxonomy', 0);
+add_action('init', 'hwc_add_default_player_roles');
 add_action('acf/init', 'hwc_add_players_acf_fields');
 add_action('acf/init', 'hwc_populate_players_data');
+
 
 /*--------------------------------------------------------------
 	>>> Register Players Post Type
 	----------------------------------------------------------------*/
 function hwc_register_custom_post_type_Players()
 {
-    // Player
-    register_post_type('player', array(
-        'labels' => array(
-            'name' => 'Players',
-            'singular_name' => 'Player',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    ));
+    $labels = array(
+        'name'                  => _x('Players', 'Post type general name', 'textdomain'),
+        'singular_name'         => _x('Player', 'Post type singular name', 'textdomain'),
+        'menu_name'             => _x('Players', 'Admin Menu text', 'textdomain'),
+        'name_admin_bar'        => _x('Player', 'Add New on Toolbar', 'textdomain'),
+        'add_new'               => __('Add New', 'textdomain'),
+        'add_new_item'          => __('Add New Player', 'textdomain'),
+        'new_item'              => __('New Player', 'textdomain'),
+        'edit_item'             => __('Edit Player', 'textdomain'),
+        'view_item'             => __('View Player', 'textdomain'),
+        'all_items'             => __('All Players', 'textdomain'),
+        'search_items'          => __('Search Players', 'textdomain'),
+        'parent_item_colon'     => __('Parent Players:', 'textdomain'),
+        'not_found'             => __('No players found.', 'textdomain'),
+        'not_found_in_trash'    => __('No players found in Trash.', 'textdomain'),
+    );
+
+    $args = array(
+        'labels'                => $labels,
+        'public'                => true,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'query_var'             => true,
+        'rewrite'               => array('slug' => 'player'),
+        'capability_type'       => 'post',
+        'has_archive'           => true,
+        'hierarchical'          => false,
+        'menu_position'         => 5,
+        'supports'              => array('title', 'editor', 'thumbnail'),
+    );
+
+    register_post_type('player', $args);
 }
+
+/*--------------------------------------------------------------
+	>>> Register Players Post Type
+----------------------------------------------------------------*/
+function hwc_register_player_role_taxonomy()
+{
+    // Define the taxonomy labels
+    $labels = array(
+        'name'              => _x('Player Roles', 'taxonomy general name', 'textdomain'),
+        'singular_name'     => _x('Player Role', 'taxonomy singular name', 'textdomain'),
+        'search_items'      => __('Search Player Roles', 'textdomain'),
+        'all_items'         => __('All Player Roles', 'textdomain'),
+        'parent_item'       => __('Parent Player Role', 'textdomain'),
+        'parent_item_colon' => __('Parent Player Role:', 'textdomain'),
+        'edit_item'         => __('Edit Player Role', 'textdomain'),
+        'update_item'       => __('Update Player Role', 'textdomain'),
+        'add_new_item'      => __('Add New Player Role', 'textdomain'),
+        'new_item_name'     => __('New Player Role Name', 'textdomain'),
+        'menu_name'         => __('Player Roles', 'textdomain'),
+    );
+
+    // Register the taxonomy
+    register_taxonomy(
+        'player_role', // Taxonomy name
+        'player',      // Post type name
+        array(
+            'hierarchical' => true, // Set to true to enable parent-child relationships
+            'labels'        => $labels,
+            'show_ui'       => true,
+            'show_admin_column' => true,
+            'query_var'     => true,
+            'rewrite'       => array('slug' => 'player-role'),
+        )
+    );
+}
+
+/*--------------------------------------------------------------
+	>>> Function for default_player_roles
+----------------------------------------------------------------*/
+function hwc_add_default_player_roles()
+{
+    // Check if the taxonomy exists
+    if (taxonomy_exists('player_role')) {
+        // Define the terms you want to add
+        $terms = array(
+            'goalkeepers' => 'Goalkeepers',
+            'defenders'   => 'Defenders',
+            'midfielders' => 'Midfielders',
+            'forwards'    => 'Forwards',
+        );
+
+        foreach ($terms as $slug => $name) {
+            // Add the term if it doesn't already exist
+            if (!term_exists($slug, 'player_role')) {
+                wp_insert_term(
+                    $name, // Term name
+                    'player_role', // Taxonomy
+                    array(
+                        'slug' => $slug // Term slug
+                    )
+                );
+            }
+        }
+    }
+}
+
 
 /*--------------------------------------------------------------
 	>>> Function for Add Players ACF Fields
@@ -87,14 +179,6 @@ function hwc_add_players_acf_fields()
                         'key' => 'field_player_last_name',
                         'label' => 'Player Last Name',
                         'name' => 'player_last_name',
-                        'type' => 'text',
-                        'required' => 1,
-                    ),
-                    // Player Role
-                    array(
-                        'key' => 'field_player_role',
-                        'label' => 'Player Role',
-                        'name' => 'player_role',
                         'type' => 'text',
                         'required' => 1,
                     ),
@@ -220,6 +304,8 @@ function hwc_add_players_acf_fields()
 // Populate Default Data only once
 function hwc_populate_players_data()
 {
+    // Check if the function has already been run
+    //  if (!get_option('hwc_players_data_posts_created', false)) {
     // Define player data array within the function
     $players_data = array(
         array(
@@ -229,7 +315,7 @@ function hwc_populate_players_data()
             'number' => 1,
             'first_name' => 'Zac',
             'last_name' => 'Jones',
-            'role' => 'Goalkeeper',
+            'role' => 'Goalkeepers',
             'right_card_image' => 'thatfootballdrawing.png',
             'right_card_title' => 'That Football Drawing',
             'right_card_title_2' => 'Player Sponsor',
@@ -256,7 +342,7 @@ function hwc_populate_players_data()
             'number' => 12,
             'first_name' => 'Ifan',
             'last_name' => 'Knott',
-            'role' => 'Goalkeeper',
+            'role' => 'Goalkeepers',
             'right_card_image' => '',
             'right_card_title' => 'Weston Geotech',
             'right_card_title_2' => 'Player Sponsor',
@@ -283,7 +369,7 @@ function hwc_populate_players_data()
             'number' => 3,
             'first_name' => 'Rhys',
             'last_name' => 'Abbruzzese',
-            'role' => 'Defender',
+            'role' => 'Defenders',
             'right_card_image' => '',
             'right_card_title' => 'Player Sponsorship',
             'right_card_title_2' => 'Available',
@@ -310,7 +396,7 @@ function hwc_populate_players_data()
             'number' => 5,
             'first_name' => 'Dylan',
             'last_name' => 'Rees',
-            'role' => 'Defender',
+            'role' => 'Defenders',
             'right_card_image' => '',
             'right_card_title' => 'Rib & Oyster',
             'right_card_title_2' => 'Player Sponsor',
@@ -337,7 +423,7 @@ function hwc_populate_players_data()
             'number' => 6,
             'first_name' => 'Lee',
             'last_name' => 'Jenkins',
-            'role' => 'Defender',
+            'role' => 'Defenders',
             'right_card_image' => '',
             'right_card_title' => 'Player Sponsorship',
             'right_card_title_2' => 'Available',
@@ -364,7 +450,7 @@ function hwc_populate_players_data()
             'number' => 24,
             'first_name' => 'Ricky',
             'last_name' => 'Watts',
-            'role' => 'Midfielder',
+            'role' => 'Midfielders',
             'right_card_image' => '',
             'right_card_title' => 'Cleddau Casuals',
             'right_card_title_2' => 'Player Sponsor',
@@ -391,7 +477,7 @@ function hwc_populate_players_data()
             'number' => 9,
             'first_name' => 'Ben',
             'last_name' => 'Fawcett',
-            'role' => 'Forward',
+            'role' => 'Forwards',
             'right_card_image' => '',
             'right_card_title' => 'OG Barbers',
             'right_card_title_2' => 'Player Sponsor',
@@ -448,6 +534,27 @@ function hwc_populate_players_data()
             'post_status' => 'publish',
         ));
 
+        // Check if the player post was created successfully
+        if (!is_wp_error($player_id)) {
+            // Retrieve terms from the 'player_role' taxonomy
+            $taxonomy = 'player_role';
+            $terms = get_terms(array(
+                'taxonomy'   => $taxonomy,
+                'hide_empty' => false,
+            ));
+
+            // Check if terms were retrieved successfully
+            if (
+                !is_wp_error($terms) && !empty($terms)
+            ) {
+                // Select a random term
+                $random_term = $terms[array_rand($terms)]->term_id;
+
+                // Assign the random term to the player post
+                wp_set_post_terms($player_id, array($random_term), $taxonomy);
+            }
+        }
+
         if (is_wp_error($player_id)) {
             error_log('Failed to insert player post: ' . $player_id->get_error_message());
             continue; // Skip to the next player if this one fails
@@ -467,7 +574,6 @@ function hwc_populate_players_data()
         );
         update_field('player_first_name', $player_data['first_name'], $player_id);
         update_field('player_last_name', $player_data['last_name'], $player_id);
-        update_field('player_role', $player_data['role'], $player_id);
         update_field('player_biography_title', $player_data['biography_title'], $player_id);
         update_field('player_stats_title', $player_data['player_stats_title'], $player_id);
 
@@ -545,5 +651,8 @@ function hwc_populate_players_data()
             }
         }
     }
+    // After the function has run, set the option to true
+    //update_option('hwc_players_data_posts_created', true);
+    //   }
 }
 //end

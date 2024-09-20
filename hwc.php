@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: HWC
-Plugin URI: https://example.com/hwc
+Plugin URI: https://hwcthemeplugin.com/
 Description: A simple WordPress plugin for HWC functionality.
 Version: 1.0
-Author: Your Name
+Author: HWC Theme Plugin
 Author URI: https://example.com
 License: GPL2
 */
@@ -14,33 +14,12 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-// Add your plugin functionality here
-
-/**
- * Example function to display a message
- */
-function hwc_display_message()
-{
-    echo '<div class="hwc-message">Hello from HWC Plugin!</div>';
-}
-
-// Hook the function into WordPress
-add_action('wp_footer', 'hwc_display_message');
-
-// Example: Add an admin notice
-function hwc_admin_notice()
-{
-    echo '<div class="notice notice-success is-dismissible">
-        <p>HWC Plugin activated successfully!</p>
-    </div>';
-}
-add_action('admin_notices', 'hwc_admin_notice');
-
-
 /*--------------------------------------------------------------
 	>>> All Action and Filter Functions
 ----------------------------------------------------------------*/
 register_activation_hook(__FILE__, 'hwc_plugin_activation');
+register_activation_hook(__FILE__, 'hwc_plugin_activate');
+add_action('admin_notices', 'hwc_plugin_activation_notice');
 add_action('init', 'hwc_register_custom_post_types');
 add_action('acf/init', 'hwc_setup_acf_fields_for_pages');
 add_action('acf/init', 'hwc_set_default_acf_field_values');
@@ -48,26 +27,46 @@ add_action('acf/init', 'hwc_add_acf_fields');
 add_action('acf/init', 'hwc_populate_default_data');
 
 
+/*--------------------------------------------------------------
+	>>> Show admin notice only after plugin activation
+----------------------------------------------------------------*/
+function hwc_plugin_activation_notice()
+{
+    // Check if the transient is set
+    if (get_transient('hwc_plugin_activated')) {
+        echo '<div class="notice notice-success is-dismissible">
+            <p>HWC Plugin activated successfully!</p>
+        </div>';
 
+        // Delete the transient so it doesn't show again
+        delete_transient('hwc_plugin_activated');
+    }
+}
+// Set transient on plugin activation
+function hwc_plugin_activate()
+{
+    // Set a transient that expires after 60 seconds
+    set_transient('hwc_plugin_activated', true, 60);
+}
 
-// Define the main activation function that will handle the activation logic.
+/*--------------------------------------------------------------
+	>>> Define the main activation function that will handle the activation logic.
+----------------------------------------------------------------*/
 function hwc_plugin_activation()
 {
     hwc_plugin_activation_pages_setup();
     hwc_plugin_check_acf_pro_before_activation();  // Check if ACF Pro is installed.
     hwc_create_categories_and_manual_posts();
+    hwc_populate_default_team_data();
 }
 
 /*--------------------------------------------------------------
-	>>> Include Function for create dummy posts
-	----------------------------------------------------------------*/
-// Include the file with post creation functions
+	>>> Include Function for create dummy posts from files
+----------------------------------------------------------------*/
 require_once plugin_dir_path(__FILE__) . 'inc/hwc-posts/categories_and_manual_posts.php';
-
-/*--------------------------------------------------------------
-	>>> Include Function for Players Fields And Default data
-	----------------------------------------------------------------*/
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-teams/hwc-teams.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-staff/hwc-staff.php';
 
 
 // Helper function to get page ID by title
@@ -251,17 +250,6 @@ function acf_pro_plugin_missing_error()
 	----------------------------------------------------------------*/
 function hwc_register_custom_post_types()
 {
-    // Team
-    register_post_type('team', array(
-        'labels' => array(
-            'name' => 'Teams',
-            'singular_name' => 'Team',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    ));
-
     // Match
     register_post_type('match', array(
         'labels' => array(
@@ -293,17 +281,6 @@ function hwc_register_custom_post_types()
         'public' => true,
         'has_archive' => true,
         'supports' => array('title', 'editor'),
-    ));
-
-    // Staff
-    register_post_type('staff', array(
-        'labels' => array(
-            'name' => 'Staff',
-            'singular_name' => 'Staff Member',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
     ));
 }
 
@@ -560,40 +537,6 @@ function hwc_create_image_from_plugin($filename, $post_id)
 function hwc_add_acf_fields()
 {
     if (class_exists('ACF')) {
-        // Teams ACF Fields
-        if (function_exists('acf_add_local_field_group')):
-            acf_add_local_field_group(array(
-                'key' => 'group_teams',
-                'title' => 'Teams Details',
-                'fields' => array(
-                    array(
-                        'key' => 'field_squad',
-                        'label' => 'Squad',
-                        'name' => 'squad',
-                        'type' => 'text',
-                        'instructions' => 'Enter the squad details.',
-                        'default_value' => 'Default Squad',
-                    ),
-                    array(
-                        'key' => 'field_staff',
-                        'label' => 'Staff',
-                        'name' => 'staff',
-                        'type' => 'text',
-                        'instructions' => 'Enter staff details.',
-                        'default_value' => 'Default Staff',
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post_type',
-                            'operator' => '==',
-                            'value' => 'team',
-                        ),
-                    ),
-                ),
-            ));
-        endif;
 
         // Matches ACF Fields
         if (function_exists('acf_add_local_field_group')):
@@ -730,27 +673,6 @@ function hwc_add_acf_fields()
 // Populate Default Data only once
 function hwc_populate_default_data()
 {
-    // Add default Teams with unique featured image
-    if (!get_posts(array('post_type' => 'team', 'posts_per_page' => 1))) {
-        for ($i = 1; $i <= 10; $i++) {
-            $team_id = wp_insert_post(array(
-                'post_type' => 'team',
-                'post_title' => 'Default Team ' . $i,
-                'post_content' => 'Description for default team ' . $i,
-                'post_status' => 'publish',
-            ));
-            update_field('squad', 'Default Squad', $team_id);
-            update_field('staff', 'Default Staff', $team_id);
-
-            // Set a unique Featured Image for each team
-            $image_filename = 'team.jpg';
-            $image_id = hwc_create_image_from_plugin($image_filename, $team_id);
-            if ($image_id) {
-                set_post_thumbnail($team_id, $image_id);
-            }
-        }
-    }
-
     // Add default Matches with unique featured image
     if (!get_posts(array('post_type' => 'match', 'posts_per_page' => 1))) {
         for ($i = 1; $i <= 20; $i++) {
@@ -812,25 +734,6 @@ function hwc_populate_default_data()
             $image_id = hwc_create_image_from_plugin($image_filename, $league_id);
             if ($image_id) {
                 set_post_thumbnail($league_id, $image_id);
-            }
-        }
-    }
-
-    // Add default Staff with unique featured image
-    if (!get_posts(array('post_type' => 'staff', 'posts_per_page' => 1))) {
-        for ($i = 1; $i <= 10; $i++) {
-            $staff_id = wp_insert_post(array(
-                'post_type' => 'staff',
-                'post_title' => 'Default Staff Member ' . $i,
-                'post_content' => 'Description for default staff member ' . $i,
-                'post_status' => 'publish',
-            ));
-
-            // Set a unique Featured Image for each staff member
-            $image_filename = 'staff.jpg'; // Different image for each staff member
-            $image_id = hwc_create_image_from_plugin($image_filename, $staff_id);
-            if ($image_id) {
-                set_post_thumbnail($staff_id, $image_id);
             }
         }
     }
