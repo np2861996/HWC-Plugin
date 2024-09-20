@@ -11,6 +11,7 @@
 	>>> All Action and Filter Functions
 ----------------------------------------------------------------*/
 add_action('init', 'hwc_register_custom_post_type_team');
+add_action('acf/init', 'hwc_populate_default_team_data');
 
 
 /*--------------------------------------------------------------
@@ -42,17 +43,17 @@ function hwc_populate_default_team_data()
         array(
             'title' => 'First Team',
             'description' => '',
-            'image' => ''
+            'image' => 'Barry-Town-United-crest.png'
         ),
         array(
             'title' => 'Second Team',
             'description' => '',
-            'image' => ''
+            'image' => 'cardiff-metropolitan-university.png'
         ),
         array(
             'title' => 'Third Team',
             'description' => '',
-            'image' => ''
+            'image' => 'bala-town.png'
         ),
     );
 
@@ -88,15 +89,16 @@ function hwc_populate_default_team_data()
             continue;
         }
 
-        // Set the featured image, if provided
-        if (!empty($team['image'])) {
-            $image_filename = esc_url_raw($team['image']); // Sanitize URL
-            $image_id = hwc_create_image_from_plugin($image_filename, $team_id);
+        // Set featured image
+        if ($team['image']) {
 
-            if (!is_wp_error($image_id) && $image_id) {
+            $image_filename = $team['image'];
+
+            $image_id = hwc_create_image_from_plugin($image_filename, $team_id);
+            if ($image_id) {
                 set_post_thumbnail($team_id, $image_id);
             } else {
-                error_log('Failed to set image for team ' . sanitize_text_field($team['title']));
+                error_log('Failed to set featured image for player ' . $team['title']);
             }
         }
 

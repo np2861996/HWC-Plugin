@@ -68,6 +68,7 @@ require_once plugin_dir_path(__FILE__) . 'inc/hwc-posts/categories_and_manual_po
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-teams/hwc-teams.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-staff/hwc-staff.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-matches/hwc-matches.php';
 
 
 // Helper function to get page ID by title
@@ -251,16 +252,7 @@ function acf_pro_plugin_missing_error()
 	----------------------------------------------------------------*/
 function hwc_register_custom_post_types()
 {
-    // Match
-    register_post_type('match', array(
-        'labels' => array(
-            'name' => 'Matches',
-            'singular_name' => 'Match',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    ));
+
 
     // Result
     register_post_type('result', array(
@@ -281,7 +273,7 @@ function hwc_register_custom_post_types()
         ),
         'public' => true,
         'has_archive' => true,
-        'supports' => array('title', 'editor'),
+        'supports' => array('title', 'editor', 'thumbnail'),
     ));
 }
 
@@ -731,7 +723,7 @@ function hwc_populate_default_data()
             update_field('position', 1, $league_id);
 
             // Set a unique Featured Image for each league table
-            $image_filename = 'league-table.jpg'; // Different image for each league table
+            $image_filename = 'JD-Cymru-Premier.png'; // Different image for each league table
             $image_id = hwc_create_image_from_plugin($image_filename, $league_id);
             if ($image_id) {
                 set_post_thumbnail($league_id, $image_id);
