@@ -122,6 +122,7 @@ function hwc_add_acf_fields_match()
 ----------------------------------------------------------------*/
 function hwc_populate_fixture_default_data()
 {
+    //if (!get_option('hwc_fixture_posts_created', false)) {
     $fixtures = array(
         array(
             'fixture_post_title'    => 'Match 1: Team A vs Team B',
@@ -200,6 +201,9 @@ function hwc_populate_fixture_default_data()
             error_log('Duplicate fixture found: ' . $fixture['fixture_post_title']);
         }
     }
+    // After the function has run, set the option to true
+    //update_option('hwc_fixture_posts_created', true);
+    //}
 }
 
 /*--------------------------------------------------------------
