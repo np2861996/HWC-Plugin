@@ -70,6 +70,7 @@ function hwc_add_acf_fields_match()
                     'name' => 'fixture_match_date',
                     'type' => 'date_picker',
                     'required' => 1,
+                    'return_format' => 'Ymd',
                 ),
                 array(
                     'key' => 'field_fixture_match_time',
@@ -125,25 +126,114 @@ function hwc_populate_fixture_default_data()
     //if (!get_option('hwc_fixture_posts_created', false)) {
     $fixtures = array(
         array(
-            'fixture_post_title'    => 'Match 1: Team A vs Team B',
-            'fixture_team_1'       => 'First Team',
-            'fixture_team_2'       => 'Second Team',
+            'fixture_post_title'    => 'Haverfordwest County vs Barry Town United',
+            'fixture_team_1'       => 'Haverfordwest County',
+            'fixture_team_2'       => 'Barry Town United',
             'fixture_match_date'   => '2024-09-30',
             'fixture_match_time'   => '15:00',
-            'fixture_stadium_name' => 'Stadium A',
+            'fixture_stadium_name' => 'LHP Stadium',
             'fixture_league'       => 'Default League Table 1',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
-            'fixture_post_title'    => 'Match 2: Team C vs Team D',
-            'fixture_team_1'       => 'First Team',
-            'fixture_team_2'       => 'Third Team',
-            'fixture_match_date'   => '2024-10-01',
-            'fixture_match_time'   => '17:00',
-            'fixture_stadium_name' => 'Stadium B',
+            'fixture_post_title'    => 'Haverfordwest County vs Cardiff Met Uni',
+            'fixture_team_1'       => 'Haverfordwest County',
+            'fixture_team_2'       => 'Cardiff Met Uni',
+            'fixture_match_date'   => '2024-10-10',
+            'fixture_match_time'   => '15:00',
+            'fixture_stadium_name' => 'LHP Stadium',
             'fixture_league'       => 'Default League Table 1',
-            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg',
-            'fixture_additional_notes' => 'A highly anticipated match.',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Bala Town vs Haverfordwest County',
+            'fixture_team_1'       => 'Bala Town',
+            'fixture_team_2'       => 'Haverfordwest County',
+            'fixture_match_date'   => '2024-10-11',
+            'fixture_match_time'   => '16:00',
+            'fixture_stadium_name' => 'Maes Tegid',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Haverfordwest County vs Connah\'s Quay Nomads',
+            'fixture_team_1'       => 'Haverfordwest County',
+            'fixture_team_2'       => 'Connah\'s Quay Nomads',
+            'fixture_match_date'   => '2024-10-12',
+            'fixture_match_time'   => '17:00',
+            'fixture_stadium_name' => 'LHP Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Briton Ferry Llansawel vs Haverfordwest County',
+            'fixture_team_1'       => 'Briton Ferry Llansawel',
+            'fixture_team_2'       => 'Haverfordwest County',
+            'fixture_match_date'   => '2024-11-13',
+            'fixture_match_time'   => '11:00',
+            'fixture_stadium_name' => 'LHP Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Haverfordwest County vs Caernarfon Town',
+            'fixture_team_1'       => 'Haverfordwest County',
+            'fixture_team_2'       => 'Caernarfon Town',
+            'fixture_match_date'   => '2024-12-13',
+            'fixture_match_time'   => '12:00',
+            'fixture_stadium_name' => 'LHP Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Haverfordwest County vs Flint Town United',
+            'fixture_team_1'       => 'Haverfordwest County',
+            'fixture_team_2'       => 'Flint Town United',
+            'fixture_match_date'   => '2024-12-14',
+            'fixture_match_time'   => '13:00',
+            'fixture_stadium_name' => 'LHP Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'The New Saints vs Bala Town',
+            'fixture_team_1'       => 'The New Saints',
+            'fixture_team_2'       => 'Bala Town',
+            'fixture_match_date'   => '2024-12-15',
+            'fixture_match_time'   => '14:00',
+            'fixture_stadium_name' => 'Ogi Bridge Meadow Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Briton Ferry Llansawel vs Newtown',
+            'fixture_team_1'       => 'Briton Ferry Llansawel',
+            'fixture_team_2'       => 'Newtown',
+            'fixture_match_date'   => '2024-12-16',
+            'fixture_match_time'   => '15:00',
+            'fixture_stadium_name' => 'Ogi Bridge Meadow Stadium',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Aberystwyth Town vs Barry Town United',
+            'fixture_team_1'       => 'Aberystwyth Town',
+            'fixture_team_2'       => 'Barry Town United',
+            'fixture_match_date'   => '2025-01-01',
+            'fixture_match_time'   => '16:00',
+            'fixture_stadium_name' => 'Jenner Park',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
+        ),
+        array(
+            'fixture_post_title'    => 'Cardiff Met Uni vs Bala Town',
+            'fixture_team_1'       => 'Cardiff Met Uni',
+            'fixture_team_2'       => 'Bala Town',
+            'fixture_match_date'   => '2025-01-01',
+            'fixture_match_time'   => '16:00',
+            'fixture_stadium_name' => 'Jenner Park',
+            'fixture_league'       => 'Default League Table 1',
+            'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         // Add more matches as needed
     );

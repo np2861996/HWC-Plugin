@@ -41,19 +41,59 @@ function hwc_populate_default_team_data()
     // Array of default team details (name, description, image)
     $default_teams = array(
         array(
-            'title' => 'First Team',
+            'title' => 'Haverfordwest County',
+            'description' => '',
+            'image' => 'haverfordwest-county.png'
+        ),
+        array(
+            'title' => 'Barry Town United',
             'description' => '',
             'image' => 'Barry-Town-United-crest.png'
         ),
         array(
-            'title' => 'Second Team',
+            'title' => 'Cardiff Met Uni',
             'description' => '',
             'image' => 'cardiff-metropolitan-university.png'
         ),
         array(
-            'title' => 'Third Team',
+            'title' => 'Bala Town',
             'description' => '',
             'image' => 'bala-town.png'
+        ),
+        array(
+            'title' => 'Connah\'s Quay Nomads',
+            'description' => '',
+            'image' => 'connahs-quay-nomads.png'
+        ),
+        array(
+            'title' => 'Briton Ferry Llansawel',
+            'description' => '',
+            'image' => 'Briton_Ferry_Llansawel_A.F.C.png'
+        ),
+        array(
+            'title' => 'Caernarfon Town',
+            'description' => '',
+            'image' => 'caernarfon-town.png'
+        ),
+        array(
+            'title' => 'Flint Town United',
+            'description' => '',
+            'image' => 'flint-town-united.png'
+        ),
+        array(
+            'title' => 'The New Saints',
+            'description' => '',
+            'image' => 'the-new-saints.png'
+        ),
+        array(
+            'title' => 'Penybont',
+            'description' => '',
+            'image' => 'penybont.png'
+        ),
+        array(
+            'title' => 'Newtown',
+            'description' => '',
+            'image' => 'Newtown.png'
         ),
     );
 
