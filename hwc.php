@@ -69,6 +69,7 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-teams/hwc-teams.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-staff/hwc-staff.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-matches/hwc-matches.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-results/hwc-results.php';
 
 
 // Helper function to get page ID by title
@@ -252,18 +253,6 @@ function acf_pro_plugin_missing_error()
 	----------------------------------------------------------------*/
 function hwc_register_custom_post_types()
 {
-
-
-    // Result
-    register_post_type('result', array(
-        'labels' => array(
-            'name' => 'Results',
-            'singular_name' => 'Result',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    ));
 
     // League Table
     register_post_type('league_table', array(
@@ -531,103 +520,6 @@ function hwc_add_acf_fields()
 {
     if (class_exists('ACF')) {
 
-        // Matches ACF Fields
-        if (function_exists('acf_add_local_field_group')):
-            acf_add_local_field_group(array(
-                'key' => 'group_matches',
-                'title' => 'Match Details',
-                'fields' => array(
-                    array(
-                        'key' => 'field_match_time',
-                        'label' => 'Match Time',
-                        'name' => 'match_time',
-                        'type' => 'time_picker',
-                        'default_value' => array(
-                            'hour' => '00',
-                            'minute' => '00',
-                        ),
-                    ),
-                    array(
-                        'key' => 'field_match_date',
-                        'label' => 'Match Date',
-                        'name' => 'match_date',
-                        'type' => 'date_picker',
-                        'default_value' => date('Y-m-d'),
-                    ),
-                    array(
-                        'key' => 'field_image',
-                        'label' => 'Image',
-                        'name' => 'image',
-                        'type' => 'image',
-                        'return_format' => 'url',
-                        'default_value' => '',
-                    ),
-                    array(
-                        'key' => 'field_teams',
-                        'label' => 'Teams',
-                        'name' => 'teams',
-                        'type' => 'relationship',
-                        'post_type' => array('team'),
-                        'filters' => array('search'),
-                        'result_elements' => array('post_title'),
-                        'return_format' => 'id',
-                        'multiple' => 2,
-                    ),
-                    array(
-                        'key' => 'field_league',
-                        'label' => 'League',
-                        'name' => 'league',
-                        'type' => 'post_object',
-                        'post_type' => array('league_table'),
-                        'return_format' => 'id',
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post_type',
-                            'operator' => '==',
-                            'value' => 'match',
-                        ),
-                    ),
-                ),
-            ));
-        endif;
-
-        // Results ACF Fields
-        if (function_exists('acf_add_local_field_group')):
-            acf_add_local_field_group(array(
-                'key' => 'group_results',
-                'title' => 'Result Details',
-                'fields' => array(
-                    array(
-                        'key' => 'field_result_image',
-                        'label' => 'Result Image',
-                        'name' => 'result_image',
-                        'type' => 'image',
-                        'return_format' => 'url',
-                        'default_value' => '',
-                    ),
-                    array(
-                        'key' => 'field_line_up',
-                        'label' => 'Line Up',
-                        'name' => 'line_up',
-                        'type' => 'textarea',
-                        'default_value' => 'Default Line Up',
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post_type',
-                            'operator' => '==',
-                            'value' => 'result',
-                        ),
-                    ),
-                ),
-            ));
-        endif;
-
         // League Table ACF Fields
         if (function_exists('acf_add_local_field_group')):
             acf_add_local_field_group(array(
@@ -666,50 +558,6 @@ function hwc_add_acf_fields()
 // Populate Default Data only once
 function hwc_populate_default_data()
 {
-    // Add default Matches with unique featured image
-    if (!get_posts(array('post_type' => 'match', 'posts_per_page' => 1))) {
-        for ($i = 1; $i <= 20; $i++) {
-            $match_id = wp_insert_post(array(
-                'post_type' => 'match',
-                'post_title' => 'Default Match ' . $i,
-                'post_content' => 'Description for default match ' . $i,
-                'post_status' => 'publish',
-            ));
-            update_field('match_time', array('hour' => '00', 'minute' => '00'), $match_id);
-            update_field('match_date', date('Y-m-d'), $match_id);
-            update_field('teams', array(1, 2), $match_id); // Default to first two teams
-            update_field('league', 1, $match_id); // Default to first league
-
-            // Set a unique Featured Image for each match
-            $image_filename = 'match.jpg'; // Different image for each match
-            $image_id = hwc_create_image_from_plugin($image_filename, $match_id);
-            if ($image_id) {
-                set_post_thumbnail($match_id, $image_id);
-            }
-        }
-    }
-
-    // Add default Results with unique featured image
-    if (!get_posts(array('post_type' => 'result', 'posts_per_page' => 1))) {
-        for ($i = 1; $i <= 20; $i++) {
-            $result_id = wp_insert_post(array(
-                'post_type' => 'result',
-                'post_title' => 'Default Result ' . $i,
-                'post_content' => 'Description for default result ' . $i,
-                'post_status' => 'publish',
-            ));
-            update_field('result_image', '', $result_id);
-            update_field('line_up', 'Default Line Up', $result_id);
-
-            // Set a unique Featured Image for each result
-            $image_filename = 'result.jpg'; // Different image for each result
-            $image_id = hwc_create_image_from_plugin($image_filename, $result_id);
-            if ($image_id) {
-                set_post_thumbnail($result_id, $image_id);
-            }
-        }
-    }
-
     // Add default League Tables with unique featured image
     if (!get_posts(array('post_type' => 'league_table', 'posts_per_page' => 1))) {
         for ($i = 1; $i <= 5; $i++) {

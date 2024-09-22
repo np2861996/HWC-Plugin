@@ -79,43 +79,43 @@ function hwc_create_categories_and_manual_posts()
 {
 
     // Check if the function has already been run
-    if (!get_option('hwc_categories_and_posts_created', false)) {
-        if (!is_acf_pro_plugin_installed()) {
-            // Return back if ACF Pro is not available
-            return;
+    //if (!get_option('hwc_categories_and_posts_created', false)) {
+    if (!is_acf_pro_plugin_installed()) {
+        // Return back if ACF Pro is not available
+        return;
+    }
+
+    // Define the categories
+    $categories = array(
+        'club-news' => 'Latest Club News',
+        'match-report' => 'Match Reports',
+        'match-preview' => 'Match Previews',
+        'transfer-news' => 'Transfer News',
+        'ticket-news' => 'Ticket News',
+        'interview' => 'Interviews',
+        'you-can-have-it-all' => 'You Can Have It All',
+        'the-bluebirds-nest' => 'The Bluebirds Nest',
+        'community-news' => 'Community News',
+        'video' => 'Video',
+        'the-bluebirds-nest' => '#TheBluebirdsNest'
+    );
+
+    // Loop through each category and create if it doesn't exist
+    foreach ($categories as $slug => $name) {
+        if (!term_exists($slug, 'category')) {
+            wp_insert_term($name, 'category', array('slug' => $slug));
         }
+    }
 
-        // Define the categories
-        $categories = array(
-            'club-news' => 'Latest Club News',
-            'match-report' => 'Match Reports',
-            'match-preview' => 'Match Previews',
-            'transfer-news' => 'Transfer News',
-            'ticket-news' => 'Ticket News',
-            'interview' => 'Interviews',
-            'you-can-have-it-all' => 'You Can Have It All',
-            'the-bluebirds-nest' => 'The Bluebirds Nest',
-            'community-news' => 'Community News',
-            'video' => 'Video',
-            'the-bluebirds-nest' => '#TheBluebirdsNest'
-        );
+    // Base URL for the images in the 'hwc-images' folder
+    $image_base_url = plugin_dir_path(__FILE__) . 'hwc-images';
 
-        // Loop through each category and create if it doesn't exist
-        foreach ($categories as $slug => $name) {
-            if (!term_exists($slug, 'category')) {
-                wp_insert_term($name, 'category', array('slug' => $slug));
-            }
-        }
-
-        // Base URL for the images in the 'hwc-images' folder
-        $image_base_url = plugin_dir_path(__FILE__) . 'hwc-images';
-
-        // Define post details
-        $posts = array(
-            // Example Post 1
-            array(
-                'title' => 'Zac Jones agrees new one-year deal with the Bluebirds',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm that Zac Jones has signed a new one-year contract with the club.</strong></p>
+    // Define post details
+    $posts = array(
+        // Example Post 1
+        array(
+            'title' => 'Zac Jones agrees new one-year deal with the Bluebirds',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm that Zac Jones has signed a new one-year contract with the club.</strong></p>
 <p>The goalkeeper arrived at the Ogi Bridge Meadow in January 2022, and has gone on to establish himself as one of the most important players in recent times.</p>
 <p>After making his first team debut in the 3-0 victory over Airbus UK Broughton in August 2022, Zac has gone on to make a total of 53 appearances in all competitions for the Town, and has been involved in plenty of big moments during that time.</p>
 <p>The New Zealander played a vital role in helping to end our 19-year wait to return to Europe, as his penalty save in normal time of the play-off semi-final victory at Cardiff Metropolitan, followed by two more saves in the shoot-out, were backed up by yet another spot-kick save in the final at Newtown – a day never to be forgotten by those who were in attendance.</p>
@@ -143,24 +143,24 @@ function hwc_create_categories_and_manual_posts()
 <p>“He’s been fantastic for us since joining, particularly his performances last season and this season in Europe, he’s been exceptional for us.</p>
 <p>“He’s a great goalkeeper who has a fantastic future ahead of him, so it’s great that we can continue to build on what we’ve achieved so far with him.”</p>
 <p><strong>The club would like to wish Zac all the best for the new season, and we look forward to seeing him in action again soon!</strong></p>',
-                'excerpt' => 'Super Zac extends his stay at the Ogi Bridge Meadow!',
-                'category' => 'club-news',
-                'tags' => array('First Team', 'Zac Jones'),
-                'image' => 'zaccontractFI.jpg',
-                'acf' => array(
-                    'sidebar_card_image_name' => 'maxresdefault.jpg',
-                    'sidebar_card_title' => 'Watch our club documentary series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW3BfrWwI8hYydy8RZzprmjX',
-                        'title' => 'Click here for full playlist! '
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            // Add more posts here with similar structure
-            array(
-                'title' => 'Zac Jones agrees new one-year deal with Haverfordwest County',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm that goalkeeper Zac Jones has agreed a new one-year deal with the club, which takes him through to the end of the 2023-24 season!</strong></p>
+            'excerpt' => 'Super Zac extends his stay at the Ogi Bridge Meadow!',
+            'category' => 'club-news',
+            'tags' => array('First Team', 'Zac Jones'),
+            'image' => 'zaccontractFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => 'maxresdefault.jpg',
+                'sidebar_card_title' => 'Watch our club documentary series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW3BfrWwI8hYydy8RZzprmjX',
+                    'title' => 'Click here for full playlist! '
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        // Add more posts here with similar structure
+        array(
+            'title' => 'Zac Jones agrees new one-year deal with Haverfordwest County',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm that goalkeeper Zac Jones has agreed a new one-year deal with the club, which takes him through to the end of the 2023-24 season!</strong></p>
 <p>Hailing from Wellington, Jones arrived at the Ogi Bridge Meadow in January 2022 and has since made 25 appearances for the Bluebirds, keeping eight clean sheets along the way.</p>
 <p>The New Zealander’s performances in 2022-23, and in particular during the European play-offs – where he played a major role in the club qualifying for continental football for the first time since 2004 – have seen him become a hugely popular figure amongst the club’s supporters.</p>
 <p>The 22-year-old’s penalty save from Eliot Evans in normal time in the semi-final, which was followed by two more in a dramatic 4-3 shoot-out victory over Cardiff Metropolitan, were the defining moments of a remarkable goalkeeping display in the capital.</p>
@@ -175,24 +175,24 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>Speaking after putting pen to paper, Jones said</strong>: “I’m delighted to stay on for another year with the club. After last week it was made a very easy decision for me.</p>
 <p>“[On the European challenge ahead] It’s really exciting, I’m still on a bit of a high now and I don’t think that will wear off any time soon. I’m looking forward to next season where we will certainly be pushing towards the top end of the table. I think we’ve done enough to prove that to everyone over the last five months or so.</p>
 <p>“The fans have been brilliant all of last season, and I can’t wait to get back out there in front of them soon.”</p>',
-                'excerpt' => 'Super Zac signs on for another year with the Bluebirds!',
-                'category' => 'club-news',
-                'tags' => array('First Team', 'Zac Jones'),
-                'image' => '2023-05-13-Newtown-AFC-vs-Haverfordwest-County-AFC-247.jpg',
-                'acf' => array(
-                    'sidebar_card_image_name' => '',
-                    'sidebar_card_title' => '',
-                    'sidebar_card_button' => array(
-                        'url' => '',
-                        'title' => ''
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            // Example for additional posts...
-            array(
-                'title' => 'Keeper Jones the hero as Bluebirds reach maiden European play-off final',
-                'content' => '<p><strong>Zac Jones produced a remarkable goalkeeping display as Haverfordwest County defeated Cardiff Metropolitan 4-3 on penalties at Cyncoed Campus to reach the JD Cymru Premier European play-off final.</strong></p>
+            'excerpt' => 'Super Zac signs on for another year with the Bluebirds!',
+            'category' => 'club-news',
+            'tags' => array('First Team', 'Zac Jones'),
+            'image' => '2023-05-13-Newtown-AFC-vs-Haverfordwest-County-AFC-247.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        // Example for additional posts...
+        array(
+            'title' => 'Keeper Jones the hero as Bluebirds reach maiden European play-off final',
+            'content' => '<p><strong>Zac Jones produced a remarkable goalkeeping display as Haverfordwest County defeated Cardiff Metropolitan 4-3 on penalties at Cyncoed Campus to reach the JD Cymru Premier European play-off final.</strong></p>
 <p>The inspired New Zealand stopper saved Eliot Evans’ penalty in normal time and thwarted Sam Jones late in extra time before denying the Students twice more in the shoot-out to help the Bluebirds to a dramatic victory in the capital.</p>
 <p>There was nothing to separate the teams in normal time, as they largely cancelled one another out. There were a couple of opportunities for both sides to take the initiative in normal time, but the game always seemed destined to be decided by penalties.</p>
 <p>With the tense shoot-out tied at 3-3, substitute Elliott Dugan converted what was ultimately the decisive spot-kick to send the travelling supporters – who arrived in Cardiff in great numbers – into delirium, and giving them one more away day in what was been a rollercoaster season.</p>
@@ -251,42 +251,42 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>Attendance: </strong>561</p>
 <p><span style="text-decoration: underline;"><strong>Penalty shoot-out</strong></span></p>
 <p>Kyle McCarthy misses (<strong>0-0</strong>); Dylan Rees scores (<strong>0-1</strong>); Lewis Rees misses (<strong>0-1</strong>); Jack Leahy scores (<strong>0-2</strong>); CJ Craven scores (<strong>1-2</strong>); Jordan Davies scores (<strong>1-3</strong>); Sam Jones scores (<strong>2-3</strong>); Henry Jones misses (<strong>2-3</strong>); Jack Veale scores (<strong>3-3</strong>); Elliott Dugan scores (<strong>3-4</strong>)</p>',
-                'excerpt' => 'Our report of Haverfordwest County\'s 4-3 penalty shoot-out victory over Cardiff Metropolitan in the JD Cymru Premier European play-off semi-finals.',
-                'category' => 'match-report',
-                'tags' => array('First Team', 'Zac Jones', 'Cardiff Met Uni vs Haverfordwest County'),
-                'image' => 'MetAwayReportFI.jpg',
-                'acf' => array(
-                    'sidebar_card_image_name' => '',
-                    'sidebar_card_title' => '',
-                    'sidebar_card_button' => array(
-                        'url' => '',
-                        'title' => ''
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            // Add more posts up to 10+...
-            array(
-                'title' => '#TheBluebirdsNest Episode 6 – Zac Jones',
-                'content' => '',
-                'excerpt' => 'Watch Episode 6 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Zac Jones.',
-                'category' => 'the-bluebirds-nest',
-                'tags' => array('First Team', 'Zac Jones'),
-                'image' => 'maxresdefault.jpg',
+            'excerpt' => 'Our report of Haverfordwest County\'s 4-3 penalty shoot-out victory over Cardiff Metropolitan in the JD Cymru Premier European play-off semi-finals.',
+            'category' => 'match-report',
+            'tags' => array('First Team', 'Zac Jones', 'Cardiff Met Uni vs Haverfordwest County'),
+            'image' => 'MetAwayReportFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        // Add more posts up to 10+...
+        array(
+            'title' => '#TheBluebirdsNest Episode 6 – Zac Jones',
+            'content' => '',
+            'excerpt' => 'Watch Episode 6 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Zac Jones.',
+            'category' => 'the-bluebirds-nest',
+            'tags' => array('First Team', 'Zac Jones'),
+            'image' => 'maxresdefault.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => '',
-                    'sidebar_card_title' => '',
-                    'sidebar_card_button' => array(
-                        'url' => '',
-                        'title' => ''
-                    ),
-                    'post_banner_video' => 'https://www.youtube.com/embed/IiMkZbA5tgk?feature=oembed',
-                )
-            ),
-            array(
-                'title' => 'Ifan Knott signs new two-year deal with the Bluebirds',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to announce that goalkeeper Ifan Knott has agreed a new two-year contract with the club.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/IiMkZbA5tgk?feature=oembed',
+            )
+        ),
+        array(
+            'title' => 'Ifan Knott signs new two-year deal with the Bluebirds',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to announce that goalkeeper Ifan Knott has agreed a new two-year contract with the club.</strong></p>
 <p>Ifan joined the Bluebirds from Carmarthen Town back in May 2023, and this new deal will take him through until the end of the 2025-26 season.</p>
 <p>The 19-year-old was part of the squad throughout our memorable European journey last summer, as he gained valuable experience during an unforgettable few weeks which saw us create club history.</p>
 <p>Ifan has made six senior appearances in all competitions so far this season, having made his first competitive start for the Town against Cardiff City under-21s in the Nathaniel MG Cup at the start of August. He also appeared in this season’s JD Welsh Cup, as he kept a clean sheet in the 2-0 victory over Ammanford in November.</p>
@@ -299,24 +299,24 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>Commenting on the news, manager Tony Pennock said:&nbsp;</strong>“Ifan has shown in a short period of time what a talented young goalkeeper he is. He works very hard and is always looking to improve.</p>
 <p>“Ifan has great potential, and signing a long-term contract gives him the platform to develop further. I look forward to seeing his progress.”</p>
 <p><em>Ifan is kindly sponsored by <a href="https://www.clayshawbutler.com/">Clay Shaw Butler</a>, a unique, innovative firm of Chartered Accountants who aim to deliver the highest possible standard of expertise through their hard-working and dedicated team.</em></p>',
-                'excerpt' => 'The young goalkeeper extends his stay at the Ogi Bridge Meadow!',
-                'category' => 'club-news',
-                'tags' => array('First Team', 'Ifan Knott'),
-                'image' => 'ifancontractFI.jpg',
+            'excerpt' => 'The young goalkeeper extends his stay at the Ogi Bridge Meadow!',
+            'category' => 'club-news',
+            'tags' => array('First Team', 'Ifan Knott'),
+            'image' => 'ifancontractFI.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'maxresdefault.jpg',
-                    'sidebar_card_title' => 'Watch our club documentary series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW3BfrWwI8hYydy8RZzprmjX',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            array(
-                'title' => '#TheBluebirdsNest Episode 35 – Ifan Knott',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to announce that goalkeeper Ifan Knott has agreed a new two-year contract with the club.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'maxresdefault.jpg',
+                'sidebar_card_title' => 'Watch our club documentary series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW3BfrWwI8hYydy8RZzprmjX',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => '#TheBluebirdsNest Episode 35 – Ifan Knott',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to announce that goalkeeper Ifan Knott has agreed a new two-year contract with the club.</strong></p>
 <p>Ifan joined the Bluebirds from Carmarthen Town back in May 2023, and this new deal will take him through until the end of the 2025-26 season.</p>
 <p>The 19-year-old was part of the squad throughout our memorable European journey last summer, as he gained valuable experience during an unforgettable few weeks which saw us create club history.</p>
 <p>Ifan has made six senior appearances in all competitions so far this season, having made his first competitive start for the Town against Cardiff City under-21s in the Nathaniel MG Cup at the start of August. He also appeared in this season’s JD Welsh Cup, as he kept a clean sheet in the 2-0 victory over Ammanford in November.</p>
@@ -329,24 +329,24 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>Commenting on the news, manager Tony Pennock said:&nbsp;</strong>“Ifan has shown in a short period of time what a talented young goalkeeper he is. He works very hard and is always looking to improve.</p>
 <p>“Ifan has great potential, and signing a long-term contract gives him the platform to develop further. I look forward to seeing his progress.”</p>
 <p><em>Ifan is kindly sponsored by <a href="https://www.clayshawbutler.com/">Clay Shaw Butler</a>, a unique, innovative firm of Chartered Accountants who aim to deliver the highest possible standard of expertise through their hard-working and dedicated team.</em></p>',
-                'excerpt' => 'Watch Episode 35 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Ifan Knott!',
-                'category' => 'the-bluebirds-nest',
-                'tags' => array('First Team', 'Ifan Knott'),
-                'image' => 'maxresdefault.jpg',
+            'excerpt' => 'Watch Episode 35 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Ifan Knott!',
+            'category' => 'the-bluebirds-nest',
+            'tags' => array('First Team', 'Ifan Knott'),
+            'image' => 'maxresdefault.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => 'https://www.youtube.com/embed/FiVtni2ktTM?feature=oembed',
-                )
-            ),
-            array(
-                'title' => 'Chaotic conclusion sees Bluebirds share the spoils with Archers in the capital',
-                'content' => '<p><strong>Haverfordwest County ended their three-game losing run with a 1-1 draw away at Cardiff Metropolitan last night, as a frantic ending saw all three results possible right up to the final whistle.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/FiVtni2ktTM?feature=oembed',
+            )
+        ),
+        array(
+            'title' => 'Chaotic conclusion sees Bluebirds share the spoils with Archers in the capital',
+            'content' => '<p><strong>Haverfordwest County ended their three-game losing run with a 1-1 draw away at Cardiff Metropolitan last night, as a frantic ending saw all three results possible right up to the final whistle.</strong></p>
 <p>The Bluebirds had taken the lead through Kai Whitmore’s second-half penalty, and were a matter of minutes away from taking all three points back home, but Lewis Rees drew the Students level late on. Then, in added time, the hosts were awarded a penalty, but much to the relief of the visitors, goalkeeper Ifan Knott denied Rees to ensure the game ended level at Cyncoed Campus.</p>
 <p>Tony Pennock’s men had battled hard throughout the night against an Archers team who don’t often lose at home, but will ultimately look back with a sense of frustration at not quite being able to see the job through.</p>
 <p>The result sees the Town climb one place to 10th after Barry Town United went down 1-0 at Pen-y-Bont, with the Bluebirds’ focus now shifting to a significant game on Saturday when we host Aberystwyth Town at the Ogi Bridge Meadow.</p>
@@ -370,24 +370,24 @@ function hwc_create_categories_and_manual_posts()
 <p>Despite having withstood plenty of Archers pressure in the closing stages, County were looking relatively comfortable, however with just two minutes of normal time remaining they found themselves level when a ball into the area was headed into the ground by substitute Finley Skiverton before looping over Tabone and kindly into the path of Rees, who had the simple task of directing it home from a matter of yards.</p>
 <p>The task for Pennock’s men had quickly shifted to ensuring they took something home for their efforts, however just three minutes later that appeared to be in real jeopardy as the Archers were awarded a spot kick when MacNamara – who had performed well on his first start – was adjudged to have brought Matt Chubb down inside the area. With the travelling Bluebirds supporters unable to watch, Rees stepped up and sent his spot-kick towards the left corner, but he was denied by a fantastic save from Knott, one which provoked memories of Zac Jones’ penalty heroics in last season’s European play-off semi-final.</p>
 <p>A point was the least the Bluebirds deserved for their overall performance, which saw them create the better opportunities on the night, and they will now be hoping to replicate those levels on Saturday afternoon when we host the Seasiders (2.30pm kick-off).</p>',
-                'excerpt' => 'Our take on the 1-1 draw with Cardiff Metropolitan on JD Cymru Premier MD9...',
-                'category' => 'match-report',
-                'tags' => array('First Team', 'Ifan Knott', 'Kai Whitmore', 'Cardiff Met Uni vs Haverfordwest County'),
-                'image' => 'maxresdefault2.jpg',
+            'excerpt' => 'Our take on the 1-1 draw with Cardiff Metropolitan on JD Cymru Premier MD9...',
+            'category' => 'match-report',
+            'tags' => array('First Team', 'Ifan Knott', 'Kai Whitmore', 'Cardiff Met Uni vs Haverfordwest County'),
+            'image' => 'maxresdefault2.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => 'https://www.youtube.com/embed/iYdGY7kk0MI?feature=oembed',
-                )
-            ),
-            array(
-                'title' => 'Bluebirds see off Seagulls to set up thrilling final-day meeting with Bont',
-                'content' => '<p><strong>Haverfordwest County made it four consecutive victories in the JD Cymru Premier Playoff Conference with a 3-1 success against Colwyn Bay at the Ogi Bridge Meadow on Saturday.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/iYdGY7kk0MI?feature=oembed',
+            )
+        ),
+        array(
+            'title' => 'Bluebirds see off Seagulls to set up thrilling final-day meeting with Bont',
+            'content' => '<p><strong>Haverfordwest County made it four consecutive victories in the JD Cymru Premier Playoff Conference with a 3-1 success against Colwyn Bay at the Ogi Bridge Meadow on Saturday.</strong></p>
 <p>The game, which was played in front of the live Sgorio cameras, saw the Bluebirds 2-0 to the good after only 10 minutes as Rhys Abbruzzese’s perfectly placed free-kick from 20 yards made it 1-0, before the wing-back’s free-kick from the half way line was glanced in by Lee Jenkins.</p>
 <p>Ben Fawcett put the result beyond doubt with just under 20 minutes remaining, before Seagulls captain Tom McCready netted a consolation goal with the last kick of the game.</p>
 <p>The result means County maintain their three-point lead at the top of the Playoff Conference, after nearest rivals Penybont won 3-0 at Pontypridd United later in the day to set up a mouthwatering final-day clash at the SDM Glass Stadium where the winner will clinch the fourth and final spot in the end-of-season European playoffs.</p>
@@ -430,24 +430,24 @@ function hwc_create_categories_and_manual_posts()
 <p><em><strong>Attendance</strong></em><em>: 523</em></p>
 <h5>Highlights</h5>
 <p></p><figure class="ratio-16x9"><iframe loading="lazy" title="Uchafbwyntiau | Highlights | Hwlffordd 3-1 Bae Colwyn | JD Cymru Premier" width="500" height="281" src="https://www.youtube.com/embed/Hx558auJWto?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></figure><p></p>',
-                'excerpt' => 'Our take on the 3-1 victory over Colwyn Bay on JD Cymru Premier MD31…',
-                'category' => 'match-report',
-                'tags' => array('First Team', 'Rhys Abbruzzese', 'Lee Jenkins', 'Ben Fawcett', 'Haverfordwest County vs Colwyn Bay'),
-                'image' => 'maxresdefault2.jpg',
+            'excerpt' => 'Our take on the 3-1 victory over Colwyn Bay on JD Cymru Premier MD31…',
+            'category' => 'match-report',
+            'tags' => array('First Team', 'Rhys Abbruzzese', 'Lee Jenkins', 'Ben Fawcett', 'Haverfordwest County vs Colwyn Bay'),
+            'image' => 'maxresdefault2.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => 'https://www.youtube.com/embed/iYdGY7kk0MI?feature=oembed',
-                )
-            ),
-            array(
-                'title' => 'Bluebirds make swift return to Essity for meeting with Silkmen',
-                'content' => '<p><strong>Haverfordwest County AFC make their second visit of the season to Essity Stadium on Saturday as we take on Flint Town United, hoping to extend our good recent record in north Wales.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/iYdGY7kk0MI?feature=oembed',
+            )
+        ),
+        array(
+            'title' => 'Bluebirds make swift return to Essity for meeting with Silkmen',
+            'content' => '<p><strong>Haverfordwest County AFC make their second visit of the season to Essity Stadium on Saturday as we take on Flint Town United, hoping to extend our good recent record in north Wales.</strong></p>
 <p>The Bluebirds tasted defeat for the first time in 2024-25 last weekend as reigning champions and first-time UEFA Conference League qualifers The New Saints recorded a narrow 1-0 victory at LHP Stadium.</p>
 <p>The Silkmen, meanwhile, notched their first victory of the campaign on MD6 as a brace from striker Elliott Reeves earned them a 2-0 win over Aberystwyth Town in front of the live Sgorio cameras at Park Avenue.</p>
 <p>You have to go back to April 2023 for the most recent meeting betweent the sides. On that occasion, the Town ran out 2-0 winners at Essity Stadium thanks to goals from Corey Shephard and Jordan Davies.</p>
@@ -504,24 +504,24 @@ function hwc_create_categories_and_manual_posts()
 <p>Connah’s Quay Nomads vs. Penybont</p>
 <h5>Previous meeting</h5>
 <p></p><figure class="ratio-16x9"><iframe loading="lazy" title="Uchafbwyntiau / Highlights | Y Fflint 0-2 Hwlffordd" width="500" height="281" src="https://www.youtube.com/embed/cyiFZqKhNlE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></figure><p></p>',
-                'excerpt' => 'A look ahead to tomorrow\'s JD Cymru Premier MD7 encounter with Flint Town United!',
-                'category' => 'match-preview',
-                'tags' => array('First Team', 'Flint Town United vs Haverfordwest County'),
-                'image' => 'MatchPreview.jpg',
+            'excerpt' => 'A look ahead to tomorrow\'s JD Cymru Premier MD7 encounter with Flint Town United!',
+            'category' => 'match-preview',
+            'tags' => array('First Team', 'Flint Town United vs Haverfordwest County'),
+            'image' => 'MatchPreview.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            array(
-                'title' => 'Haverfordwest County AFC announce signing of defender Kyle McCarthy',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to announce the signing of Kyle McCarthy, who will link up with the Bluebirds for the 2024-25 season.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => 'Haverfordwest County AFC announce signing of defender Kyle McCarthy',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to announce the signing of Kyle McCarthy, who will link up with the Bluebirds for the 2024-25 season.</strong></p>
     <p>The defender, who has played over 200 times in the JD Cymru Premier, joins the club after 13 seasons in the capital with Cardiff Metropolitan.</p>
     <p>The 31-year-old, who is a former teammate of captain Dylan Rees, Alaric Jones and Elliot Scotcher, was an integral part of the Archers’ success in the last decade and more, having gone right the way from the old Welsh Football League Division Three to the top-flight.</p>
     <p>Kyle has been a member of the Cymru C setup in two of the last three seasons, featuring in the squad for the 4-0 victory over England C in 2022 before coming off the bench during the narrow 1-0 defeat to the same opposition in Altrincham a year later.</p>
@@ -543,24 +543,24 @@ function hwc_create_categories_and_manual_posts()
     <p><em><strong>If you are interested in sponsoring Kyle for the 2024-25 season, please do not hesitate to get in touch with our Commercial Manager, Dennis O’Connor, on <a href="mailto:d.oconnor@hcafc1899.football">d.oconnor@hcafc1899.football</a>!</strong></em></p>
     </div>
     </div>',
-                'excerpt' => 'An experienced addition to our squad ahead of the new season!',
-                'category' => 'transfer-news',
-                'tags' => array('First Team', 'Kyle McCarthy'),
-                'image' => '48HFC290605_NewSigning_KyleMcCarthy1920x1080.jpg',
+            'excerpt' => 'An experienced addition to our squad ahead of the new season!',
+            'category' => 'transfer-news',
+            'tags' => array('First Team', 'Kyle McCarthy'),
+            'image' => '48HFC290605_NewSigning_KyleMcCarthy1920x1080.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            array(
-                'title' => '2024-25 Season Tickets now on sale!',
-                'content' => '<p><strong>Haverfordwest County AFC are delighted to announce the launch of our season tickets for the upcoming 2024-25 campaign!</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => '2024-25 Season Tickets now on sale!',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to announce the launch of our season tickets for the upcoming 2024-25 campaign!</strong></p>
 <p>We are pleased to inform supporters that prices for adult and concession season tickets will remain at £75 and £50 respectively, as we continue to provide excellent value for Bluebirds fans to enjoy JD Cymru Premier football.</p>
 <p>The support we have received in the last few years has been nothing short of remarkable, with average attendances at the Ogi Bridge Meadow almost doubling since our first full season in front of crowds after returning to Wales’ top-flight league. Last season, we were placed&nbsp;third in the top-flight for average attendances, behind only Caernarfon Town and Colwyn Bay.</p>
 
@@ -574,24 +574,24 @@ function hwc_create_categories_and_manual_posts()
 <p>Our domestic season will get under way on the weekend of 2-4 August, when we enter the second round of the Nathaniel MG Cup. The 2024-25 JD Cymru Premier season kicks off a week later, with the fixtures for Phase One to be announced next Friday, 20 June at 10am!</p>
 <p>The season ticket covers all 16 home matches in the JD Cymru Premier.</p>
 <p><em><strong>To purchase your 2024-25 season tickets, <a href="https://haverfordwestcountyafc.com/club/season-tickets/">please follow this link</a>.</strong></em></p>',
-                'excerpt' => 'Back the Bluebirds on our journey!',
-                'category' => 'ticket-news',
-                'tags' => array('First Team'),
-                'image' => '1920x1080-copy-2.jpg',
+            'excerpt' => 'Back the Bluebirds on our journey!',
+            'category' => 'ticket-news',
+            'tags' => array('First Team'),
+            'image' => '1920x1080-copy-2.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-            array(
-                'title' => 'Pennock: Our disappointment shows how far we’ve come as a team',
-                'content' => '<p><strong>Haverfordwest County AFC manager Tony Pennock believes the disappointment we felt at not taking something from the 1-0 defeat to JD Cymru Premier champions The New Saints yesterday shows how far we have come as a team.</strong></p>
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => 'Pennock: Our disappointment shows how far we’ve come as a team',
+            'content' => '<p><strong>Haverfordwest County AFC manager Tony Pennock believes the disappointment we felt at not taking something from the 1-0 defeat to JD Cymru Premier champions The New Saints yesterday shows how far we have come as a team.</strong></p>
 <div class="QpPSMb">
 <div class="DoxwDb">
 <div class="PZPZlf ssJ7i B5dxMb" role="heading" aria-level="2" data-attrid="title">Adrian Cieślewicz’s first-half goal secured the victory for the Oswestry side, who will compete in the league phase of the UEFA Conference League for the first time this season.</div>
@@ -666,102 +666,102 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>On our strong defensive displays</strong></p>
 <p>It’s something that we haven’t done in my previous two seasons, keep clean sheets. It was good today that we didn’t concede straight after they scored their first goal. Sometimes that’s something that we’ve done against TNS in the past. They’ve scored one, then they’ve scored two and three. We stayed in the game, we got to half time and regrouped, then we made a couple of changes after 10 minutes which gave us some fresh legs and it’s important that we do that as a side. The boys who start on the bench are as important as the boys who are starting from the first whistle, and Ben [Fawcett] and Harri [John] have come on and worked extremely well and given us some quality as well.</p>
 <p>So as a group, we’ve moved forward from last season. We don’t concede goals as easily as we have in the past, and it’s an obvious statement but, if we don’t concede, we’ve got more chance of winning, and that’s the way we’re looking to play this year. We still want to play and have as much possession as we possibly can, but we need to be sensible in our own third, defend our goal, and the boys are certainly doing that – it’s pleasing to see.</p>',
-                'excerpt' => 'The manager\'s reaction to our 1-0 defeat at home to The New Saints on MD6.',
-                'category' => 'interview',
-                'tags' => array('First Team', 'Haverfordwest County vs The New Saints'),
-                'image' => 'tonyTNSFI.jpg',
+            'excerpt' => 'The manager\'s reaction to our 1-0 defeat at home to The New Saints on MD6.',
+            'category' => 'interview',
+            'tags' => array('First Team', 'Haverfordwest County vs The New Saints'),
+            'image' => 'tonyTNSFI.jpg',
 
-                'acf' => array(
-                    'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
-                    'sidebar_card_title' => 'Listen to our club podcast series!',
-                    'sidebar_card_button' => array(
-                        'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
-                        'title' => 'Click here for full playlist!'
-                    ),
-                    'post_banner_video' => '',
-                )
-            ),
-        );
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+    );
 
-        foreach ($posts as $post_data) {
-            // Check if the post with the title already exists
-            $existing_posts = get_posts(array(
-                'title' => $post_data['title'],
-                'post_type' => 'post',
-                'post_status' => 'any', // Check for any status including trash
-                'numberposts' => 1
+    foreach ($posts as $post_data) {
+        // Check if the post with the title already exists
+        $existing_posts = get_posts(array(
+            'title' => $post_data['title'],
+            'post_type' => 'post',
+            'post_status' => 'any', // Check for any status including trash
+            'numberposts' => 1
+        ));
+
+        if (!$existing_posts) {
+            // Post does not exist, create it
+            $category = get_term_by('slug', $post_data['category'], 'category');
+            $post_id = wp_insert_post(array(
+                'post_title'   => $post_data['title'],
+                'post_content' => $post_data['content'],
+                'post_excerpt' => $post_data['excerpt'],
+                'post_status'  => 'publish',
+                'post_author'  => 1, // Replace with the desired author ID
+                'post_category' => array($category->term_id),
             ));
 
-            if (!$existing_posts) {
-                // Post does not exist, create it
-                $category = get_term_by('slug', $post_data['category'], 'category');
-                $post_id = wp_insert_post(array(
-                    'post_title'   => $post_data['title'],
-                    'post_content' => $post_data['content'],
-                    'post_excerpt' => $post_data['excerpt'],
-                    'post_status'  => 'publish',
-                    'post_author'  => 1, // Replace with the desired author ID
-                    'post_category' => array($category->term_id),
-                ));
+            if ($post_id && !is_wp_error($post_id)) {
+                // Set post tags
+                wp_set_post_tags($post_id, $post_data['tags'], true);
 
-                if ($post_id && !is_wp_error($post_id)) {
-                    // Set post tags
-                    wp_set_post_tags($post_id, $post_data['tags'], true);
+                // Define the filename of the image you want to use
+                $image_filename = $post_data['image']; // Replace with your actual image filename
 
-                    // Define the filename of the image you want to use
-                    $image_filename = $post_data['image']; // Replace with your actual image filename
+                // Ensure $post_id is defined and valid
+                if (!empty($image_filename) && !empty($post_id)) {
+                    // Call the function to create the image from the plugin directory
+                    $image_id = hwc_create_image_from_plugin($image_filename, $post_id);
 
-                    // Ensure $post_id is defined and valid
-                    if (!empty($image_filename) && !empty($post_id)) {
-                        // Call the function to create the image from the plugin directory
-                        $image_id = hwc_create_image_from_plugin($image_filename, $post_id);
-
-                        // Check if there was an error creating the image
-                        if (!is_wp_error($image_id)) {
-                            // Set the post thumbnail with the new image
-                            set_post_thumbnail($post_id, $image_id);
-                        } else {
-                            // Handle the error appropriately
-                            echo $image_id->get_error_message(); // Display error message
-                        }
+                    // Check if there was an error creating the image
+                    if (!is_wp_error($image_id)) {
+                        // Set the post thumbnail with the new image
+                        set_post_thumbnail($post_id, $image_id);
+                    } else {
+                        // Handle the error appropriately
+                        echo $image_id->get_error_message(); // Display error message
                     }
+                }
 
 
-                    // Update tags and ACF fields
-                    wp_set_post_tags($post_id, $post_data['tags'], true);
+                // Update tags and ACF fields
+                wp_set_post_tags($post_id, $post_data['tags'], true);
 
-                    if ($post_data['acf']['sidebar_card_image_name']) {
-                        $hwc_right_card_image_id = hwc_create_image_from_plugin($post_data['acf']['sidebar_card_image_name'], $post_id);
+                if ($post_data['acf']['sidebar_card_image_name']) {
+                    $hwc_right_card_image_id = hwc_create_image_from_plugin($post_data['acf']['sidebar_card_image_name'], $post_id);
 
-                        if (!is_wp_error($hwc_right_card_image_id)) {
-                            // Update the ACF field with the attachment ID
-                            update_field('sidebar_card_image', $hwc_right_card_image_id, $post_id);
-                        } else {
-                            // Log the error message
-                            error_log('Failed to upload background image: ' . $hwc_right_card_image_id->get_error_message());
-                        }
+                    if (!is_wp_error($hwc_right_card_image_id)) {
+                        // Update the ACF field with the attachment ID
+                        update_field('sidebar_card_image', $hwc_right_card_image_id, $post_id);
+                    } else {
+                        // Log the error message
+                        error_log('Failed to upload background image: ' . $hwc_right_card_image_id->get_error_message());
                     }
+                }
 
-                    if ($post_data['acf']['sidebar_card_title']) {
-                        update_field('sidebar_card_title', $post_data['acf']['sidebar_card_title'], $post_id);
-                    }
+                if ($post_data['acf']['sidebar_card_title']) {
+                    update_field('sidebar_card_title', $post_data['acf']['sidebar_card_title'], $post_id);
+                }
 
-                    if ($post_data['acf']['post_banner_video']) {
-                        update_field('post_banner_video', $post_data['acf']['post_banner_video'], $post_id);
-                    }
+                if ($post_data['acf']['post_banner_video']) {
+                    update_field('post_banner_video', $post_data['acf']['post_banner_video'], $post_id);
+                }
 
-                    if ($post_data['acf']['sidebar_card_button']['url']) {
-                        update_field('sidebar_card_button', array(
-                            'url' => $post_data['acf']['sidebar_card_button']['url'],
-                            'title' => $post_data['acf']['sidebar_card_button']['title'],
-                        ), $post_id);
-                    }
+                if ($post_data['acf']['sidebar_card_button']['url']) {
+                    update_field('sidebar_card_button', array(
+                        'url' => $post_data['acf']['sidebar_card_button']['url'],
+                        'title' => $post_data['acf']['sidebar_card_button']['title'],
+                    ), $post_id);
                 }
             }
         }
-
-        // After the function has run, set the option to true
-        update_option('hwc_categories_and_posts_created', true);
     }
+
+    // After the function has run, set the option to true
+    //update_option('hwc_categories_and_posts_created', true);
+    //}
 }
 //end
