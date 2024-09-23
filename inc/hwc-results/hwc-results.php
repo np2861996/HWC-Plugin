@@ -111,6 +111,13 @@ function hwc_add_acf_fields_results()
                     'type' => 'text',
                     'required' => 0,
                 ),
+                array(
+                    'key' => 'field_result_report_link',
+                    'label' => 'Report Link',
+                    'name' => 'result_report_link',
+                    'type' => 'link',
+                    'required' => 0,
+                ),
             ),
             'location' => array(
                 array(
@@ -143,7 +150,8 @@ function hwc_populate_fixture_result_default_data()
             'result_total_goals_team_1'        => 2,
             'result_total_goals_team_2'        => 1,
             'result_goals_info_team_1'         => 'Watts (51\'), Knott (57\')',
-            'result_goals_info_team_2'         => 'Jones (47\')'
+            'result_goals_info_team_2'         => 'Jones (47\')',
+            'result_report_link' => array('url' => '', 'title' => ''),
         ),
         array(
             'result_fixture_post_title'        => 'Result: Briton Ferry Llansawel vs Newtown',
@@ -157,7 +165,68 @@ function hwc_populate_fixture_result_default_data()
             'result_total_goals_team_1'        => 2,
             'result_total_goals_team_2'        => 1,
             'result_goals_info_team_1'         => 'Watts (51\'), Knott (57\')',
-            'result_goals_info_team_2'         => 'Jones (47\')'
+            'result_goals_info_team_2'         => 'Jones (47\')',
+            'result_report_link' => array('url' => '2024/09/22/bluebirds-see-off-seagulls-to-set-up-thrilling-final-day-meeting-with-bont/', 'title' => 'Report'),
+        ),
+        array(
+            'result_fixture_post_title'        => 'Result: Haverfordwest County vs Connah\'s Quay Nomads',
+            'result_select_result_match'       => 'Haverfordwest County vs Connah\'s Quay Nomads',
+            'result_fixture_background_image'  => 'Essity-Stadium-UK.jpg',
+            'result_fixture_description'       => 'ABERYSTWYTH, WALES - MARCH 08 2020, FAW Youth Cup Semi Final...',
+            'result_team1_players'             => array('Ben Fawcett', 'Dylan Rees', 'Dylan Rees', 'Ifan Knott'),
+            'result_team1_substitutes'         => array('Rhys Abbruzzese', 'Ricky Watts'),
+            'result_team2_players'             => array('Ben Fawcett', 'Lee Jenkins'),
+            'result_team2_substitutes'         => array('Zac Jones', 'Ricky Watts'),
+            'result_total_goals_team_1'        => 5,
+            'result_total_goals_team_2'        => 0,
+            'result_goals_info_team_1'         => 'Jones (50\'), Dylan (52\')',
+            'result_goals_info_team_2'         => 'Fawcett (80\')',
+            'result_report_link' => array('url' => '', 'title' => ''),
+        ),
+        array(
+            'result_fixture_post_title'        => 'Result: Briton Ferry Llansawel vs Haverfordwest County',
+            'result_select_result_match'       => 'Briton Ferry Llansawel vs Haverfordwest County',
+            'result_fixture_background_image'  => 'Essity-Stadium-UK.jpg',
+            'result_fixture_description'       => '',
+            'result_team1_players'             => array('Dylan Rees', 'Ifan Knott'),
+            'result_team1_substitutes'         => array('Rhys Abbruzzese',),
+            'result_team2_players'             => array('Ben Fawcett'),
+            'result_team2_substitutes'         => array('Zac Jones', 'Ricky Watts'),
+            'result_total_goals_team_1'        => 4,
+            'result_total_goals_team_2'        => 4,
+            'result_goals_info_team_1'         => 'Rees (56\'), Knott (62\')',
+            'result_goals_info_team_2'         => 'Abbruzzese (79\')',
+            'result_report_link' => array('url' => '2024/09/22/keeper-jones-the-hero-as-bluebirds-reach-maiden-european-play-off-final/', 'title' => 'Report'),
+        ),
+        array(
+            'result_fixture_post_title'        => 'Result: Haverfordwest County vs Caernarfon Town',
+            'result_select_result_match'       => 'Haverfordwest County vs Caernarfon Town',
+            'result_fixture_background_image'  => 'Essity-Stadium-UK.jpg',
+            'result_fixture_description'       => '',
+            'result_team1_players'             => array('Dylan Rees', 'Ifan Knott'),
+            'result_team1_substitutes'         => array('Rhys Abbruzzese',),
+            'result_team2_players'             => array('Ben Fawcett'),
+            'result_team2_substitutes'         => array('Zac Jones', 'Ricky Watts'),
+            'result_total_goals_team_1'        => 0,
+            'result_total_goals_team_2'        => 1,
+            'result_goals_info_team_1'         => 'Rees (56\'), Knott (62\')',
+            'result_goals_info_team_2'         => 'Abbruzzese (79\')',
+            'result_report_link' => array('url' => '2024/09/22/keeper-jones-the-hero-as-bluebirds-reach-maiden-european-play-off-final/', 'title' => 'Report'),
+        ),
+        array(
+            'result_fixture_post_title'        => 'Result: The New Saints vs Bala Town',
+            'result_select_result_match'       => 'The New Saints vs Bala Town',
+            'result_fixture_background_image'  => 'Essity-Stadium-UK.jpg',
+            'result_fixture_description'       => 'ABERYSTWYTH, WALES - MARCH 08 2020, FAW Youth Cup Semi Final...',
+            'result_team1_players'             => array('Ben Fawcett', 'Dylan Rees', 'Dylan Rees', 'Ifan Knott'),
+            'result_team1_substitutes'         => array('Rhys Abbruzzese', 'Ricky Watts'),
+            'result_team2_players'             => array('Ben Fawcett', 'Lee Jenkins'),
+            'result_team2_substitutes'         => array('Zac Jones', 'Ricky Watts'),
+            'result_total_goals_team_1'        => 2,
+            'result_total_goals_team_2'        => 1,
+            'result_goals_info_team_1'         => 'Watts (51\'), Knott (57\')',
+            'result_goals_info_team_2'         => 'Jones (47\')',
+            'result_report_link' => array('url' => '2024/09/22/bluebirds-see-off-seagulls-to-set-up-thrilling-final-day-meeting-with-bont/', 'title' => 'Report'),
         ),
         // Add more fixtures as needed
     );
@@ -214,6 +283,10 @@ function hwc_populate_fixture_result_default_data()
         update_field('field_result_total_goals_team_2', $fixture['result_total_goals_team_2'], $fixture_result_id);
         update_field('result_goals_info_team_1', $fixture['result_goals_info_team_1'], $fixture_result_id);
         update_field('result_goals_info_team_2', $fixture['result_goals_info_team_2'], $fixture_result_id);
+        update_field('result_report_link', array(
+            'url' => $fixture['result_report_link']['url'],
+            'title' => $fixture['result_report_link']['title'],
+        ), $fixture_result_id);
 
         // Set featured image
         if (!empty($fixture['result_fixture_background_image'])) {
