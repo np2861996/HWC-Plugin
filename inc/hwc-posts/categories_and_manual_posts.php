@@ -13,6 +13,8 @@
 	>>> Functions Action/Filter Calls
 	----------------------------------------------------------------*/
 add_action('acf/init', 'hwc_register_acf_fields');
+add_action('acf/init', 'hwc_create_categories_and_manual_posts');
+
 
 /*--------------------------------------------------------------
 	>>> Function for add acf custom fields to posts
@@ -78,7 +80,7 @@ function hwc_register_acf_fields()
 function hwc_create_categories_and_manual_posts()
 {
 
-    // Check if the function has already been run
+    //Check if the function has already been run
     //if (!get_option('hwc_categories_and_posts_created', false)) {
     if (!is_acf_pro_plugin_installed()) {
         // Return back if ACF Pro is not available
@@ -117,7 +119,7 @@ function hwc_create_categories_and_manual_posts()
             'title' => 'Zac Jones agrees new one-year deal with the Bluebirds',
             'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm that Zac Jones has signed a new one-year contract with the club.</strong></p>
 <p>The goalkeeper arrived at the Ogi Bridge Meadow in January 2022, and has gone on to establish himself as one of the most important players in recent times.</p>
-<p>After making his first team debut in the 3-0 victory over Airbus UK Broughton in August 2022, Zac has gone on to make a total of 53 appearances in all competitions for the Town, and has been involved in plenty of big moments during that time.</p>
+<p>After making his haverfordwest county debut in the 3-0 victory over Airbus UK Broughton in August 2022, Zac has gone on to make a total of 53 appearances in all competitions for the Town, and has been involved in plenty of big moments during that time.</p>
 <p>The New Zealander played a vital role in helping to end our 19-year wait to return to Europe, as his penalty save in normal time of the play-off semi-final victory at Cardiff Metropolitan, followed by two more saves in the shoot-out, were backed up by yet another spot-kick save in the final at Newtown – a day never to be forgotten by those who were in attendance.</p>
 <blockquote><p>“I’ve really enjoyed my time here, I feel I’ve gained a lot of experience.”</p></blockquote>
 <figure class="post-content-image post-content-image-has-caption alignnone">
@@ -145,7 +147,7 @@ function hwc_create_categories_and_manual_posts()
 <p><strong>The club would like to wish Zac all the best for the new season, and we look forward to seeing him in action again soon!</strong></p>',
             'excerpt' => 'Super Zac extends his stay at the Ogi Bridge Meadow!',
             'category' => 'club-news',
-            'tags' => array('First Team', 'Zac Jones'),
+            'tags' => array('Haverfordwest County', 'Zac Jones'),
             'image' => 'zaccontractFI.jpg',
             'acf' => array(
                 'sidebar_card_image_name' => 'maxresdefault.jpg',
@@ -177,7 +179,7 @@ function hwc_create_categories_and_manual_posts()
 <p>“The fans have been brilliant all of last season, and I can’t wait to get back out there in front of them soon.”</p>',
             'excerpt' => 'Super Zac signs on for another year with the Bluebirds!',
             'category' => 'club-news',
-            'tags' => array('First Team', 'Zac Jones'),
+            'tags' => array('Haverfordwest County', 'Zac Jones'),
             'image' => '2023-05-13-Newtown-AFC-vs-Haverfordwest-County-AFC-247.jpg',
             'acf' => array(
                 'sidebar_card_image_name' => '',
@@ -253,7 +255,7 @@ function hwc_create_categories_and_manual_posts()
 <p>Kyle McCarthy misses (<strong>0-0</strong>); Dylan Rees scores (<strong>0-1</strong>); Lewis Rees misses (<strong>0-1</strong>); Jack Leahy scores (<strong>0-2</strong>); CJ Craven scores (<strong>1-2</strong>); Jordan Davies scores (<strong>1-3</strong>); Sam Jones scores (<strong>2-3</strong>); Henry Jones misses (<strong>2-3</strong>); Jack Veale scores (<strong>3-3</strong>); Elliott Dugan scores (<strong>3-4</strong>)</p>',
             'excerpt' => 'Our report of Haverfordwest County\'s 4-3 penalty shoot-out victory over Cardiff Metropolitan in the JD Cymru Premier European play-off semi-finals.',
             'category' => 'match-report',
-            'tags' => array('First Team', 'Zac Jones', 'Cardiff Met Uni vs Haverfordwest County'),
+            'tags' => array('Haverfordwest County', 'Zac Jones', 'Cardiff Met Uni vs Haverfordwest County'),
             'image' => 'MetAwayReportFI.jpg',
             'acf' => array(
                 'sidebar_card_image_name' => '',
@@ -271,7 +273,7 @@ function hwc_create_categories_and_manual_posts()
             'content' => '',
             'excerpt' => 'Watch Episode 6 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Zac Jones.',
             'category' => 'the-bluebirds-nest',
-            'tags' => array('First Team', 'Zac Jones'),
+            'tags' => array('Haverfordwest County', 'Zac Jones'),
             'image' => 'maxresdefault.jpg',
 
             'acf' => array(
@@ -301,7 +303,7 @@ function hwc_create_categories_and_manual_posts()
 <p><em>Ifan is kindly sponsored by <a href="https://www.clayshawbutler.com/">Clay Shaw Butler</a>, a unique, innovative firm of Chartered Accountants who aim to deliver the highest possible standard of expertise through their hard-working and dedicated team.</em></p>',
             'excerpt' => 'The young goalkeeper extends his stay at the Ogi Bridge Meadow!',
             'category' => 'club-news',
-            'tags' => array('First Team', 'Ifan Knott'),
+            'tags' => array('Haverfordwest County', 'Ifan Knott'),
             'image' => 'ifancontractFI.jpg',
 
             'acf' => array(
@@ -331,7 +333,25 @@ function hwc_create_categories_and_manual_posts()
 <p><em>Ifan is kindly sponsored by <a href="https://www.clayshawbutler.com/">Clay Shaw Butler</a>, a unique, innovative firm of Chartered Accountants who aim to deliver the highest possible standard of expertise through their hard-working and dedicated team.</em></p>',
             'excerpt' => 'Watch Episode 35 of #TheBluebirdsNest, our vodcast and podcast series, with goalkeeper Ifan Knott!',
             'category' => 'the-bluebirds-nest',
-            'tags' => array('First Team', 'Ifan Knott'),
+            'tags' => array('Haverfordwest County', 'Ifan Knott'),
+            'image' => 'maxresdefault.jpg',
+
+            'acf' => array(
+                'sidebar_card_image_name' => 'BluebirdsNestSeries.jpg',
+                'sidebar_card_title' => 'Listen to our club podcast series!',
+                'sidebar_card_button' => array(
+                    'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
+                    'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/FiVtni2ktTM?feature=oembed',
+            )
+        ),
+        array(
+            'title' => '#TheBluebirdsNest | Episode 60 – Deryn Brace and Tim Hicks',
+            'content' => '',
+            'excerpt' => 'Watch Episode 60 of #TheBluebirdsNest, our vodcast and podcast series, with former Haverfordwest County AFC manager, Deryn Brace, and ex-striker, Tim Hicks!',
+            'category' => 'the-bluebirds-nest',
+            'tags' => array('Haverfordwest County'),
             'image' => 'maxresdefault.jpg',
 
             'acf' => array(
@@ -351,7 +371,7 @@ function hwc_create_categories_and_manual_posts()
 <p>Tony Pennock’s men had battled hard throughout the night against an Archers team who don’t often lose at home, but will ultimately look back with a sense of frustration at not quite being able to see the job through.</p>
 <p>The result sees the Town climb one place to 10th after Barry Town United went down 1-0 at Pen-y-Bont, with the Bluebirds’ focus now shifting to a significant game on Saturday when we host Aberystwyth Town at the Ogi Bridge Meadow.</p>
 <h5>Team news</h5>
-<p>Manager Pennock made three changes to the team from last Saturday, with Aidan MacNamara, who recently joined on a deal until the end of the season, coming straight in for his full debut, while Jack Wilson was handed a start and Whitmore returned after serving a one-game suspension. Meanwhile, there was a welcome return to the squad for Rio Dyer, who had not featured for the first team since the Nathaniel MG Cup meeting with Cardiff City under-21s at the start of August.</p>
+<p>Manager Pennock made three changes to the team from last Saturday, with Aidan MacNamara, who recently joined on a deal until the end of the season, coming straight in for his full debut, while Jack Wilson was handed a start and Whitmore returned after serving a one-game suspension. Meanwhile, there was a welcome return to the squad for Rio Dyer, who had not featured for the haverfordwest county since the Nathaniel MG Cup meeting with Cardiff City under-21s at the start of August.</p>
 <p>Striker Martell Taylor-Crossdale was serving the first of his three-game suspension after the straight red card he was shown against Connah’s Quay Nomads, while fellow forward Ben Fawcett was unavailable after sustaining an injury in the same game.</p>
 <p><strong>Haverfordwest County:</strong> Knott, MacNamara, Tabone, Jenkins, Borg (Williams-Lowe 45′), Abbruzzese, Watts (C), T. Owen, Whitmore, Hawkins, Wilson (Dyer 81′)</p>
 <p><strong>Substitutes not used:</strong> Jones, Humphreys, J. Owen, H. John, D. John</p>
@@ -372,7 +392,7 @@ function hwc_create_categories_and_manual_posts()
 <p>A point was the least the Bluebirds deserved for their overall performance, which saw them create the better opportunities on the night, and they will now be hoping to replicate those levels on Saturday afternoon when we host the Seasiders (2.30pm kick-off).</p>',
             'excerpt' => 'Our take on the 1-1 draw with Cardiff Metropolitan on JD Cymru Premier MD9...',
             'category' => 'match-report',
-            'tags' => array('First Team', 'Ifan Knott', 'Kai Whitmore', 'Cardiff Met Uni vs Haverfordwest County'),
+            'tags' => array('Haverfordwest County', 'Ifan Knott', 'Kai Whitmore', 'Cardiff Met Uni vs Haverfordwest County'),
             'image' => 'maxresdefault2.jpg',
 
             'acf' => array(
@@ -432,7 +452,7 @@ function hwc_create_categories_and_manual_posts()
 <p></p><figure class="ratio-16x9"><iframe loading="lazy" title="Uchafbwyntiau | Highlights | Hwlffordd 3-1 Bae Colwyn | JD Cymru Premier" width="500" height="281" src="https://www.youtube.com/embed/Hx558auJWto?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></figure><p></p>',
             'excerpt' => 'Our take on the 3-1 victory over Colwyn Bay on JD Cymru Premier MD31…',
             'category' => 'match-report',
-            'tags' => array('First Team', 'Rhys Abbruzzese', 'Lee Jenkins', 'Ben Fawcett', 'Haverfordwest County vs Colwyn Bay'),
+            'tags' => array('Haverfordwest County', 'Rhys Abbruzzese', 'Lee Jenkins', 'Ben Fawcett', 'Haverfordwest County vs Colwyn Bay'),
             'image' => 'maxresdefault2.jpg',
 
             'acf' => array(
@@ -506,7 +526,7 @@ function hwc_create_categories_and_manual_posts()
 <p></p><figure class="ratio-16x9"><iframe loading="lazy" title="Uchafbwyntiau / Highlights | Y Fflint 0-2 Hwlffordd" width="500" height="281" src="https://www.youtube.com/embed/cyiFZqKhNlE?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe></figure><p></p>',
             'excerpt' => 'A look ahead to tomorrow\'s JD Cymru Premier MD7 encounter with Flint Town United!',
             'category' => 'match-preview',
-            'tags' => array('First Team', 'Flint Town United vs Haverfordwest County'),
+            'tags' => array('Haverfordwest County', 'Flint Town United vs Haverfordwest County'),
             'image' => 'MatchPreview.jpg',
 
             'acf' => array(
@@ -545,7 +565,7 @@ function hwc_create_categories_and_manual_posts()
     </div>',
             'excerpt' => 'An experienced addition to our squad ahead of the new season!',
             'category' => 'transfer-news',
-            'tags' => array('First Team', 'Kyle McCarthy'),
+            'tags' => array('Haverfordwest County', 'Kyle McCarthy'),
             'image' => '48HFC290605_NewSigning_KyleMcCarthy1920x1080.jpg',
 
             'acf' => array(
@@ -576,7 +596,7 @@ function hwc_create_categories_and_manual_posts()
 <p><em><strong>To purchase your 2024-25 season tickets, <a href="https://haverfordwestcountyafc.com/club/season-tickets/">please follow this link</a>.</strong></em></p>',
             'excerpt' => 'Back the Bluebirds on our journey!',
             'category' => 'ticket-news',
-            'tags' => array('First Team'),
+            'tags' => array('Haverfordwest County'),
             'image' => '1920x1080-copy-2.jpg',
 
             'acf' => array(
@@ -668,7 +688,7 @@ function hwc_create_categories_and_manual_posts()
 <p>So as a group, we’ve moved forward from last season. We don’t concede goals as easily as we have in the past, and it’s an obvious statement but, if we don’t concede, we’ve got more chance of winning, and that’s the way we’re looking to play this year. We still want to play and have as much possession as we possibly can, but we need to be sensible in our own third, defend our goal, and the boys are certainly doing that – it’s pleasing to see.</p>',
             'excerpt' => 'The manager\'s reaction to our 1-0 defeat at home to The New Saints on MD6.',
             'category' => 'interview',
-            'tags' => array('First Team', 'Haverfordwest County vs The New Saints'),
+            'tags' => array('Haverfordwest County', 'Haverfordwest County vs The New Saints'),
             'image' => 'tonyTNSFI.jpg',
 
             'acf' => array(

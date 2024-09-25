@@ -137,6 +137,7 @@ function hwc_add_acf_fields_results()
 ----------------------------------------------------------------*/
 function hwc_populate_fixture_result_default_data()
 {
+    //if (!get_option('hwc_fixture_matches_created', false)) {
     $fixtures = array(
         array(
             'result_fixture_post_title'        => 'Result: Bala Town vs Haverfordwest County',
@@ -296,6 +297,9 @@ function hwc_populate_fixture_result_default_data()
             }
         }
     }
+    // After the function has run, set the option to true
+    //update_option('hwc_fixture_matches_created', true);
+    //}
 }
 
 // Helper function to get player IDs

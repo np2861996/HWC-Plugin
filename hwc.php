@@ -20,11 +20,8 @@ if (! defined('ABSPATH')) {
 register_activation_hook(__FILE__, 'hwc_plugin_activation');
 register_activation_hook(__FILE__, 'hwc_plugin_activate');
 add_action('admin_notices', 'hwc_plugin_activation_notice');
-add_action('init', 'hwc_register_custom_post_types');
 add_action('acf/init', 'hwc_setup_acf_fields_for_pages');
 add_action('acf/init', 'hwc_set_default_acf_field_values');
-add_action('acf/init', 'hwc_add_acf_fields');
-add_action('acf/init', 'hwc_populate_default_data');
 
 
 /*--------------------------------------------------------------
@@ -56,21 +53,22 @@ function hwc_plugin_activation()
 {
     hwc_plugin_activation_pages_setup();
     hwc_plugin_check_acf_pro_before_activation();  // Check if ACF Pro is installed.
-    hwc_create_categories_and_manual_posts();
     hwc_populate_default_team_data();
     flush_rewrite_rules();
 }
 
+
 /*--------------------------------------------------------------
 	>>> Include Function for create dummy posts from files
 ----------------------------------------------------------------*/
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-table/hwc-table.php';
 require_once plugin_dir_path(__FILE__) . 'inc/hwc-posts/categories_and_manual_posts.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-teams/hwc-teams.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-staff/hwc-staff.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-matches/hwc-matches.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-results/hwc-results.php';
-
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-home/hwc-home.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)
@@ -135,11 +133,6 @@ function hwc_plugin_activation_pages_setup()
     // Define an array of pages to create with their templates and slugs
     $pages = array(
         array(
-            'title'     => 'Home',
-            'template'  => 'template-parts/template-home.php',
-            'slug'      => 'home'
-        ),
-        array(
             'title'     => 'News',
             'template'  => 'template-parts/template-news.php',
             'slug'      => 'news'
@@ -190,18 +183,7 @@ function hwc_plugin_activation_pages_setup()
     $home_page_id = 0; // Initialize variable to store Home page ID
 
     foreach ($pages as $page) {
-        $page_id = hwc_create_page_with_template($page['title'], $page['template'], $page['slug']);
-
-        // Store Home page ID
-        if ($page['slug'] === 'home') {
-            $home_page_id = $page_id;
-        }
-    }
-
-    // Set Home page as the front page
-    if ($home_page_id) {
-        update_option('show_on_front', 'page');
-        update_option('page_on_front', $home_page_id);
+        hwc_create_page_with_template($page['title'], $page['template'], $page['slug']);
     }
 }
 
@@ -249,25 +231,6 @@ function acf_pro_plugin_missing_error()
 }
 
 /*--------------------------------------------------------------
-	>>> Hook into theme activation Register Custom Post Types
-	----------------------------------------------------------------*/
-function hwc_register_custom_post_types()
-{
-
-    // League Table
-    register_post_type('league_table', array(
-        'labels' => array(
-            'name' => 'League Tables',
-            'singular_name' => 'League Table',
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail'),
-    ));
-}
-
-
-/*--------------------------------------------------------------
 	>>> Function to set up ACF fields for each page
 	----------------------------------------------------------------*/
 function hwc_setup_acf_fields_for_pages()
@@ -276,42 +239,6 @@ function hwc_setup_acf_fields_for_pages()
 
         // Define field groups for each page
         $field_groups = array(
-            'Home' => array(
-                'key' => 'group_home',
-                'title' => 'Home Page Fields',
-                'fields' => array(
-                    array(
-                        'key' => 'home_title1',
-                        'label' => 'Title 1',
-                        'name' => 'home_title1',
-                        'type' => 'text',
-                        'instructions' => 'Enter the main title for the Home page.',
-                    ),
-                    array(
-                        'key' => 'home_image1',
-                        'label' => 'Image 1',
-                        'name' => 'home_image1',
-                        'type' => 'image',
-                        'instructions' => 'Upload an image for the Home page.',
-                    ),
-                    array(
-                        'key' => 'home_description',
-                        'label' => 'Description',
-                        'name' => 'home_description',
-                        'type' => 'textarea',
-                        'instructions' => 'Enter the description for the Home page.',
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post',
-                            'operator' => '==',
-                            'value' => get_page_id_by_title('Home'),
-                        ),
-                    ),
-                ),
-            ),
             'News' => array(
                 'key' => 'group_news',
                 'title' => 'News Page Fields',
@@ -404,11 +331,6 @@ function hwc_set_default_acf_field_values()
     }
 
     $page_fields = array(
-        'Home' => array(
-            'home_title1' => 'Welcome to Our Website',
-            //'home_image1' => 'wp-img.png', // Store image filename
-            'home_description' => 'Welcome to the home page of our website. We provide the best services in the industry.',
-        ),
 
         'News' => array(
             'news_title' => 'Latest News',
@@ -509,74 +431,5 @@ function hwc_create_image_from_plugin($filename, $post_id)
 
     // Return the attachment ID
     return $attach_id;
-}
-
-
-
-/*--------------------------------------------------------------
-	>>> Function for Add ACF Fields
-	----------------------------------------------------------------*/
-function hwc_add_acf_fields()
-{
-    if (class_exists('ACF')) {
-
-        // League Table ACF Fields
-        if (function_exists('acf_add_local_field_group')):
-            acf_add_local_field_group(array(
-                'key' => 'group_league_table',
-                'title' => 'League Table Details',
-                'fields' => array(
-                    array(
-                        'key' => 'field_tournament',
-                        'label' => 'Tournament',
-                        'name' => 'tournament',
-                        'type' => 'text',
-                        'default_value' => 'Default Tournament',
-                    ),
-                    array(
-                        'key' => 'field_position',
-                        'label' => 'Position',
-                        'name' => 'position',
-                        'type' => 'number',
-                        'default_value' => 1,
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post_type',
-                            'operator' => '==',
-                            'value' => 'league_table',
-                        ),
-                    ),
-                ),
-            ));
-        endif;
-    }
-}
-
-// Populate Default Data only once
-function hwc_populate_default_data()
-{
-    // Add default League Tables with unique featured image
-    if (!get_posts(array('post_type' => 'league_table', 'posts_per_page' => 1))) {
-        for ($i = 1; $i <= 5; $i++) {
-            $league_id = wp_insert_post(array(
-                'post_type' => 'league_table',
-                'post_title' => 'Default League Table ' . $i,
-                'post_content' => 'Description for default league table ' . $i,
-                'post_status' => 'publish',
-            ));
-            update_field('tournament', 'Default Tournament', $league_id);
-            update_field('position', 1, $league_id);
-
-            // Set a unique Featured Image for each league table
-            $image_filename = 'JD-Cymru-Premier.png'; // Different image for each league table
-            $image_id = hwc_create_image_from_plugin($image_filename, $league_id);
-            if ($image_id) {
-                set_post_thumbnail($league_id, $image_id);
-            }
-        }
-    }
 }
 ?>

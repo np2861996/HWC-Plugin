@@ -123,7 +123,7 @@ function hwc_add_acf_fields_match()
 ----------------------------------------------------------------*/
 function hwc_populate_fixture_default_data()
 {
-    //if (!get_option('hwc_fixture_posts_created', false)) {
+    //if (!get_option('hwc_fixture_matches_created', false)) {
     $fixtures = array(
         array(
             'fixture_post_title'    => 'Haverfordwest County vs Barry Town United',
@@ -132,7 +132,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-09-30',
             'fixture_match_time'   => '15:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -142,7 +142,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-10-10',
             'fixture_match_time'   => '15:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -152,7 +152,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-10-11',
             'fixture_match_time'   => '16:00',
             'fixture_stadium_name' => 'Maes Tegid',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Euro Championship',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -162,7 +162,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-10-12',
             'fixture_match_time'   => '17:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'French League One',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -172,7 +172,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-11-13',
             'fixture_match_time'   => '11:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Cota League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -182,7 +182,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-12-13',
             'fixture_match_time'   => '12:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'National League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -192,7 +192,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-12-14',
             'fixture_match_time'   => '13:00',
             'fixture_stadium_name' => 'LHP Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -202,7 +202,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-12-15',
             'fixture_match_time'   => '14:00',
             'fixture_stadium_name' => 'Ogi Bridge Meadow Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -212,7 +212,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2024-12-16',
             'fixture_match_time'   => '15:00',
             'fixture_stadium_name' => 'Ogi Bridge Meadow Stadium',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -222,7 +222,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2025-01-01',
             'fixture_match_time'   => '16:00',
             'fixture_stadium_name' => 'Jenner Park',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         array(
@@ -232,7 +232,7 @@ function hwc_populate_fixture_default_data()
             'fixture_match_date'   => '2025-01-01',
             'fixture_match_time'   => '16:00',
             'fixture_stadium_name' => 'Jenner Park',
-            'fixture_league'       => 'Default League Table 1',
+            'fixture_league'       => 'Premier League',
             'fixture_background_image' => '2020-03-08-FAW-Youth-Cup-Semi-Final-35.jpg'
         ),
         // Add more matches as needed
@@ -292,7 +292,7 @@ function hwc_populate_fixture_default_data()
         }
     }
     // After the function has run, set the option to true
-    //update_option('hwc_fixture_posts_created', true);
+    //update_option('hwc_fixture_matches_created', true);
     //}
 }
 
