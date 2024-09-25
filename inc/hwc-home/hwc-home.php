@@ -302,7 +302,7 @@ function hwc_create_home_page_with_acf_fields()
         if (!is_wp_error($newsletter_background_image_id)) {
             update_field('newsletter_background_image', $newsletter_background_image_id, $front_page_id);
         } else {
-            error_log('Failed to upload image: ' . $newsletter_background_image_id->get_error_message());
+            error_log('Failed to upload image : ' . $newsletter_background_image_id->get_error_message());
         }
 
         update_field('newsletter_title', 'Sign up to our newsletter', $front_page_id);
