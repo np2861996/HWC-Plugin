@@ -20,7 +20,6 @@ if (! defined('ABSPATH')) {
 register_activation_hook(__FILE__, 'hwc_plugin_activation');
 register_activation_hook(__FILE__, 'hwc_plugin_activate');
 add_action('admin_notices', 'hwc_plugin_activation_notice');
-add_action('acf/init', 'hwc_setup_acf_fields_for_pages');
 add_action('acf/init', 'hwc_set_default_acf_field_values');
 
 
@@ -55,6 +54,7 @@ function hwc_plugin_activation()
     hwc_plugin_check_acf_pro_before_activation();  // Check if ACF Pro is installed.
     hwc_populate_default_team_data();
     flush_rewrite_rules();
+    hwc_create_news_page();
 }
 
 
@@ -69,6 +69,7 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-staff/hwc-staff.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-matches/hwc-matches.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-results/hwc-results.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-home/hwc-home.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-news/hwc-news.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)
@@ -132,11 +133,6 @@ function hwc_plugin_activation_pages_setup()
 
     // Define an array of pages to create with their templates and slugs
     $pages = array(
-        array(
-            'title'     => 'News',
-            'template'  => 'template-parts/template-news.php',
-            'slug'      => 'news'
-        ),
         array(
             'title'     => 'Team',
             'template'  => 'template-parts/template-team.php',
@@ -228,56 +224,6 @@ function acf_pro_plugin_missing_error()
         <p><?php _e('Error: ACF Pro is required to use this theme. Please install and activate ACF Pro.', 'hwc'); ?></p>
     </div>
 <?php
-}
-
-/*--------------------------------------------------------------
-	>>> Function to set up ACF fields for each page
-	----------------------------------------------------------------*/
-function hwc_setup_acf_fields_for_pages()
-{
-    if (function_exists('acf_add_local_field_group')) {
-
-        // Define field groups for each page
-        $field_groups = array(
-            'News' => array(
-                'key' => 'group_news',
-                'title' => 'News Page Fields',
-                'fields' => array(
-                    array(
-                        'key' => 'news_title',
-                        'label' => 'News Title',
-                        'name' => 'news_title',
-                        'type' => 'text',
-                        'instructions' => 'Enter the title for the News page.',
-                    ),
-                    array(
-                        'key' => 'news_image',
-                        'label' => 'News Image',
-                        'name' => 'news_image',
-                        'type' => 'image',
-                        'instructions' => 'Upload an image for the News page.',
-                    ),
-                ),
-                'location' => array(
-                    array(
-                        array(
-                            'param' => 'post',
-                            'operator' => '==',
-                            'value' => get_page_id_by_title('News'),
-                        ),
-                    ),
-                ),
-            ),
-            // Define more field groups for other pages similarly...
-        );
-
-        foreach ($field_groups as $page_title => $field_group) {
-            $page_id = get_page_id_by_title($page_title);
-            if ($page_id) {
-                acf_add_local_field_group($field_group);
-            }
-        }
-    }
 }
 
 /*--------------------------------------------------------------
