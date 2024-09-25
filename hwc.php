@@ -70,6 +70,7 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-matches/hwc-matches.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-results/hwc-results.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-home/hwc-home.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-news/hwc-news.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-club/hwc-club.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)
@@ -133,21 +134,6 @@ function hwc_plugin_activation_pages_setup()
 
     // Define an array of pages to create with their templates and slugs
     $pages = array(
-        array(
-            'title'     => 'Team',
-            'template'  => 'template-parts/template-team.php',
-            'slug'      => 'team'
-        ),
-        array(
-            'title'     => 'Matches',
-            'template'  => 'template-parts/template-matches.php',
-            'slug'      => 'matches'
-        ),
-        array(
-            'title'     => 'Club',
-            'template'  => 'template-parts/template-club.php',
-            'slug'      => 'club'
-        ),
         array(
             'title'     => 'Community',
             'template'  => 'template-parts/template-community.php',
