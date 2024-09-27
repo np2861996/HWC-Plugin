@@ -55,6 +55,7 @@ function hwc_plugin_activation()
     hwc_populate_default_team_data();
     flush_rewrite_rules();
     hwc_create_news_page();
+    hwc_create_contact_page();
 }
 
 
@@ -71,6 +72,8 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-results/hwc-results.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-home/hwc-home.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-news/hwc-news.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-club/hwc-club.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-club-officials/hwc-club-officials.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-contact/hwc-contact.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)

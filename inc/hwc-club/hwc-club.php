@@ -127,7 +127,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
             'hwc_club_card_title' => 'Club Officials',
             'hwc_club_card_link' => array(
-                'url' => 'club-officials',
+                'url' => site_url('club-officials'),
                 'title' => 'Read More',
                 'target' => '_self', // '_blank' for new tab
             ),
@@ -136,7 +136,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'K336021-scaled-1.jpg', // Placeholder for Card 2
             'hwc_club_card_title' => 'Contact',
             'hwc_club_card_link' => array(
-                'url' => 'contact',
+                'url' => site_url('Contact'),
                 'title' => 'Read More',
                 'target' => '_self',
             ),
@@ -145,7 +145,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
             'hwc_club_card_title' => 'About The Academy',
             'hwc_club_card_link' => array(
-                'url' => 'about-the-academy',
+                'url' => site_url('about-the-academy'),
                 'title' => 'Read More',
                 'target' => '_self',
             ),
@@ -155,7 +155,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
             'hwc_club_card_title' => 'History',
             'hwc_club_card_link' => array(
-                'url' => 'history',
+                'url' => site_url('history'),
                 'title' => 'Read More',
                 'target' => '_self',
             ),
@@ -164,7 +164,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
             'hwc_club_card_title' => 'Stadium',
             'hwc_club_card_link' => array(
-                'url' => 'stadium',
+                'url' => site_url('stadium'),
                 'title' => 'Read More',
                 'target' => '_self',
             ),
@@ -173,7 +173,7 @@ function hwc_create_club_page_with_acf_fields()
             'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
             'hwc_club_card_title' => 'Social Media',
             'hwc_club_card_link' => array(
-                'url' => 'social-media',
+                'url' => site_url('social-media'),
                 'title' => 'Read More',
                 'target' => '_self',
             ),
@@ -204,3 +204,4 @@ function hwc_create_club_page_with_acf_fields()
     //update_option('hwc_club_data_added', true);
     //}
 }
+//end
