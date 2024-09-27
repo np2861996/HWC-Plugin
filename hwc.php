@@ -74,6 +74,9 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-news/hwc-news.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-club/hwc-club.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-club-officials/hwc-club-officials.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-contact/hwc-contact.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-about-the-academy/hwc-about-the-academy.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-history/hwc-history.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-social-media/hwc-social-media.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)

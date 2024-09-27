@@ -99,7 +99,8 @@ function hwc_create_categories_and_manual_posts()
         'the-bluebirds-nest' => 'The Bluebirds Nest',
         'community-news' => 'Community News',
         'video' => 'Video',
-        'the-bluebirds-nest' => '#TheBluebirdsNest'
+        'the-bluebirds-nest' => '#TheBluebirdsNest',
+        'academy-news' => 'Academy News'
     );
 
     // Loop through each category and create if it doesn't exist
@@ -697,6 +698,81 @@ function hwc_create_categories_and_manual_posts()
                 'sidebar_card_button' => array(
                     'url' => 'https://www.youtube.com/playlist?list=PL0hgLwiLgTW17WmG0wp2c82tOIB5PkG7K',
                     'title' => 'Click here for full playlist!'
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => 'Haverfordwest County Summer Football Camp',
+            'content' => '<p>We are delighted to announce the Haverfordwest County Summer Football Camp is available for Boys and Girls of the ages 5 – 13 to attend.</p>
+<p>The camp will run from August 14th, 15th and 16th, 10:30am – 2.30pm on the Lower Pitches of the Ogi Bridge Meadow Stadium.</p>
+<p>All sessions are carried out by UEFA Qualified, DBS checked and First Aid trained Coaches.</p>
+<p><strong>The sessions cost £15 per day or £40 for the 3 days.</strong></p>',
+            'excerpt' => 'The Haverfordwest County Summer Football Camp is available to attend from August 14th - 16th for ages 5-13',
+            'category' => 'academy-news',
+            'tags' => array('Haverfordwest County', 'Academy'),
+            'image' => '14HFC0809_WebsiteAssets1920x1080-copy-4.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => 'Bluebirds Academy setup praised following Euro success',
+            'content' => '<p><strong>When Haverfordwest County recorded the greatest night in their history by defeating </strong><strong>KF Shkëndija </strong><strong>of North Macedonia in the UEFA Europa Conference League first qualifying round last month, it was not only a proud night for the first team – but the Academy too.</strong></p>
+<p>When the referee’s whistle blew to signal the end of extra time, after the tie had ended 1-1 on aggregate, there were no fewer than five players who have come through the Academy system on the pitch, while another – Ricky Watts, the longest-serving member of the current squad – had earlier been substituted.</p>
+<p>Striker Ben Fawcett was joined by Jack Wilson, Iori Humphreys, Harri John and Lucas Davies, who had all come off the bench to play important roles, while John Chesters and Callum Shirt were also involved in the matchday squad.</p>
+<p>Fawcett and Wilson, who have been teammates right the way through from junior to senior football, have been key members of the Bluebirds setup for a number of years, with both contributing plenty of goals on County’s remarkable journey from the JD Cymru South to the European stage.</p>
+<p>Fawcett played the entire 120 minutes in the capital, as well as featuring for 90 minutes in the away leg, and put in two tireless shifts for his team. Wilson also started out in Skopje, before playing a crucial role in deciding the tie with his successful spot-kick giving County a 2-1 lead at the time.</p>
+<p>Humphreys, meanwhile, is another Academy success story, having captained the under-19s development side in recent seasons, as well as being a regular part of the matchday squad in the JD Cymru Premier and cup competitions. The young defender helped to keep the visitors at bay as they looked for a late goal, with his energy and commitment proving crucial.</p>
+<p>Humphreys recently passed on the mantle of development team captain to Davies, who has also been a part of the first team squad for the last two seasons, travelling around the country and gaining valuable senior experience in Wales’ top-flight league. He has also played for the Welsh Colleges, and was a member of the Welsh Schools’ side which retained the coveted Centenary Shield recently.</p>
+<p>And then there is young midfielder John, who burst onto the scene last season at the age of just 16. After his talents had been noticed by the first team staff, he was soon awarded his first professional contract and was immediately integrated into the group, featuring a number of times across the campaign and impressing many with his mature displays.</p>
+<p>Head of Coaching, Ashleigh Hopkins, has made clear his pride in the fact that Haverfordwest County are one of the leading lights when it comes to promoting young players into the first team, and is keen to continue this trend in the seasons ahead.</p>
+<p>“We take great pride in the fact that the majority of the squad are current Academy players or have been Academy graduates from recent seasons,” he said. “This is down to all of the Academy staff that have helped develop these young players, and made them ready to experience both the Cymru Premier and the Europa Conference League.</p>
+<p>“We are working extremely hard to continue to keep this development going, to support Tony Pennock (Manager), Gary Richards (Assistant Manager) and Rob Edwards (Chairman) with this process.</p>
+<p>“I would like to thank the Academy coaches, who are doing a fantastic job, and we are ready to produce more players over the next few seasons. We certainly have some exciting prospects coming through.”</p>
+<p>Chairman, Rob Edwards, was as delighted as anyone with this achievement, and commented: “I was extremely proud to see a number of academy players in the squad for our first European tie, and those that came on didn’t let us down.</p>
+<p>“More importantly, the way all of them conducted themselves in both legs, in what was no doubt a daunting experience, was first class. They showed maturity and respect across the last few weeks, which is a credit to them, their families and the dedicated coaches in our academy.”</p>
+<p>Hopkins continued: “The experience these players have had over the past two weeks, travelling to North Macedonia and playing at the Cardiff City Stadium against KF Shkëndija, was such a great learning curve, and this will stand them in good stead as they continue to develop in the early stages of their football careers.</p>
+<p>“They are learning so much form the senior players and staff, with regards to match preparation, nutrition, planning and execution of game plans, a process which has been led exceptionally by all of the staff involved in the Europa Conference League planning.”</p>',
+            'excerpt' => 'There were no fewer than five academy graduates on the pitch when the final whistle blew!',
+            'category' => 'academy-news',
+            'tags' => array('Haverfordwest County', 'Academy'),
+            'image' => 'academyeuroFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => 'Successful Academy season marked with caps for First Team debuts',
+            'content' => '<p><strong>After what was a fantastic season for Haverfordwest County Academy, we are pleased to confirm that, having achieved Category B status, we will be able to continue providing a high-quality level of support to our young players from our local communities and surrounding areas.</strong></p>
+<p>The audit process, which resulted in our accreditation, signified 12 months of hard work from within the club, and congratulations must go to all of the staff that have supported this process.</p>
+<p>Head of Coaching, Ashleigh Hopkins, would especially like to thank all of our part-time members of staff for their professionalism and commitment over the course of the season. As well as this, our thanks must also go to all parents for their support with the players’ fixtures across the whole of south Wales, especially early on a Sunday morning, and those players that have fully supported the FAW ‘1 Player 1 Club’ rule from ages 12-19.</p>
+<p>We can say that we are one of only a handful of Category B Academies in Wales, and we will strive to give players an elite environment where they can develop and reach their potential through constant Player Assessments and Individual Action Plans.</p>
+<p>The cream of the crop was undoubtedly the players who made their First Team debuts in the 2022-23 season. This amazing achievement was made possible by Manager, Tony Pennock, Assistant Manager, Gary Richards, and Head of Goalkeeping, James Devonald, who have all had parts to play in the continuing development of the young players.</p>
+<p>We have also had several players trial with Swansea City Academy, and one player has signed for the club on a full-time basis.</p>
+<p>We would like to thank all of the clubs that have helped the following Academy graduates by providing support in the early stages of their development, helping to ensure that they could take the next steps in their footballing careers.</p>',
+            'excerpt' => 'We recognise our Academy graduates who featured in the First Team in the 2022-23 season!',
+            'category' => 'academy-news',
+            'tags' => array('Haverfordwest County', 'Academy'),
+            'image' => 'debutcapsFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
                 ),
                 'post_banner_video' => '',
             )

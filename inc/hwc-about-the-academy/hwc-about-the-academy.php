@@ -103,7 +103,7 @@ function hwc_create_about_the_academy_page_with_acf_fields()
 
     // Update the ACF field for the About The Academy section title with hwc_about_the_academy_ prefix
     update_field('hwc_about_the_academy_section_title', $hwc_about_the_academy_section_title, $hwc_about_the_academy_page_id);
-    $about_the_academy_image_id = hwc_create_image_from_plugin($hwc_about_the_academy_card_image, $hwc_about_the_academy_page_id);
+    $about_the_academy_image_id = hwc_create_image_from_plugin('48HFC290605_PartnershipAnnouncement_TorSports1920x1080.jpg', $hwc_about_the_academy_page_id);
     update_field('hwc_about_the_academy_card_image', $about_the_academy_image_id, $hwc_about_the_academy_page_id);
 
     // Define the link data
@@ -112,21 +112,8 @@ function hwc_create_about_the_academy_page_with_acf_fields()
         'title' => 'Visit Example',            // The link text
         'target' => '_blank'                   // Optional: '_blank' to open in a new tab
     );
-    update_field('hwc_about_the_academy_section_title', $hwc_about_the_academy_section_title, $hwc_about_the_academy_page_id);
+    update_field('hwc_about_the_academy_button_link', $link_data, $hwc_about_the_academy_page_id);
 
-    if (!is_wp_error($card_image_id)) {
-        $final_about_the_academy_repeater_data[] = array(
-            'hwc_about_the_academy_card_image' => $card_image_id, // Use the uploaded image ID with hwc_about_the_academy_ prefix
-            'hwc_about_the_academy_card_title' => $card['hwc_about_the_academy_card_title'],
-            'hwc_button_link' => $card['hwc_about_the_academy_card_link'], // Correct format for ACF link field
-        );
-    } else {
-        error_log('Failed to upload image: ' . $card_image_id->get_error_message());
-    }
-
-
-    // Update the ACF repeater field for the About The Academy page with the structured array
-    update_field('hwc_repeater_about_the_academy_cards', $final_about_the_academy_repeater_data, $hwc_about_the_academy_page_id);
     // After the function has run, set the option to true
     //update_option('hwc_about_the_academy_data_added', true);
     //}
