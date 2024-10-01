@@ -185,199 +185,205 @@ function hwc_populate_default_data_league_table()
 {
     // Check if ACF exists
     if (function_exists('update_field')) {
-        // Define league titles and their corresponding league team data
-        $leagues_data = array(
-            array(
-                'league_title' => 'Premier League',
-                'league_featured_image' => 'JD-Cymru-Premier.png',
-                'league_teams' => array(
-                    array(
-                        'league_team' => 'Briton Ferry Llansawel',
-                        'played_matches' => 7,
-                        'league_wins' => 4,
-                        'league_draws' => 1,
-                        'league_losses' => 2,
-                        'league_goals_for' => 20,
-                        'goals_against' => 10,
-                        'league_plus_minus' => 10,
-                        'league_points' => 13,
-                        'league_last_6_games' => array('W', 'D', 'W', 'W', 'L', 'W'),
-                    ),
-                    array(
-                        'league_team' => 'Cardiff Met Uni',
-                        'played_matches' => 10,
-                        'league_wins' => 5,
-                        'league_draws' => 3,
-                        'league_losses' => 2,
-                        'league_goals_for' => 18,
-                        'goals_against' => 12,
-                        'league_plus_minus' => 6,
-                        'league_points' => 18,
-                        'league_last_6_games' => array('W', 'D', 'W', 'L', 'D', 'W'),
-                    ),
-                    // Add more unique league teams as needed...
-                )
-            ),
-            array(
-                'league_title' => 'Euro Championship',
-                'league_featured_image' => 'JD-Cymru-Premier.png',
-                'league_teams' => array(
-                    array(
-                        'league_team' => 'Flint Town United',
-                        'played_matches' => 10,
-                        'league_wins' => 7,
-                        'league_draws' => 1,
-                        'league_losses' => 2,
-                        'league_goals_for' => 22,
-                        'goals_against' => 9,
-                        'league_plus_minus' => 13,
-                        'league_points' => 22,
-                        'league_last_6_games' => array('W', 'W', 'W', 'L', 'W', 'W'),
-                    ),
-                    // Add more unique league teams as needed...
-                )
-            ),
-            array(
-                'league_title' => 'French League One',
-                'league_featured_image' => 'JD-Cymru-Premier.png',
-                'league_teams' => array(
-                    array(
-                        'league_team' => 'Caernarfon Town',
-                        'played_matches' => 10,
-                        'league_wins' => 4,
-                        'league_draws' => 3,
-                        'league_losses' => 3,
-                        'league_goals_for' => 15,
-                        'goals_against' => 15,
-                        'league_plus_minus' => 0,
-                        'league_points' => 15,
-                        'league_last_6_games' => array('D', 'L', 'W', 'W', 'D', 'L'),
-                    ),
-                    // Add more unique league teams as needed...
-                )
-            ),
-            array(
-                'league_title' => 'Cota League',
-                'league_featured_image' => 'JD-Cymru-Premier.png',
-                'league_teams' => array(
-                    array(
-                        'league_team' => 'Barry Town United',
-                        'played_matches' => 10,
-                        'league_wins' => 3,
-                        'league_draws' => 4,
-                        'league_losses' => 3,
-                        'league_goals_for' => 10,
-                        'goals_against' => 12,
-                        'league_plus_minus' => -2,
-                        'league_points' => 13,
-                        'league_last_6_games' => array('L', 'D', 'D', 'W', 'L', 'D'),
-                    ),
-                    // Add more unique league teams as needed...
-                )
-            ),
-            array(
-                'league_title' => 'National League',
-                'league_featured_image' => 'JD-Cymru-Premier.png',
-                'league_teams' => array(
-                    array(
-                        'league_team' => 'Bala Town',
-                        'played_matches' => 10,
-                        'league_wins' => 2,
-                        'league_draws' => 2,
-                        'league_losses' => 6,
-                        'league_goals_for' => 8,
-                        'goals_against' => 20,
-                        'league_plus_minus' => -12,
-                        'league_points' => 8,
-                        'league_last_6_games' => array('L', 'L', 'W', 'L', 'D', 'L'),
-                    ),
-                    // Add more unique league teams as needed...
-                )
-            ),
-        );
 
-        // Loop through each league and add the league table and league_teams
-        foreach ($leagues_data as $league_data) {
-            // Check if league title already exists
-            $existing_leagues = get_posts(array(
-                'post_type' => 'league_table',
-                'post_status' => 'publish',
-                'title' => $league_data['league_title'],
-                'numberposts' => 1,
-            ));
+        // Check if the function has already been run
+        if (!get_option('hwc_default_data_league_table_created', false)) {
+            // Define league titles and their corresponding league team data
+            $leagues_data = array(
+                array(
+                    'league_title' => 'Premier League',
+                    'league_featured_image' => 'JD-Cymru-Premier.png',
+                    'league_teams' => array(
+                        array(
+                            'league_team' => 'Briton Ferry Llansawel',
+                            'played_matches' => 7,
+                            'league_wins' => 4,
+                            'league_draws' => 1,
+                            'league_losses' => 2,
+                            'league_goals_for' => 20,
+                            'goals_against' => 10,
+                            'league_plus_minus' => 10,
+                            'league_points' => 13,
+                            'league_last_6_games' => array('W', 'D', 'W', 'W', 'L', 'W'),
+                        ),
+                        array(
+                            'league_team' => 'Cardiff Met Uni',
+                            'played_matches' => 10,
+                            'league_wins' => 5,
+                            'league_draws' => 3,
+                            'league_losses' => 2,
+                            'league_goals_for' => 18,
+                            'goals_against' => 12,
+                            'league_plus_minus' => 6,
+                            'league_points' => 18,
+                            'league_last_6_games' => array('W', 'D', 'W', 'L', 'D', 'W'),
+                        ),
+                        // Add more unique league teams as needed...
+                    )
+                ),
+                array(
+                    'league_title' => 'Euro Championship',
+                    'league_featured_image' => 'JD-Cymru-Premier.png',
+                    'league_teams' => array(
+                        array(
+                            'league_team' => 'Flint Town United',
+                            'played_matches' => 10,
+                            'league_wins' => 7,
+                            'league_draws' => 1,
+                            'league_losses' => 2,
+                            'league_goals_for' => 22,
+                            'goals_against' => 9,
+                            'league_plus_minus' => 13,
+                            'league_points' => 22,
+                            'league_last_6_games' => array('W', 'W', 'W', 'L', 'W', 'W'),
+                        ),
+                        // Add more unique league teams as needed...
+                    )
+                ),
+                array(
+                    'league_title' => 'French League One',
+                    'league_featured_image' => 'JD-Cymru-Premier.png',
+                    'league_teams' => array(
+                        array(
+                            'league_team' => 'Caernarfon Town',
+                            'played_matches' => 10,
+                            'league_wins' => 4,
+                            'league_draws' => 3,
+                            'league_losses' => 3,
+                            'league_goals_for' => 15,
+                            'goals_against' => 15,
+                            'league_plus_minus' => 0,
+                            'league_points' => 15,
+                            'league_last_6_games' => array('D', 'L', 'W', 'W', 'D', 'L'),
+                        ),
+                        // Add more unique league teams as needed...
+                    )
+                ),
+                array(
+                    'league_title' => 'Cota League',
+                    'league_featured_image' => 'JD-Cymru-Premier.png',
+                    'league_teams' => array(
+                        array(
+                            'league_team' => 'Barry Town United',
+                            'played_matches' => 10,
+                            'league_wins' => 3,
+                            'league_draws' => 4,
+                            'league_losses' => 3,
+                            'league_goals_for' => 10,
+                            'goals_against' => 12,
+                            'league_plus_minus' => -2,
+                            'league_points' => 13,
+                            'league_last_6_games' => array('L', 'D', 'D', 'W', 'L', 'D'),
+                        ),
+                        // Add more unique league teams as needed...
+                    )
+                ),
+                array(
+                    'league_title' => 'National League',
+                    'league_featured_image' => 'JD-Cymru-Premier.png',
+                    'league_teams' => array(
+                        array(
+                            'league_team' => 'Bala Town',
+                            'played_matches' => 10,
+                            'league_wins' => 2,
+                            'league_draws' => 2,
+                            'league_losses' => 6,
+                            'league_goals_for' => 8,
+                            'goals_against' => 20,
+                            'league_plus_minus' => -12,
+                            'league_points' => 8,
+                            'league_last_6_games' => array('L', 'L', 'W', 'L', 'D', 'L'),
+                        ),
+                        // Add more unique league teams as needed...
+                    )
+                ),
+            );
 
-
-
-            // Only create the league if it does not exist
-            if (empty($existing_leagues)) {
-                // Create league table post
-                $league_post_id = wp_insert_post(array(
-                    'post_title' => $league_data['league_title'],
+            // Loop through each league and add the league table and league_teams
+            foreach ($leagues_data as $league_data) {
+                // Check if league title already exists
+                $existing_leagues = get_posts(array(
                     'post_type' => 'league_table',
                     'post_status' => 'publish',
+                    'title' => $league_data['league_title'],
+                    'numberposts' => 1,
                 ));
 
-                // Set featured image
-                if ($league_data['league_featured_image']) {
 
-                    $league_image_filename = $league_data['league_featured_image'];
 
-                    $league_data_image_id = hwc_create_image_from_plugin($league_image_filename, $league_post_id);
-                    if ($league_data_image_id) {
-                        set_post_thumbnail(
-                            $league_post_id,
-                            $league_data_image_id
-                        );
-                    } else {
-                        error_log('Failed to set featured image for player ' . $league_data['league_title']);
-                    }
-                }
+                // Only create the league if it does not exist
+                if (empty($existing_leagues)) {
+                    // Create league table post
+                    $league_post_id = wp_insert_post(array(
+                        'post_title' => $league_data['league_title'],
+                        'post_type' => 'league_table',
+                        'post_status' => 'publish',
+                    ));
 
-                // Check if the post was created successfully
-                if (!is_wp_error($league_post_id)) {
-                    // Add league_teams to the league repeater field
-                    foreach ($league_data['league_teams'] as $league_team_data) {
-                        // Check if the team already exists in the ACF repeater field
-                        $existing_teams = get_field('league_table', $league_post_id) ?: array();
-                        $team_exists = false;
+                    // Set featured image
+                    if ($league_data['league_featured_image']) {
 
-                        foreach ($existing_teams as $team) {
-                            if ($team['league_team'] === $league_team_data['league_team']) {
-                                $team_exists = true;
-                                break;
-                            }
-                        }
+                        $league_image_filename = $league_data['league_featured_image'];
 
-                        $league_team_id = hwc_get_team_id_by_name($league_team_data['league_team']);
-
-                        // Prepare last 6 games for the repeater field
-                        $last_6_games = array();
-                        foreach ($league_team_data['league_last_6_games'] as $result) {
-                            $last_6_games[] = array(
-                                'league_game_result' => $result, // Match the sub-field name
+                        $league_data_image_id = hwc_create_image_from_plugin($league_image_filename, $league_post_id);
+                        if ($league_data_image_id) {
+                            set_post_thumbnail(
+                                $league_post_id,
+                                $league_data_image_id
                             );
+                        } else {
+                            error_log('Failed to set featured image for player ' . $league_data['league_title']);
                         }
+                    }
+
+                    // Check if the post was created successfully
+                    if (!is_wp_error($league_post_id)) {
+                        // Add league_teams to the league repeater field
+                        foreach ($league_data['league_teams'] as $league_team_data) {
+                            // Check if the team already exists in the ACF repeater field
+                            $existing_teams = get_field('league_table', $league_post_id) ?: array();
+                            $team_exists = false;
+
+                            foreach ($existing_teams as $team) {
+                                if ($team['league_team'] === $league_team_data['league_team']) {
+                                    $team_exists = true;
+                                    break;
+                                }
+                            }
+
+                            $league_team_id = hwc_get_team_id_by_name($league_team_data['league_team']);
+
+                            // Prepare last 6 games for the repeater field
+                            $last_6_games = array();
+                            foreach ($league_team_data['league_last_6_games'] as $result) {
+                                $last_6_games[] = array(
+                                    'league_game_result' => $result, // Match the sub-field name
+                                );
+                            }
 
 
 
-                        // If the team does not exist, add it
-                        if (!$team_exists) {
-                            add_row('league_table', array(
-                                'league_team' => $league_team_id,
-                                'played_matches' => $league_team_data['played_matches'],
-                                'league_wins' => $league_team_data['league_wins'],
-                                'league_draws' => $league_team_data['league_draws'],
-                                'league_losses' => $league_team_data['league_losses'],
-                                'league_goals_for' => $league_team_data['league_goals_for'],
-                                'league_goals_against' => $league_team_data['goals_against'],
-                                'league_plus_minus' => $league_team_data['league_plus_minus'],
-                                'league_points' => $league_team_data['league_points'],
-                                'league_last_6_games' => $last_6_games,
-                            ), $league_post_id);
+                            // If the team does not exist, add it
+                            if (!$team_exists) {
+                                add_row('league_table', array(
+                                    'league_team' => $league_team_id,
+                                    'played_matches' => $league_team_data['played_matches'],
+                                    'league_wins' => $league_team_data['league_wins'],
+                                    'league_draws' => $league_team_data['league_draws'],
+                                    'league_losses' => $league_team_data['league_losses'],
+                                    'league_goals_for' => $league_team_data['league_goals_for'],
+                                    'league_goals_against' => $league_team_data['goals_against'],
+                                    'league_plus_minus' => $league_team_data['league_plus_minus'],
+                                    'league_points' => $league_team_data['league_points'],
+                                    'league_last_6_games' => $last_6_games,
+                                ), $league_post_id);
+                            }
                         }
                     }
                 }
             }
+            // After the function has run, set the option to true
+            update_option('hwc_default_data_league_table_created', true);
         }
     }
 }

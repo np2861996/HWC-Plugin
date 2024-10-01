@@ -98,17 +98,17 @@ function hwc_create_history_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_history_data_added', false)) {
-    // Update the ACF field for the History section title with hwc_history_ prefix
-    $hwc_history_section_title_1 = 'Haverfordwest County AFC - Since 1899';
-    $hwc_history_section_title_2 = 'The long and storied history of the Bluebirds';
-    update_field('hwc_history_section_title_1', $hwc_history_section_title_1, $hwc_history_page_id);
-    update_field('hwc_history_section_title_2', $hwc_history_section_title_2, $hwc_history_page_id);
-    $history_bg_image_id = hwc_create_image_from_plugin('BLUEBIRDS-TOGETHER-2023-0-12-screenshot.jpg', $hwc_history_page_id);
-    update_field('hwc_history_bg_image', $history_bg_image_id, $hwc_history_page_id);
+    if (!get_option('hwc_history_data_added', false)) {
+        // Update the ACF field for the History section title with hwc_history_ prefix
+        $hwc_history_section_title_1 = 'Haverfordwest County AFC - Since 1899';
+        $hwc_history_section_title_2 = 'The long and storied history of the Bluebirds';
+        update_field('hwc_history_section_title_1', $hwc_history_section_title_1, $hwc_history_page_id);
+        update_field('hwc_history_section_title_2', $hwc_history_section_title_2, $hwc_history_page_id);
+        $history_bg_image_id = hwc_create_image_from_plugin('BLUEBIRDS-TOGETHER-2023-0-12-screenshot.jpg', $hwc_history_page_id);
+        update_field('hwc_history_bg_image', $history_bg_image_id, $hwc_history_page_id);
 
-    // After the function has run, set the option to true
-    //update_option('hwc_history_data_added', true);
-    //}
+        // After the function has run, set the option to true
+        update_option('hwc_history_data_added', true);
+    }
 }
 //end

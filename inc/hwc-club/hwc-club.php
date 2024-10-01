@@ -114,94 +114,94 @@ function hwc_create_club_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_club_data_added', false)) {
-    // Define the section title for the Club page with hwc_club_ prefix
-    $hwc_club_section_title = 'Club'; // Adjust the title as needed
+    if (!get_option('hwc_club_data_added', false)) {
+        // Define the section title for the Club page with hwc_club_ prefix
+        $hwc_club_section_title = 'Club'; // Adjust the title as needed
 
-    // Update the ACF field for the Club section title with hwc_club_ prefix
-    update_field('hwc_club_section_title', $hwc_club_section_title, $hwc_club_page_id);
+        // Update the ACF field for the Club section title with hwc_club_ prefix
+        update_field('hwc_club_section_title', $hwc_club_section_title, $hwc_club_page_id);
 
-    // Manually define the Club page repeater data with hwc_club_ prefix
-    $hwc_club_repeater_data = array(
-        array(
-            'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
-            'hwc_club_card_title' => 'Club Officials',
-            'hwc_club_card_link' => array(
-                'url' => site_url('club-officials'),
-                'title' => 'Read More',
-                'target' => '_self', // '_blank' for new tab
+        // Manually define the Club page repeater data with hwc_club_ prefix
+        $hwc_club_repeater_data = array(
+            array(
+                'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
+                'hwc_club_card_title' => 'Club Officials',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('club-officials'),
+                    'title' => 'Read More',
+                    'target' => '_self', // '_blank' for new tab
+                ),
             ),
-        ),
-        array(
-            'hwc_club_card_image' => 'K336021-scaled-1.jpg', // Placeholder for Card 2
-            'hwc_club_card_title' => 'Contact',
-            'hwc_club_card_link' => array(
-                'url' => site_url('Contact'),
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_club_card_image' => 'K336021-scaled-1.jpg', // Placeholder for Card 2
+                'hwc_club_card_title' => 'Contact',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('Contact'),
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
-            'hwc_club_card_title' => 'About The Academy',
-            'hwc_club_card_link' => array(
-                'url' => site_url('about-the-academy'),
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
+                'hwc_club_card_title' => 'About The Academy',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('about-the-academy'),
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
 
-        array(
-            'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
-            'hwc_club_card_title' => 'History',
-            'hwc_club_card_link' => array(
-                'url' => site_url('history'),
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
+                'hwc_club_card_title' => 'History',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('history'),
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
-            'hwc_club_card_title' => 'Stadium',
-            'hwc_club_card_link' => array(
-                'url' => site_url('stadium'),
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
+                'hwc_club_card_title' => 'Stadium',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('stadium'),
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
-            'hwc_club_card_title' => 'Social Media',
-            'hwc_club_card_link' => array(
-                'url' => site_url('social-media'),
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_club_card_image' => 'hcafc-social.jpg', // Placeholder for Card 3
+                'hwc_club_card_title' => 'Social Media',
+                'hwc_club_card_link' => array(
+                    'url' => site_url('social-media'),
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-    );
+        );
 
-    // Prepare the final repeater data with uploaded image IDs
-    $final_club_repeater_data = array();
+        // Prepare the final repeater data with uploaded image IDs
+        $final_club_repeater_data = array();
 
-    foreach ($hwc_club_repeater_data as $card) {
-        // Upload the image and get the attachment ID
-        $card_image_id = hwc_create_image_from_plugin($card['hwc_club_card_image'], $hwc_club_page_id);
+        foreach ($hwc_club_repeater_data as $card) {
+            // Upload the image and get the attachment ID
+            $card_image_id = hwc_create_image_from_plugin($card['hwc_club_card_image'], $hwc_club_page_id);
 
-        if (!is_wp_error($card_image_id)) {
-            $final_club_repeater_data[] = array(
-                'hwc_club_card_image' => $card_image_id, // Use the uploaded image ID with hwc_club_ prefix
-                'hwc_club_card_title' => $card['hwc_club_card_title'],
-                'hwc_button_link' => $card['hwc_club_card_link'], // Correct format for ACF link field
-            );
-        } else {
-            error_log('Failed to upload image: ' . $card_image_id->get_error_message());
+            if (!is_wp_error($card_image_id)) {
+                $final_club_repeater_data[] = array(
+                    'hwc_club_card_image' => $card_image_id, // Use the uploaded image ID with hwc_club_ prefix
+                    'hwc_club_card_title' => $card['hwc_club_card_title'],
+                    'hwc_button_link' => $card['hwc_club_card_link'], // Correct format for ACF link field
+                );
+            } else {
+                error_log('Failed to upload image: ' . $card_image_id->get_error_message());
+            }
         }
-    }
 
-    // Update the ACF repeater field for the Club page with the structured array
-    update_field('hwc_repeater_club_cards', $final_club_repeater_data, $hwc_club_page_id);
-    // After the function has run, set the option to true
-    //update_option('hwc_club_data_added', true);
-    //}
+        // Update the ACF repeater field for the Club page with the structured array
+        update_field('hwc_repeater_club_cards', $final_club_repeater_data, $hwc_club_page_id);
+        // After the function has run, set the option to true
+        update_option('hwc_club_data_added', true);
+    }
 }
 //end

@@ -97,25 +97,24 @@ function hwc_create_about_the_academy_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_about_the_academy_data_added', false)) {
-    // Define the section title for the About The Academy page with hwc_about_the_academy_ prefix
-    $hwc_about_the_academy_section_title = 'Academy Online Shop'; // Adjust the title as needed
+    if (!get_option('hwc_about_the_academy_data_added', false)) {
+        // Define the section title for the About The Academy page with hwc_about_the_academy_ prefix
+        $hwc_about_the_academy_section_title = 'Academy Online Shop'; // Adjust the title as needed
 
-    // Update the ACF field for the About The Academy section title with hwc_about_the_academy_ prefix
-    update_field('hwc_about_the_academy_section_title', $hwc_about_the_academy_section_title, $hwc_about_the_academy_page_id);
-    $about_the_academy_image_id = hwc_create_image_from_plugin('48HFC290605_PartnershipAnnouncement_TorSports1920x1080.jpg', $hwc_about_the_academy_page_id);
-    update_field('hwc_about_the_academy_card_image', $about_the_academy_image_id, $hwc_about_the_academy_page_id);
+        // Update the ACF field for the About The Academy section title with hwc_about_the_academy_ prefix
+        update_field('hwc_about_the_academy_section_title', $hwc_about_the_academy_section_title, $hwc_about_the_academy_page_id);
+        $about_the_academy_image_id = hwc_create_image_from_plugin('48HFC290605_PartnershipAnnouncement_TorSports1920x1080.jpg', $hwc_about_the_academy_page_id);
+        update_field('hwc_about_the_academy_card_image', $about_the_academy_image_id, $hwc_about_the_academy_page_id);
 
-    // Define the link data
-    $link_data = array(
-        'url'   => 'https://example.com',     // The link URL
-        'title' => 'Visit Example',            // The link text
-        'target' => '_blank'                   // Optional: '_blank' to open in a new tab
-    );
-    update_field('hwc_about_the_academy_button_link', $link_data, $hwc_about_the_academy_page_id);
+        // Define the link data
+        $link_data = array(
+            'url'   => 'https://example.com',     // The link URL
+            'title' => 'Visit Example',            // The link text
+            'target' => '_blank'                   // Optional: '_blank' to open in a new tab
+        );
+        update_field('hwc_about_the_academy_button_link', $link_data, $hwc_about_the_academy_page_id);
 
-    // After the function has run, set the option to true
-    //update_option('hwc_about_the_academy_data_added', true);
-    //}
+        update_option('hwc_about_the_academy_data_added', true);
+    }
 }
 //end

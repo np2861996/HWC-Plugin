@@ -100,7 +100,10 @@ function hwc_create_categories_and_manual_posts()
         'community-news' => 'Community News',
         'video' => 'Video',
         'the-bluebirds-nest' => '#TheBluebirdsNest',
-        'academy-news' => 'Academy News'
+        'academy-news' => 'Academy News',
+        'commercial' => 'Commercial',
+        'you-can-have-it-all' => '#YouCanHaveItAll
+'
     );
 
     // Loop through each category and create if it doesn't exist
@@ -777,7 +780,62 @@ function hwc_create_categories_and_manual_posts()
                 'post_banner_video' => '',
             )
         ),
+        array(
+            'title' => 'Haverfordwest County AFC to continue partnership with The Turmeric Co. for 2024-25',
+            'content' => '<p><strong>Haverfordwest County AFC are delighted to confirm we have renewed our partnership agreement with The Turmeric Co. for the 2024-25 season.</strong></p>
+<p>The functional nutrition brand, which was founded by former Cymru international Thomas ‘Hal’ Robson-Kanu, has been our Official Turmeric Supplier for the last two seasons, after initially coming on board in August 2022.</p>
+<p>Developed over 15 years, their powerful formula contains only raw and fresh turmeric root (35 grams), carefully extracted and delivered in what they know to be a bioavailable form.</p>
+<p>Our partnership enables the Bluebirds first team squad to take advantage of the fantastic range of products on offer, which help support them with their health and wellbeing through nutrition, enhancing performance and recovery with their natural raw turmeric shots.</p>
+
+<figure class="post-content-image post-content-image-has-caption alignnone">
+	<img decoding="async" class="wp-image-10214" src="https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=large" alt="" width="600" height="600" srcset="https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg 3024w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=thumbnail 300w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=1x1md 900w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=large 1200w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=1536x1536 1536w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=2048x2048 2048w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=1x1xs 150w, https://media.touchlinefc.co.uk/haverfordwestcounty/2024/09/20133744/IMG_7004.jpeg?class=1x1sm 400w" sizes="(max-width: 600px) 100vw, 600px">
+	<figcaption class="caption">Zac Jones and Alaric Jones with The Turmeric Co’s shot bottles.</figcaption>
+</figure>
+
+<p>The brand, which is partnered with numerous elite sporting organisations including Swansea City, Leicester Tigers, Brentford FC, British Gymnastics, Everton FC and Sale Sharks, has a wide range of products to choose from, including Original Raw Turmeric, Raw Turmeric &amp; Ginger, Raw Turmeric &amp; Beetroot, and the world’s first all-in-one Raw Turmeric Vitamin C &amp; D3</p>
+<p><strong>Commenting on our partnership renewal, Commercial and Marketing Director, Ben Tyler said: </strong>“We are delighted to be continuing our partnership with The Turmeric Co. for a third season. Their products have proved to be very popular with members of the first team, who take advantage of them on a regular basis to aid their performance and recovery. We are very grateful for The Turmeric Co’s ongoing support of Haverfordwest County AFC.”</p>
+<div class="article-body">
+<div class="widget-wrapper js-widget js-widget--desktop is-visible--desktop js-widget--tablet is-visible--tablet js-widget--mobile is-visible--mobile" data-widget-id="20bd9d9752508a8544f60cb412008584">
+<div class="widget widget--text">
+<div class="content-center content-center--small prose">
+<p><em>To learn more about The Turmeric Co., visit&nbsp;<a href="https://theturmeric.co/" target="_blank" rel="noopener">theturmericco.co</a> or follow on Instagram at: @theturmericco, on Facebook and X at: @TheTurmericCo</em></p>
+</div>
+</div>
+</div>
+</div>',
+            'excerpt' => '',
+            'category' => 'commercial',
+            'tags' => array('Haverfordwest County', 'Commercial'),
+            'image' => 'debutcapsFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => '',
+            )
+        ),
+        array(
+            'title' => '#YouCanHaveItAll | Bluebirds In Europe – Episode 1',
+            'content' => '',
+            'excerpt' => 'The third and final instalment of our three-part series is available to watch right now!',
+            'category' => 'you-can-have-it-all',
+            'tags' => array('Haverfordwest County', 'Commercial'),
+            'image' => 'debutcapsFI.jpg',
+            'acf' => array(
+                'sidebar_card_image_name' => '',
+                'sidebar_card_title' => '',
+                'sidebar_card_button' => array(
+                    'url' => '',
+                    'title' => ''
+                ),
+                'post_banner_video' => 'https://www.youtube.com/embed/_eVdLzPaxW0',
+            )
+        ),
     );
+    //if (!get_option('hwc_categories_and_posts_created', false)) {
 
     foreach ($posts as $post_data) {
         // Check if the post with the title already exists
@@ -857,7 +915,7 @@ function hwc_create_categories_and_manual_posts()
     }
 
     // After the function has run, set the option to true
-    //update_option('hwc_categories_and_posts_created', true);
+    // update_option('hwc_categories_and_posts_created', true);
     //}
 }
 //end

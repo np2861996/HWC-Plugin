@@ -137,105 +137,105 @@ function hwc_create_social_media_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_social_media_data_added', false)) {
-    // Define the section title for the Social Media page with hwc_social_media_ prefix
-    $hwc_social_media_section_title_1 = 'Social Media'; // Adjust the title as needed
-    $hwc_social_media_section_title_2 = 'Keep up to date by following us across all of our social media platforms!';
-    // Define the link data
-    $hwc_social_media_link_data = array(
-        'url'   => 'https://example.com',     // The link URL
-        'title' => 'Visit Example',            // The link text
-        'target' => '_blank'                   // Optional: '_blank' to open in a new tab
-    );
-    $social_media_image_id = hwc_create_image_from_plugin('48HFC290605_PartnershipAnnouncement_TorSports1920x1080.jpg', $hwc_social_media_page_id);
-    update_field('hwc_social_media_bg_image', $social_media_image_id, $hwc_social_media_page_id);
+    if (!get_option('hwc_social_media_data_added', false)) {
+        // Define the section title for the Social Media page with hwc_social_media_ prefix
+        $hwc_social_media_section_title_1 = 'Social Media'; // Adjust the title as needed
+        $hwc_social_media_section_title_2 = 'Keep up to date by following us across all of our social media platforms!';
+        // Define the link data
+        $hwc_social_media_link_data = array(
+            'url'   => 'https://example.com',     // The link URL
+            'title' => 'Visit Example',            // The link text
+            'target' => '_blank'                   // Optional: '_blank' to open in a new tab
+        );
+        $social_media_image_id = hwc_create_image_from_plugin('48HFC290605_PartnershipAnnouncement_TorSports1920x1080.jpg', $hwc_social_media_page_id);
+        update_field('hwc_social_media_bg_image', $social_media_image_id, $hwc_social_media_page_id);
 
-    // Update the ACF field for the Social Media section title with hwc_social_media_ prefix
-    update_field('hwc_social_media_section_title_1', $hwc_social_media_section_title_1, $hwc_social_media_page_id);
-    update_field('hwc_social_media_section_title_2', $hwc_social_media_section_title_2, $hwc_social_media_page_id);
-    update_field('hwc_social_media_button_link', $hwc_social_media_link_data, $hwc_social_media_page_id);
+        // Update the ACF field for the Social Media section title with hwc_social_media_ prefix
+        update_field('hwc_social_media_section_title_1', $hwc_social_media_section_title_1, $hwc_social_media_page_id);
+        update_field('hwc_social_media_section_title_2', $hwc_social_media_section_title_2, $hwc_social_media_page_id);
+        update_field('hwc_social_media_button_link', $hwc_social_media_link_data, $hwc_social_media_page_id);
 
-    // Manually define the Social Media page repeater data with hwc_social_media_ prefix
-    $hwc_social_media_repeater_data = array(
-        array(
-            'hwc_social_media_card_image' => 'fb_1695273515215_1695273522698.jpg', // Placeholder for Card 1
-            'hwc_social_media_card_title' => 'Facebook',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self', // '_blank' for new tab
+        // Manually define the Social Media page repeater data with hwc_social_media_ prefix
+        $hwc_social_media_repeater_data = array(
+            array(
+                'hwc_social_media_card_image' => 'fb_1695273515215_1695273522698.jpg', // Placeholder for Card 1
+                'hwc_social_media_card_title' => 'Facebook',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self', // '_blank' for new tab
+                ),
             ),
-        ),
-        array(
-            'hwc_social_media_card_image' => 'ezgif.com-webp-to-jpg-3.jpg', // Placeholder for Card 2
-            'hwc_social_media_card_title' => 'X (formerly Twitter)',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_social_media_card_image' => 'ezgif.com-webp-to-jpg-3.jpg', // Placeholder for Card 2
+                'hwc_social_media_card_title' => 'X (formerly Twitter)',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_social_media_card_image' => '1200x630wa.jpg', // Placeholder for Card 3
-            'hwc_social_media_card_title' => 'Instagram',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_social_media_card_image' => '1200x630wa.jpg', // Placeholder for Card 3
+                'hwc_social_media_card_title' => 'Instagram',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
 
-        array(
-            'hwc_social_media_card_image' => 'H2x1_NSwitchDS_YouTube.jpg', // Placeholder for Card 3
-            'hwc_social_media_card_title' => 'YouTube',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_social_media_card_image' => 'H2x1_NSwitchDS_YouTube.jpg', // Placeholder for Card 3
+                'hwc_social_media_card_title' => 'YouTube',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_social_media_card_image' => 'tiktoklogo.jpg', // Placeholder for Card 3
-            'hwc_social_media_card_title' => 'TikTok',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_social_media_card_image' => 'tiktoklogo.jpg', // Placeholder for Card 3
+                'hwc_social_media_card_title' => 'TikTok',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-        array(
-            'hwc_social_media_card_image' => 'linkedinlogo.jpg', // Placeholder for Card 3
-            'hwc_social_media_card_title' => 'LinkedIn',
-            'hwc_social_media_card_link' => array(
-                'url' => 'https://example.com',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_social_media_card_image' => 'linkedinlogo.jpg', // Placeholder for Card 3
+                'hwc_social_media_card_title' => 'LinkedIn',
+                'hwc_social_media_card_link' => array(
+                    'url' => 'https://example.com',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-    );
+        );
 
-    // Prepare the final repeater data with uploaded image IDs
-    $final_social_media_repeater_data = array();
+        // Prepare the final repeater data with uploaded image IDs
+        $final_social_media_repeater_data = array();
 
-    foreach ($hwc_social_media_repeater_data as $hwc_social_media_repeater_single_data) {
-        // Upload the image and get the attachment ID
-        $hwc_social_media_card_image_id = hwc_create_image_from_plugin($hwc_social_media_repeater_single_data['hwc_social_media_card_image'], $hwc_social_media_page_id);
+        foreach ($hwc_social_media_repeater_data as $hwc_social_media_repeater_single_data) {
+            // Upload the image and get the attachment ID
+            $hwc_social_media_card_image_id = hwc_create_image_from_plugin($hwc_social_media_repeater_single_data['hwc_social_media_card_image'], $hwc_social_media_page_id);
 
-        if (!is_wp_error($hwc_social_media_card_image_id)) {
-            $final_social_media_repeater_data[] = array(
-                'hwc_social_media_card_image' => $hwc_social_media_card_image_id, // Use the uploaded image ID with hwc_social_media_ prefix
-                'hwc_social_media_card_title' => $hwc_social_media_repeater_single_data['hwc_social_media_card_title'],
-                'hwc_social_media_card_button_link' => $hwc_social_media_repeater_single_data['hwc_social_media_card_link'], // Correct format for ACF link field
-            );
-        } else {
-            error_log('Failed to upload image: ' . $hwc_social_media_card_image_id->get_error_message());
+            if (!is_wp_error($hwc_social_media_card_image_id)) {
+                $final_social_media_repeater_data[] = array(
+                    'hwc_social_media_card_image' => $hwc_social_media_card_image_id, // Use the uploaded image ID with hwc_social_media_ prefix
+                    'hwc_social_media_card_title' => $hwc_social_media_repeater_single_data['hwc_social_media_card_title'],
+                    'hwc_social_media_card_button_link' => $hwc_social_media_repeater_single_data['hwc_social_media_card_link'], // Correct format for ACF link field
+                );
+            } else {
+                error_log('Failed to upload image: ' . $hwc_social_media_card_image_id->get_error_message());
+            }
         }
-    }
 
-    // Update the ACF repeater field for the Social Media page with the structured array
-    update_field('hwc_repeater_social_media_cards', $final_social_media_repeater_data, $hwc_social_media_page_id);
-    // After the function has run, set the option to true
-    //update_option('hwc_social_media_data_added', true);
-    //}
+        // Update the ACF repeater field for the Social Media page with the structured array
+        update_field('hwc_repeater_social_media_cards', $final_social_media_repeater_data, $hwc_social_media_page_id);
+        // After the function has run, set the option to true
+        update_option('hwc_social_media_data_added', true);
+    }
 }
 //end

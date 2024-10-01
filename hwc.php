@@ -77,6 +77,11 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-contact/hwc-contact.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-about-the-academy/hwc-about-the-academy.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-history/hwc-history.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-social-media/hwc-social-media.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-stadium/hwc-stadium.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-directions-to-haverfordwest-county-afc/hwc-directions-to-haverfordwest-county-afc.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-documents/hwc-documents.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-commercial/hwc-commercial.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-our-sponsors/hwc-our-sponsors.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)

@@ -190,124 +190,124 @@ function hwc_create_home_page_with_acf_fields()
         ));
     }
 
-    //if (!get_option('hwc_home_data_added', false)) {
-    // Get the ID of the front page
-    // Get the ID of the front page
-    $front_page_id = $home_page_id;
+    if (!get_option('hwc_home_data_added', false)) {
+        // Get the ID of the front page
+        // Get the ID of the front page
+        $front_page_id = $home_page_id;
 
-    // Check if the front page ID is valid
-    if ($front_page_id) {
+        // Check if the front page ID is valid
+        if ($front_page_id) {
 
-        // Manually define the repeater data
-        $repeater_data = array(
-            array(
-                'card_image' => 'WebsiteGraphicsClubShop.jpg', // Placeholder for Card 1
-                'card_title' => 'Browse the Latest Merchandise',
-                'card_button_title' => 'Read More',
-                'card_link' => 'https://example.com/card1',
-            ),
-            array(
-                'card_image' => 'WebsiteGraphicsMatchTickets.jpg', // Placeholder for Card 2
-                'card_title' => 'Sample Card Title 2',
-                'card_button_title' => 'Read More',
-                'card_link' => 'https://example.com/card2',
-            ),
-            array(
-                'card_image' => 'WebsiteGraphicsCommercial.jpg', // Placeholder for Card 3
-                'card_title' => 'Sample Card Title 3',
-                'card_button_title' => 'Read More',
-                'card_link' => 'https://example.com/card3',
-            ),
-        );
-
-        // Manually define the repeater data
-        $repeater_data = array(
-            array(
-                'card_image' => 'WebsiteGraphicsClubShop.jpg', // Placeholder for Card 1
-                'card_title' => 'Browse the Latest Merchandise',
-                'card_button_title' => 'Read More',
-                'card_link' => array(
-                    'url' => 'https://example.com/card1',
-                    'title' => 'Read More',
-                    'target' => '_self', // or '_blank' if you want the link to open in a new tab
+            // Manually define the repeater data
+            $repeater_data = array(
+                array(
+                    'card_image' => 'WebsiteGraphicsClubShop.jpg', // Placeholder for Card 1
+                    'card_title' => 'Browse the Latest Merchandise',
+                    'card_button_title' => 'Read More',
+                    'card_link' => 'https://example.com/card1',
                 ),
-            ),
-            array(
-                'card_image' => 'WebsiteGraphicsMatchTickets.jpg', // Placeholder for Card 2
-                'card_title' => 'Match Tickets',
-                'card_button_title' => 'Buy Now',
-                'card_link' => array(
-                    'url' => 'https://example.com/card2',
-                    'title' => 'Read More',
-                    'target' => '_self',
+                array(
+                    'card_image' => 'WebsiteGraphicsMatchTickets.jpg', // Placeholder for Card 2
+                    'card_title' => 'Sample Card Title 2',
+                    'card_button_title' => 'Read More',
+                    'card_link' => 'https://example.com/card2',
                 ),
-            ),
-            array(
-                'card_image' => 'WebsiteGraphicsCommercial.jpg', // Placeholder for Card 3
-                'card_title' => 'Commercial Opportunities',
-                'card_button_title' => 'Read More',
-                'card_link' => array(
-                    'url' => 'https://example.com/card3',
-                    'title' => 'Support the Bluebirds',
-                    'target' => '_self',
+                array(
+                    'card_image' => 'WebsiteGraphicsCommercial.jpg', // Placeholder for Card 3
+                    'card_title' => 'Sample Card Title 3',
+                    'card_button_title' => 'Read More',
+                    'card_link' => 'https://example.com/card3',
                 ),
-            ),
-        );
+            );
 
-        // Prepare the final repeater data with uploaded image IDs
-        $final_repeater_data = array();
+            // Manually define the repeater data
+            $repeater_data = array(
+                array(
+                    'card_image' => 'WebsiteGraphicsClubShop.jpg', // Placeholder for Card 1
+                    'card_title' => 'Browse the Latest Merchandise',
+                    'card_button_title' => 'Read More',
+                    'card_link' => array(
+                        'url' => 'https://example.com/card1',
+                        'title' => 'Read More',
+                        'target' => '_self', // or '_blank' if you want the link to open in a new tab
+                    ),
+                ),
+                array(
+                    'card_image' => 'WebsiteGraphicsMatchTickets.jpg', // Placeholder for Card 2
+                    'card_title' => 'Match Tickets',
+                    'card_button_title' => 'Buy Now',
+                    'card_link' => array(
+                        'url' => 'https://example.com/card2',
+                        'title' => 'Read More',
+                        'target' => '_self',
+                    ),
+                ),
+                array(
+                    'card_image' => 'WebsiteGraphicsCommercial.jpg', // Placeholder for Card 3
+                    'card_title' => 'Commercial Opportunities',
+                    'card_button_title' => 'Read More',
+                    'card_link' => array(
+                        'url' => 'https://example.com/card3',
+                        'title' => 'Support the Bluebirds',
+                        'target' => '_self',
+                    ),
+                ),
+            );
 
-        foreach ($repeater_data as $card) {
-            // Upload the image and get the attachment ID
-            $card_image_id = hwc_create_image_from_plugin($card['card_image'], $front_page_id);
+            // Prepare the final repeater data with uploaded image IDs
+            $final_repeater_data = array();
 
-            if (!is_wp_error($card_image_id)) {
-                $final_repeater_data[] = array(
-                    'card_image' => $card_image_id, // Use the uploaded image ID
-                    'card_title' => $card['card_title'],
-                    'card_link' => $card['card_link'], // This is now the correct format for a link field
-                );
-            } else {
-                error_log('Failed to upload image: ' . $card_image_id->get_error_message());
+            foreach ($repeater_data as $card) {
+                // Upload the image and get the attachment ID
+                $card_image_id = hwc_create_image_from_plugin($card['card_image'], $front_page_id);
+
+                if (!is_wp_error($card_image_id)) {
+                    $final_repeater_data[] = array(
+                        'card_image' => $card_image_id, // Use the uploaded image ID
+                        'card_title' => $card['card_title'],
+                        'card_link' => $card['card_link'], // This is now the correct format for a link field
+                    );
+                } else {
+                    error_log('Failed to upload image: ' . $card_image_id->get_error_message());
+                }
             }
-        }
 
-        // Update the ACF repeater field with the structured array
-        update_field('repeater_cards', $final_repeater_data, $front_page_id);
+            // Update the ACF repeater field with the structured array
+            update_field('repeater_cards', $final_repeater_data, $front_page_id);
 
 
-        // Upload the image and get the attachment ID
-        $big_box_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-372.jpg', $front_page_id);
+            // Upload the image and get the attachment ID
+            $big_box_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-372.jpg', $front_page_id);
 
-        if (!is_wp_error($big_box_image_id)) {
-            update_field('big_box_image', $big_box_image_id, $front_page_id);
-        } else {
-            error_log('Failed to upload image: ' . $big_box_image_id->get_error_message());
-        }
+            if (!is_wp_error($big_box_image_id)) {
+                update_field('big_box_image', $big_box_image_id, $front_page_id);
+            } else {
+                error_log('Failed to upload image: ' . $big_box_image_id->get_error_message());
+            }
 
-        update_field('big_box_description', 'Watch every episode of our club documentary series!', $front_page_id);
-        update_field('big_box_title', '#YouCanHaveItAll', $front_page_id);
-        // Update the big box button link as an ACF Link field
-        $big_box_button_link = array(
-            'url' => 'https://example.com/bigbox', // URL for the link
-            'title' => 'Tune in now!', // Title for the link
-            'target' => '_self' // Optional target attribute
-        );
-        update_field('big_box_button_link', $big_box_button_link, $front_page_id);
-        update_field('hwc_home_select_team', hwc_get_team_id_by_name('Haverfordwest County'), $front_page_id); // Change this based on your teams' choice values
+            update_field('big_box_description', 'Watch every episode of our club documentary series!', $front_page_id);
+            update_field('big_box_title', '#YouCanHaveItAll', $front_page_id);
+            // Update the big box button link as an ACF Link field
+            $big_box_button_link = array(
+                'url' => 'https://example.com/bigbox', // URL for the link
+                'title' => 'Tune in now!', // Title for the link
+                'target' => '_self' // Optional target attribute
+            );
+            update_field('big_box_button_link', $big_box_button_link, $front_page_id);
+            update_field('hwc_home_select_team', hwc_get_team_id_by_name('Haverfordwest County'), $front_page_id); // Change this based on your teams' choice values
 
-        // Upload the image and get the attachment ID
-        $newsletter_background_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-213-scaled.jpg', $front_page_id);
+            // Upload the image and get the attachment ID
+            $newsletter_background_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-213-scaled.jpg', $front_page_id);
 
-        if (!is_wp_error($newsletter_background_image_id)) {
-            update_field('newsletter_background_image', $newsletter_background_image_id, $front_page_id);
-        } else {
-            error_log('Failed to upload image : ' . $newsletter_background_image_id->get_error_message());
-        }
+            if (!is_wp_error($newsletter_background_image_id)) {
+                update_field('newsletter_background_image', $newsletter_background_image_id, $front_page_id);
+            } else {
+                error_log('Failed to upload image : ' . $newsletter_background_image_id->get_error_message());
+            }
 
-        update_field('newsletter_title', 'Sign up to our newsletter', $front_page_id);
-        update_field('newsletter_description', 'Receive all the latest news and updates from the Club straight to your inbox', $front_page_id);
-        update_field('newsletter_html_box', '<form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+            update_field('newsletter_title', 'Sign up to our newsletter', $front_page_id);
+            update_field('newsletter_description', 'Receive all the latest news and updates from the Club straight to your inbox', $front_page_id);
+            update_field('newsletter_html_box', '<form method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
 				<div id="mc_embed_signup_scroll">
 					<div class="mc-field-group">
 						<label class="screen-reader-text" for="mce-EMAIL">Your email address</label>
@@ -325,8 +325,8 @@ function hwc_create_home_page_with_acf_fields()
 					</div>
 				</div>
 			</form>', $front_page_id);
+        }
+        // After the function has run, set the option to true
+        update_option('hwc_home_data_added', true);
     }
-    // After the function has run, set the option to true
-    //update_option('hwc_home_data_added', true);
-    //}
 }
