@@ -56,6 +56,7 @@ function hwc_plugin_activation()
     flush_rewrite_rules();
     hwc_create_news_page();
     hwc_create_contact_page();
+    hwc_create_news_stories_page();
 }
 
 
@@ -82,6 +83,11 @@ require_once plugin_dir_path(__FILE__) . '/inc/hwc-directions-to-haverfordwest-c
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-documents/hwc-documents.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-commercial/hwc-commercial.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-our-sponsors/hwc-our-sponsors.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-community/hwc-community.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-academy/hwc-academy.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-news-stories/hwc-news-stories.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-youth-phase/hwc-youth-phase.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-development-phase/hwc-development-phase.php';
 
 // Helper function to get page ID by title
 function get_page_id_by_title($title)

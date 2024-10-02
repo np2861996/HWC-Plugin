@@ -803,7 +803,7 @@ function hwc_create_categories_and_manual_posts()
 </div>
 </div>
 </div>',
-            'excerpt' => '',
+            'excerpt' => 'Haverfordwest County AFC are delighted to confirm we have renewed our partnership',
             'category' => 'commercial',
             'tags' => array('Haverfordwest County', 'Commercial'),
             'image' => 'debutcapsFI.jpg',
