@@ -162,79 +162,79 @@ function hwc_create_youth_phase_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_youth_phase_data_added', false)) {
+    if (!get_option('hwc_youth_phase_data_added', false)) {
 
-    // Define the section title for the Youth Phase page with hwc_youth_phase_ prefix
-    $hwc_youth_phase_voap_section_title = 'View our other Academy Phases';
-    $hwc_youth_phase_section_title = 'Academy Online Shop';
-    // Update the big box button link as an ACF Link field
-    $hwc_youth_phase_aos_button_link = array(
-        'url' => 'https://example.com/bigbox', // URL for the link
-        'title' => 'Click here to browse the full range!', // Title for the link
-        'target' => '_self' // Optional target attribute
-    );
+        // Define the section title for the Youth Phase page with hwc_youth_phase_ prefix
+        $hwc_youth_phase_voap_section_title = 'View our other Academy Phases';
+        $hwc_youth_phase_section_title = 'Academy Online Shop';
+        // Update the big box button link as an ACF Link field
+        $hwc_youth_phase_aos_button_link = array(
+            'url' => 'https://example.com/bigbox', // URL for the link
+            'title' => 'Click here to browse the full range!', // Title for the link
+            'target' => '_self' // Optional target attribute
+        );
 
-    // Update the ACF field for the Youth Phase section title with hwc_youth_phase_ prefix
-    update_field('hwc_youth_phase_voap_section_title', $hwc_youth_phase_voap_section_title, $hwc_youth_phase_page_id);
-    update_field('hwc_youth_phase_section_title', $hwc_youth_phase_section_title, $hwc_youth_phase_page_id);
-    update_field('hwc_youth_phase_aos_button_link', $hwc_youth_phase_aos_button_link, $hwc_youth_phase_page_id);
+        // Update the ACF field for the Youth Phase section title with hwc_youth_phase_ prefix
+        update_field('hwc_youth_phase_voap_section_title', $hwc_youth_phase_voap_section_title, $hwc_youth_phase_page_id);
+        update_field('hwc_youth_phase_section_title', $hwc_youth_phase_section_title, $hwc_youth_phase_page_id);
+        update_field('hwc_youth_phase_aos_button_link', $hwc_youth_phase_aos_button_link, $hwc_youth_phase_page_id);
 
 
-    // Upload the image and get the attachment ID
-    $hwc_youth_phase_aos_image_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-372.jpg', $hwc_youth_phase_page_id);
-
-    if (!is_wp_error($hwc_youth_phase_aos_image_image_id)) {
-        update_field('hwc_youth_phase_aos_image', $hwc_youth_phase_aos_image_image_id, $hwc_youth_phase_page_id);
-    } else {
-        error_log('Failed to upload image: ' . $hwc_youth_phase_aos_image_image_id->get_error_message());
-    }
-
-    // Manually define the Youth Phase page repeater data with hwc_youth_phase_ prefix
-    // Dummy data for HWC Youth Phase Repeater Cards
-    $hwc_youth_phase_repeater_data = array(
-        array(
-            'hwc_youth_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
-            'hwc_youth_phase_card_title' => 'About The Youth Phase',
-            'hwc_youth_phase_card_link' => array(
-                'url' => 'https://example.com/2wish',
-                'title' => 'Read More',
-                'target' => '_self', // '_blank' for new tab
-            ),
-        ),
-        array(
-            'hwc_youth_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 2
-            'hwc_youth_phase_card_title' => 'News stories',
-            'hwc_youth_phase_card_link' => array(
-                'url' => 'https://example.com/business-in-focus',
-                'title' => 'Read More',
-                'target' => '_self',
-            ),
-        ),
-    );
-
-    // Prepare final HWC Youth Phase Repeater Data with uploaded image IDs
-    $final_youth_phase_repeater_data = array();
-
-    foreach ($hwc_youth_phase_repeater_data as $hwc_youth_phase_repeater_single_data) {
         // Upload the image and get the attachment ID
-        $hwc_youth_phase_card_image_id = hwc_create_image_from_plugin($hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_image'], $hwc_youth_phase_page_id);
+        $hwc_youth_phase_aos_image_image_id = hwc_create_image_from_plugin('Hwest-County-vs-Shkendija-372.jpg', $hwc_youth_phase_page_id);
 
-        if (!is_wp_error($hwc_youth_phase_card_image_id)) {
-            $final_youth_phase_repeater_data[] = array(
-                'hwc_youth_phase_card_image' => $hwc_youth_phase_card_image_id, // Use the uploaded image ID
-                'hwc_youth_phase_card_title' => $hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_title'],
-                'hwc_youth_phase_card_button_link' => $hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_link'], // Correct format for ACF link field
-            );
+        if (!is_wp_error($hwc_youth_phase_aos_image_image_id)) {
+            update_field('hwc_youth_phase_aos_image', $hwc_youth_phase_aos_image_image_id, $hwc_youth_phase_page_id);
         } else {
-            error_log('Failed to upload image: ' . $hwc_youth_phase_card_image_id->get_error_message());
+            error_log('Failed to upload image: ' . $hwc_youth_phase_aos_image_image_id->get_error_message());
         }
-    }
 
-    // Dummy data for Our Youth Phase FAQ Repeater Cards
-    $hwc_youth_phase_faq_data = array(
-        array(
-            'hwc_our_youth_phase_faq_title' => 'Under-12s Fixtures (2023-24)',
-            'hwc_our_youth_phase_faq_text' => '<p>August 13 – Haverfordwest County 3-5 Barry Town United</p>
+        // Manually define the Youth Phase page repeater data with hwc_youth_phase_ prefix
+        // Dummy data for HWC Youth Phase Repeater Cards
+        $hwc_youth_phase_repeater_data = array(
+            array(
+                'hwc_youth_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
+                'hwc_youth_phase_card_title' => 'About The Youth Phase',
+                'hwc_youth_phase_card_link' => array(
+                    'url' => 'https://example.com/2wish',
+                    'title' => 'Read More',
+                    'target' => '_self', // '_blank' for new tab
+                ),
+            ),
+            array(
+                'hwc_youth_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 2
+                'hwc_youth_phase_card_title' => 'News stories',
+                'hwc_youth_phase_card_link' => array(
+                    'url' => 'https://example.com/business-in-focus',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
+            ),
+        );
+
+        // Prepare final HWC Youth Phase Repeater Data with uploaded image IDs
+        $final_youth_phase_repeater_data = array();
+
+        foreach ($hwc_youth_phase_repeater_data as $hwc_youth_phase_repeater_single_data) {
+            // Upload the image and get the attachment ID
+            $hwc_youth_phase_card_image_id = hwc_create_image_from_plugin($hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_image'], $hwc_youth_phase_page_id);
+
+            if (!is_wp_error($hwc_youth_phase_card_image_id)) {
+                $final_youth_phase_repeater_data[] = array(
+                    'hwc_youth_phase_card_image' => $hwc_youth_phase_card_image_id, // Use the uploaded image ID
+                    'hwc_youth_phase_card_title' => $hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_title'],
+                    'hwc_youth_phase_card_button_link' => $hwc_youth_phase_repeater_single_data['hwc_youth_phase_card_link'], // Correct format for ACF link field
+                );
+            } else {
+                error_log('Failed to upload image: ' . $hwc_youth_phase_card_image_id->get_error_message());
+            }
+        }
+
+        // Dummy data for Our Youth Phase FAQ Repeater Cards
+        $hwc_youth_phase_faq_data = array(
+            array(
+                'hwc_our_youth_phase_faq_title' => 'Under-12s Fixtures (2023-24)',
+                'hwc_our_youth_phase_faq_text' => '<p>August 13 – Haverfordwest County 3-5 Barry Town United</p>
                                                 <p>August 20 – Briton Ferry Llansawel 6-1 Haverfordwest County</p>
                                                 <p>August 27 – Llanelli Town (home) – Postponed</p>
                                                 <p>September 10 – Merthyr Town (away)</p>
@@ -261,10 +261,10 @@ function hwc_create_youth_phase_page_with_acf_fields()
                                                 <p>April 14 – Cardiff Metropolitan (away)</p>
                                                 <p>April 21 – Pontypridd United (home)</p>
                                                 <p>April 28 – Cambrian and Clydach Vale (away)</p>',
-        ),
-        array(
-            'hwc_our_youth_phase_faq_title' => 'Under-13s Fixtures (2023-24)',
-            'hwc_our_youth_phase_faq_text' => '<p>August 13 – Haverfordwest County 2-8 Barry Town United</p>
+            ),
+            array(
+                'hwc_our_youth_phase_faq_title' => 'Under-13s Fixtures (2023-24)',
+                'hwc_our_youth_phase_faq_text' => '<p>August 13 – Haverfordwest County 2-8 Barry Town United</p>
                                                 <p>August 20 – Briton Ferry Llansawel 7-1 Haverfordwest County</p>
                                                 <p>August 27 – Haverfordwest County 4-0 Llanelli Town</p>
                                                 <p>September 10 – Pontardawe Town (away)</p>
@@ -291,25 +291,25 @@ function hwc_create_youth_phase_page_with_acf_fields()
                                                 <p>April 14 – Cardiff Metropolitan (away)</p>
                                                 <p>April 21 – Pontypridd United (home)</p>
                                                 <p>April 28 – Cambrian and Clydach Vale (away)</p>',
-        ),
-    );
-
-    // Prepare final Our Youth Phase FAQ Repeater Data
-    $final_youth_phase_faq_data = array();
-
-    foreach ($hwc_youth_phase_faq_data as $hwc_youth_phase_faq_single_data) {
-        $final_youth_phase_faq_data[] = array(
-            'hwc_our_youth_phase_faq_title' => $hwc_youth_phase_faq_single_data['hwc_our_youth_phase_faq_title'],
-            'hwc_our_youth_phase_faq_text' => $hwc_youth_phase_faq_single_data['hwc_our_youth_phase_faq_text'],
+            ),
         );
+
+        // Prepare final Our Youth Phase FAQ Repeater Data
+        $final_youth_phase_faq_data = array();
+
+        foreach ($hwc_youth_phase_faq_data as $hwc_youth_phase_faq_single_data) {
+            $final_youth_phase_faq_data[] = array(
+                'hwc_our_youth_phase_faq_title' => $hwc_youth_phase_faq_single_data['hwc_our_youth_phase_faq_title'],
+                'hwc_our_youth_phase_faq_text' => $hwc_youth_phase_faq_single_data['hwc_our_youth_phase_faq_text'],
+            );
+        }
+
+        // Now, you can update the ACF fields with the final prepared data
+        update_field('hwc_repeater_youth_phase_cards', $final_youth_phase_repeater_data, $hwc_youth_phase_page_id);
+        update_field('hwc_youth_phase_faq_repeater_cards', $final_youth_phase_faq_data, $hwc_youth_phase_page_id);
+
+        // After the function has run, set the option to true
+        update_option('hwc_youth_phase_data_added', true);
     }
-
-    // Now, you can update the ACF fields with the final prepared data
-    update_field('hwc_repeater_youth_phase_cards', $final_youth_phase_repeater_data, $hwc_youth_phase_page_id);
-    update_field('hwc_youth_phase_faq_repeater_cards', $final_youth_phase_faq_data, $hwc_youth_phase_page_id);
-
-    // After the function has run, set the option to true
-    // update_option('hwc_youth_phase_data_added', true);
-    // }
 }
 //end

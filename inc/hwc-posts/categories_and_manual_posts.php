@@ -835,87 +835,87 @@ function hwc_create_categories_and_manual_posts()
             )
         ),
     );
-    //if (!get_option('hwc_categories_and_posts_created', false)) {
+    if (!get_option('hwc_categories_and_posts_created', false)) {
 
-    foreach ($posts as $post_data) {
-        // Check if the post with the title already exists
-        $existing_posts = get_posts(array(
-            'title' => $post_data['title'],
-            'post_type' => 'post',
-            'post_status' => 'any', // Check for any status including trash
-            'numberposts' => 1
-        ));
-
-        if (!$existing_posts) {
-            // Post does not exist, create it
-            $category = get_term_by('slug', $post_data['category'], 'category');
-            $post_id = wp_insert_post(array(
-                'post_title'   => $post_data['title'],
-                'post_content' => $post_data['content'],
-                'post_excerpt' => $post_data['excerpt'],
-                'post_status'  => 'publish',
-                'post_author'  => 1, // Replace with the desired author ID
-                'post_category' => array($category->term_id),
+        foreach ($posts as $post_data) {
+            // Check if the post with the title already exists
+            $existing_posts = get_posts(array(
+                'title' => $post_data['title'],
+                'post_type' => 'post',
+                'post_status' => 'any', // Check for any status including trash
+                'numberposts' => 1
             ));
 
-            if ($post_id && !is_wp_error($post_id)) {
-                // Set post tags
-                wp_set_post_tags($post_id, $post_data['tags'], true);
+            if (!$existing_posts) {
+                // Post does not exist, create it
+                $category = get_term_by('slug', $post_data['category'], 'category');
+                $post_id = wp_insert_post(array(
+                    'post_title'   => $post_data['title'],
+                    'post_content' => $post_data['content'],
+                    'post_excerpt' => $post_data['excerpt'],
+                    'post_status'  => 'publish',
+                    'post_author'  => 1, // Replace with the desired author ID
+                    'post_category' => array($category->term_id),
+                ));
 
-                // Define the filename of the image you want to use
-                $image_filename = $post_data['image']; // Replace with your actual image filename
+                if ($post_id && !is_wp_error($post_id)) {
+                    // Set post tags
+                    wp_set_post_tags($post_id, $post_data['tags'], true);
 
-                // Ensure $post_id is defined and valid
-                if (!empty($image_filename) && !empty($post_id)) {
-                    // Call the function to create the image from the plugin directory
-                    $image_id = hwc_create_image_from_plugin($image_filename, $post_id);
+                    // Define the filename of the image you want to use
+                    $image_filename = $post_data['image']; // Replace with your actual image filename
 
-                    // Check if there was an error creating the image
-                    if (!is_wp_error($image_id)) {
-                        // Set the post thumbnail with the new image
-                        set_post_thumbnail($post_id, $image_id);
-                    } else {
-                        // Handle the error appropriately
-                        echo $image_id->get_error_message(); // Display error message
+                    // Ensure $post_id is defined and valid
+                    if (!empty($image_filename) && !empty($post_id)) {
+                        // Call the function to create the image from the plugin directory
+                        $image_id = hwc_create_image_from_plugin($image_filename, $post_id);
+
+                        // Check if there was an error creating the image
+                        if (!is_wp_error($image_id)) {
+                            // Set the post thumbnail with the new image
+                            set_post_thumbnail($post_id, $image_id);
+                        } else {
+                            // Handle the error appropriately
+                            echo $image_id->get_error_message(); // Display error message
+                        }
                     }
-                }
 
 
-                // Update tags and ACF fields
-                wp_set_post_tags($post_id, $post_data['tags'], true);
+                    // Update tags and ACF fields
+                    wp_set_post_tags($post_id, $post_data['tags'], true);
 
-                if ($post_data['acf']['sidebar_card_image_name']) {
-                    $hwc_right_card_image_id = hwc_create_image_from_plugin($post_data['acf']['sidebar_card_image_name'], $post_id);
+                    if ($post_data['acf']['sidebar_card_image_name']) {
+                        $hwc_right_card_image_id = hwc_create_image_from_plugin($post_data['acf']['sidebar_card_image_name'], $post_id);
 
-                    if (!is_wp_error($hwc_right_card_image_id)) {
-                        // Update the ACF field with the attachment ID
-                        update_field('sidebar_card_image', $hwc_right_card_image_id, $post_id);
-                    } else {
-                        // Log the error message
-                        error_log('Failed to upload background image: ' . $hwc_right_card_image_id->get_error_message());
+                        if (!is_wp_error($hwc_right_card_image_id)) {
+                            // Update the ACF field with the attachment ID
+                            update_field('sidebar_card_image', $hwc_right_card_image_id, $post_id);
+                        } else {
+                            // Log the error message
+                            error_log('Failed to upload background image: ' . $hwc_right_card_image_id->get_error_message());
+                        }
                     }
-                }
 
-                if ($post_data['acf']['sidebar_card_title']) {
-                    update_field('sidebar_card_title', $post_data['acf']['sidebar_card_title'], $post_id);
-                }
+                    if ($post_data['acf']['sidebar_card_title']) {
+                        update_field('sidebar_card_title', $post_data['acf']['sidebar_card_title'], $post_id);
+                    }
 
-                if ($post_data['acf']['post_banner_video']) {
-                    update_field('post_banner_video', $post_data['acf']['post_banner_video'], $post_id);
-                }
+                    if ($post_data['acf']['post_banner_video']) {
+                        update_field('post_banner_video', $post_data['acf']['post_banner_video'], $post_id);
+                    }
 
-                if ($post_data['acf']['sidebar_card_button']['url']) {
-                    update_field('sidebar_card_button', array(
-                        'url' => $post_data['acf']['sidebar_card_button']['url'],
-                        'title' => $post_data['acf']['sidebar_card_button']['title'],
-                    ), $post_id);
+                    if ($post_data['acf']['sidebar_card_button']['url']) {
+                        update_field('sidebar_card_button', array(
+                            'url' => $post_data['acf']['sidebar_card_button']['url'],
+                            'title' => $post_data['acf']['sidebar_card_button']['title'],
+                        ), $post_id);
+                    }
                 }
             }
         }
-    }
 
-    // After the function has run, set the option to true
-    // update_option('hwc_categories_and_posts_created', true);
-    //}
+        // After the function has run, set the option to true
+        update_option('hwc_categories_and_posts_created', true);
+    }
 }
 //end

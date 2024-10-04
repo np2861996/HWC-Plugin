@@ -168,84 +168,84 @@ function hwc_create_development_phase_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Store Data
     ----------------------------------------------------------------*/
-    //if (!get_option('hwc_development_phase_data_added', false)) {
+    if (!get_option('hwc_development_phase_data_added', false)) {
 
-    // Define the section title for the Development Phase page with hwc_development_phase_ prefix
-    $hwc_development_phase_voap_section_title = 'View our other Academy Phases';
+        // Define the section title for the Development Phase page with hwc_development_phase_ prefix
+        $hwc_development_phase_voap_section_title = 'View our other Academy Phases';
 
-    // Update the ACF field for the Development Phase section title with hwc_development_phase_ prefix
-    update_field('hwc_development_phase_voap_section_title', $hwc_development_phase_voap_section_title, $hwc_development_phase_page_id);
+        // Update the ACF field for the Development Phase section title with hwc_development_phase_ prefix
+        update_field('hwc_development_phase_voap_section_title', $hwc_development_phase_voap_section_title, $hwc_development_phase_page_id);
 
-    // Manually define the Development Phase page repeater data with hwc_development_phase_ prefix
-    // Dummy data for HWC Development Phase Repeater Cards
-    $hwc_development_phase_repeater_data = array(
-        array(
-            'hwc_development_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
-            'hwc_development_phase_card_title' => 'About The Development Phase',
-            'hwc_development_phase_card_link' => array(
-                'url' => 'https://example.com/2wish',
-                'title' => 'Read More',
-                'target' => '_self', // '_blank' for new tab
+        // Manually define the Development Phase page repeater data with hwc_development_phase_ prefix
+        // Dummy data for HWC Development Phase Repeater Cards
+        $hwc_development_phase_repeater_data = array(
+            array(
+                'hwc_development_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 1
+                'hwc_development_phase_card_title' => 'About The Development Phase',
+                'hwc_development_phase_card_link' => array(
+                    'url' => 'https://example.com/2wish',
+                    'title' => 'Read More',
+                    'target' => '_self', // '_blank' for new tab
+                ),
             ),
-        ),
-        array(
-            'hwc_development_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 2
-            'hwc_development_phase_card_title' => 'News stories',
-            'hwc_development_phase_card_link' => array(
-                'url' => 'https://example.com/business-in-focus',
-                'title' => 'Read More',
-                'target' => '_self',
+            array(
+                'hwc_development_phase_card_image' => 'hcafc-social.jpg', // Placeholder for Card 2
+                'hwc_development_phase_card_title' => 'News stories',
+                'hwc_development_phase_card_link' => array(
+                    'url' => 'https://example.com/business-in-focus',
+                    'title' => 'Read More',
+                    'target' => '_self',
+                ),
             ),
-        ),
-    );
-
-    // Prepare final HWC Development Phase Repeater Data with uploaded image IDs
-    $final_development_phase_repeater_data = array();
-
-    foreach ($hwc_development_phase_repeater_data as $hwc_development_phase_repeater_single_data) {
-        // Upload the image and get the attachment ID
-        $hwc_development_phase_card_image_id = hwc_create_image_from_plugin($hwc_development_phase_repeater_single_data['hwc_development_phase_card_image'], $hwc_development_phase_page_id);
-
-        if (!is_wp_error($hwc_development_phase_card_image_id)) {
-            $final_development_phase_repeater_data[] = array(
-                'hwc_development_phase_card_image' => $hwc_development_phase_card_image_id, // Use the uploaded image ID
-                'hwc_development_phase_card_title' => $hwc_development_phase_repeater_single_data['hwc_development_phase_card_title'],
-                'hwc_development_phase_card_button_link' => $hwc_development_phase_repeater_single_data['hwc_development_phase_card_link'], // Correct format for ACF link field
-            );
-        } else {
-            error_log('Failed to upload image: ' . $hwc_development_phase_card_image_id->get_error_message());
-        }
-    }
-
-    // Dummy data for Our Development Phase FAQ Repeater Cards
-    $hwc_development_phase_player_data = array(
-        array(
-            'hwc_our_development_phase_player_title' => 'Lucas Davies',
-            'hwc_our_development_phase_player_image' => '32HFC0805_PlayerProfilesBlank.jpg',
-        ),
-        array(
-            'hwc_our_development_phase_player_title' => 'Harri John',
-            'hwc_our_development_phase_player_image' => '32HFC0805_PlayerProfilesBlank.jpg',
-        ),
-    );
-
-    // Prepare final Our Development Phase FAQ Repeater Data
-    $final_development_phase_player_data = array();
-
-    foreach ($hwc_development_phase_player_data as $hwc_development_phase_player_single_data) {
-        $hwc_our_development_phase_player_image_id = hwc_create_image_from_plugin($hwc_development_phase_player_single_data['hwc_our_development_phase_player_image'], $hwc_development_phase_page_id);
-        $final_development_phase_player_data[] = array(
-            'hwc_our_development_phase_player_title' => $hwc_development_phase_player_single_data['hwc_our_development_phase_player_title'],
-            'hwc_our_development_phase_player_image' => $hwc_our_development_phase_player_image_id,
         );
+
+        // Prepare final HWC Development Phase Repeater Data with uploaded image IDs
+        $final_development_phase_repeater_data = array();
+
+        foreach ($hwc_development_phase_repeater_data as $hwc_development_phase_repeater_single_data) {
+            // Upload the image and get the attachment ID
+            $hwc_development_phase_card_image_id = hwc_create_image_from_plugin($hwc_development_phase_repeater_single_data['hwc_development_phase_card_image'], $hwc_development_phase_page_id);
+
+            if (!is_wp_error($hwc_development_phase_card_image_id)) {
+                $final_development_phase_repeater_data[] = array(
+                    'hwc_development_phase_card_image' => $hwc_development_phase_card_image_id, // Use the uploaded image ID
+                    'hwc_development_phase_card_title' => $hwc_development_phase_repeater_single_data['hwc_development_phase_card_title'],
+                    'hwc_development_phase_card_button_link' => $hwc_development_phase_repeater_single_data['hwc_development_phase_card_link'], // Correct format for ACF link field
+                );
+            } else {
+                error_log('Failed to upload image: ' . $hwc_development_phase_card_image_id->get_error_message());
+            }
+        }
+
+        // Dummy data for Our Development Phase FAQ Repeater Cards
+        $hwc_development_phase_player_data = array(
+            array(
+                'hwc_our_development_phase_player_title' => 'Lucas Davies',
+                'hwc_our_development_phase_player_image' => '32HFC0805_PlayerProfilesBlank.jpg',
+            ),
+            array(
+                'hwc_our_development_phase_player_title' => 'Harri John',
+                'hwc_our_development_phase_player_image' => '32HFC0805_PlayerProfilesBlank.jpg',
+            ),
+        );
+
+        // Prepare final Our Development Phase FAQ Repeater Data
+        $final_development_phase_player_data = array();
+
+        foreach ($hwc_development_phase_player_data as $hwc_development_phase_player_single_data) {
+            $hwc_our_development_phase_player_image_id = hwc_create_image_from_plugin($hwc_development_phase_player_single_data['hwc_our_development_phase_player_image'], $hwc_development_phase_page_id);
+            $final_development_phase_player_data[] = array(
+                'hwc_our_development_phase_player_title' => $hwc_development_phase_player_single_data['hwc_our_development_phase_player_title'],
+                'hwc_our_development_phase_player_image' => $hwc_our_development_phase_player_image_id,
+            );
+        }
+
+        // Now, you can update the ACF fields with the final prepared data
+        update_field('hwc_repeater_development_phase_cards', $final_development_phase_repeater_data, $hwc_development_phase_page_id);
+        update_field('hwc_development_phase_player_repeater_cards', $final_development_phase_player_data, $hwc_development_phase_page_id);
+
+        // After the function has run, set the option to true
+        update_option('hwc_development_phase_data_added', true);
     }
-
-    // Now, you can update the ACF fields with the final prepared data
-    update_field('hwc_repeater_development_phase_cards', $final_development_phase_repeater_data, $hwc_development_phase_page_id);
-    update_field('hwc_development_phase_player_repeater_cards', $final_development_phase_player_data, $hwc_development_phase_page_id);
-
-    // After the function has run, set the option to true
-    // update_option('hwc_development_phase_data_added', true);
-    // }
 }
 //end

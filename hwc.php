@@ -63,6 +63,8 @@ function hwc_plugin_activation()
 /*--------------------------------------------------------------
 	>>> Include Function for create dummy posts from files
 ----------------------------------------------------------------*/
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-header/hwc-header.php';
+require_once plugin_dir_path(__FILE__) . '/inc/hwc-footer/hwc-footer.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-table/hwc-table.php';
 require_once plugin_dir_path(__FILE__) . 'inc/hwc-posts/categories_and_manual_posts.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
@@ -330,7 +332,7 @@ function hwc_set_default_acf_field_values()
 /*--------------------------------------------------------------
 	>>> Function to add dummy Content
 	----------------------------------------------------------------*/
-function hwc_create_image_from_plugin($filename, $post_id)
+function hwc_create_image_from_plugin($filename, $post_id = null)
 {
     // Define the paths
     $plugin_dir_url = plugin_dir_url(__FILE__);
@@ -367,7 +369,7 @@ function hwc_create_image_from_plugin($filename, $post_id)
     );
 
     // Insert the attachment into the WordPress media library
-    $attach_id = wp_insert_attachment($attachment, $new_file_path, $post_id);
+    $attach_id = wp_insert_attachment($attachment, $new_file_path, $post_id ? $post_id : 0);
 
     // Include image.php to use wp_generate_attachment_metadata
     require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -381,4 +383,6 @@ function hwc_create_image_from_plugin($filename, $post_id)
     // Return the attachment ID
     return $attach_id;
 }
+
+
 ?>
