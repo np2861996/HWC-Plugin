@@ -64,7 +64,7 @@ function hwc_plugin_activation()
 	>>> Include Function for create dummy posts from files
 ----------------------------------------------------------------*/
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-header/hwc-header.php';
-require_once plugin_dir_path(__FILE__) . '/inc/hwc-footer/hwc-footer.php';
+require_once plugin_dir_path(__FILE__) .  '/inc/hwc-footer/hwc-footer.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-table/hwc-table.php';
 require_once plugin_dir_path(__FILE__) . 'inc/hwc-posts/categories_and_manual_posts.php';
 require_once plugin_dir_path(__FILE__) . '/inc/hwc-players/hwc-players.php';
