@@ -17,178 +17,197 @@ add_action('acf/init', 'hwc_create_home_page_with_acf_fields');
 ----------------------------------------------------------------*/
 function hwc_create_home_page_with_acf_fields()
 {
+    // Check if the homepage creation has already been run
+    $homepage_created = get_option('hwc_homepage_created');
+
     // Set variables for the home page
     $page_title = 'Home';
     $page_slug = 'home';
     $page_template = 'template-parts/template-home.php';
 
-    // Check if the home page exists
-    $home_page = get_page_by_path($page_slug);
+    if (!$homepage_created) {
 
-    if (!$home_page) {
-        // Create the home page if it doesn't exist
-        $page_data = array(
-            'post_title'    => $page_title,
-            'post_content'  => '',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $page_slug,
-            'page_template' => $page_template
-        );
-        $home_page_id = wp_insert_post($page_data);
 
-        // Set the page template
-        update_post_meta($home_page_id, '_wp_page_template', $page_template);
+        // Check if the home page exists
+        $home_page = get_page_by_path($page_slug);
 
-        // Set the home page as the front page
-        update_option('show_on_front', 'page');
-        update_option('page_on_front', $home_page_id);
+        if (!$home_page) {
+            // Create the home page if it doesn't exist
+            $page_data = array(
+                'post_title'    => $page_title,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $page_slug,
+                'page_template' => $page_template
+            );
+            $home_page_id = wp_insert_post($page_data);
+
+            // Set the page template
+            update_post_meta($home_page_id, '_wp_page_template', $page_template);
+
+            // Set the home page as the front page
+            update_option('show_on_front', 'page');
+            update_option('page_on_front', $home_page_id);
+        } else {
+            // If the page exists, get its ID
+            $home_page_id = $home_page->ID;
+        }
+        // Set the flag to indicate homepage was created
+        update_option('hwc_homepage_created', true);
     } else {
-        // If the page exists, get its ID
-        $home_page_id = $home_page->ID;
+        // If the home page creation was already done, just get its ID
+        $home_page = get_page_by_path($page_slug);
+        if ($home_page) {
+            $home_page_id = $home_page->ID;
+        }
     }
 
-    // Register ACF fields for the home page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_home_page',
-            'title' => 'Home Page Fields',
-            'fields' => array(
-                // Section Title for Cards
-                array(
-                    'key' => 'hwc_home_section_cards_title',
-                    'label' => 'Cards Section',
-                    'name' => 'cards_section_title',
-                    'type' => 'message',
-                    'new_lines' => 'wpautop',
-                ),
-                // Repeater for Cards
-                array(
-                    'key' => 'hwc_home_repeater_cards',
-                    'label' => 'Cards Repeater',
-                    'name' => 'repeater_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_home_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'card_image',
-                            'type' => 'image',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_home_card_title',
-                            'label' => 'Card Title',
-                            'name' => 'card_title',
-                            'type' => 'text',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_home_card_link',
-                            'label' => 'Card Link',
-                            'name' => 'card_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                ),
-                // Big Blue Box Section
-                array(
-                    'key' => 'hwc_home_section_big_box_separator',
-                    'label' => 'Big Blue Box Section',
-                    'name' => 'big_box_section_title',
-                    'type' => 'message',
-                    'new_lines' => 'wpautop',
-                ),
-                array(
-                    'key' => 'hwc_home_big_box_image',
-                    'label' => 'Big Box Image',
-                    'name' => 'big_box_image',
-                    'type' => 'image',
-                ),
-                array(
-                    'key' => 'hwc_home_big_box_title',
-                    'label' => 'Big Box Title',
-                    'name' => 'big_box_title',
-                    'type' => 'text',
-                ),
-                array(
-                    'key' => 'hwc_home_big_box_description',
-                    'label' => 'Big Box Description',
-                    'name' => 'big_box_description',
-                    'type' => 'textarea',
-                ),
-                array(
-                    'key' => 'hwc_home_big_box_button_link',
-                    'label' => 'Big Box Button Link',
-                    'name' => 'big_box_button_link',
-                    'type' => 'link',
-                ),
-                // Team Info Section
-                array(
-                    'key' => 'hwc_home_section_team_info_separator',
-                    'label' => 'Team Info Section',
-                    'name' => 'team_info_section_title',
-                    'type' => 'message',
-                    'new_lines' => 'wpautop',
-                ),
-                array(
-                    'key' => 'hwc_home_select_team',
-                    'label' => 'Select Team',
-                    'name' => 'hwc_home_select_team',
-                    'type' => 'post_object',
-                    'post_type' => array('team'),
-                    'return_format' => 'id',
-                    'multiple' => 0,
-                    'required' => 0,
-                ),
-                // Newsletter Section
-                array(
-                    'key' => 'hwc_home_section_newsletter_separator',
-                    'label' => 'Newsletter Section',
-                    'name' => 'newsletter_section_title',
-                    'type' => 'message',
-                    'new_lines' => 'wpautop',
-                ),
-                array(
-                    'key' => 'hwc_home_newsletter_background_image',
-                    'label' => 'Newsletter Background Image',
-                    'name' => 'newsletter_background_image',
-                    'type' => 'image',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_home_newsletter_title',
-                    'label' => 'Newsletter Title',
-                    'name' => 'newsletter_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_home_newsletter_description',
-                    'label' => 'Newsletter Description',
-                    'name' => 'newsletter_description',
-                    'type' => 'textarea',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_home_newsletter_html_box',
-                    'label' => 'Newsletter Form HTML Box',
-                    'name' => 'newsletter_html_box',
-                    'type' => 'textarea',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($page_slug)) {
+        // Register ACF fields for the home page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_home_page',
+                'title' => 'Home Page Fields',
+                'fields' => array(
+                    // Section Title for Cards
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $home_page_id,
+                        'key' => 'hwc_home_section_cards_title',
+                        'label' => 'Cards Section',
+                        'name' => 'cards_section_title',
+                        'type' => 'message',
+                        'new_lines' => 'wpautop',
+                    ),
+                    // Repeater for Cards
+                    array(
+                        'key' => 'hwc_home_repeater_cards',
+                        'label' => 'Cards Repeater',
+                        'name' => 'repeater_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_home_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_home_card_title',
+                                'label' => 'Card Title',
+                                'name' => 'card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_home_card_link',
+                                'label' => 'Card Link',
+                                'name' => 'card_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                    ),
+                    // Big Blue Box Section
+                    array(
+                        'key' => 'hwc_home_section_big_box_separator',
+                        'label' => 'Big Blue Box Section',
+                        'name' => 'big_box_section_title',
+                        'type' => 'message',
+                        'new_lines' => 'wpautop',
+                    ),
+                    array(
+                        'key' => 'hwc_home_big_box_image',
+                        'label' => 'Big Box Image',
+                        'name' => 'big_box_image',
+                        'type' => 'image',
+                    ),
+                    array(
+                        'key' => 'hwc_home_big_box_title',
+                        'label' => 'Big Box Title',
+                        'name' => 'big_box_title',
+                        'type' => 'text',
+                    ),
+                    array(
+                        'key' => 'hwc_home_big_box_description',
+                        'label' => 'Big Box Description',
+                        'name' => 'big_box_description',
+                        'type' => 'textarea',
+                    ),
+                    array(
+                        'key' => 'hwc_home_big_box_button_link',
+                        'label' => 'Big Box Button Link',
+                        'name' => 'big_box_button_link',
+                        'type' => 'link',
+                    ),
+                    // Team Info Section
+                    array(
+                        'key' => 'hwc_home_section_team_info_separator',
+                        'label' => 'Team Info Section',
+                        'name' => 'team_info_section_title',
+                        'type' => 'message',
+                        'new_lines' => 'wpautop',
+                    ),
+                    array(
+                        'key' => 'hwc_home_select_team',
+                        'label' => 'Select Team',
+                        'name' => 'hwc_home_select_team',
+                        'type' => 'post_object',
+                        'post_type' => array('team'),
+                        'return_format' => 'id',
+                        'multiple' => 0,
+                        'required' => 0,
+                    ),
+                    // Newsletter Section
+                    array(
+                        'key' => 'hwc_home_section_newsletter_separator',
+                        'label' => 'Newsletter Section',
+                        'name' => 'newsletter_section_title',
+                        'type' => 'message',
+                        'new_lines' => 'wpautop',
+                    ),
+                    array(
+                        'key' => 'hwc_home_newsletter_background_image',
+                        'label' => 'Newsletter Background Image',
+                        'name' => 'newsletter_background_image',
+                        'type' => 'image',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_home_newsletter_title',
+                        'label' => 'Newsletter Title',
+                        'name' => 'newsletter_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_home_newsletter_description',
+                        'label' => 'Newsletter Description',
+                        'name' => 'newsletter_description',
+                        'type' => 'textarea',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_home_newsletter_html_box',
+                        'label' => 'Newsletter Form HTML Box',
+                        'name' => 'newsletter_html_box',
+                        'type' => 'textarea',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $home_page_id,
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
+
+
 
     if (!get_option('hwc_home_data_added', false)) {
         // Get the ID of the front page
