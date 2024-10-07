@@ -22,116 +22,133 @@ function hwc_create_social_media_page_with_acf_fields()
         >>> Add page with Template 
     ----------------------------------------------------------------*/
     // Set variables for the social-media page
+    // Check if the social media page creation has already been run
+    $hwc_social_media_page_created = get_option('hwc_social_media_page_created');
+
+    // Set variables for the social media page
     $hwc_social_media_page_title = 'Social Media';
     $hwc_social_media_page_slug = 'social-media';
     $hwc_social_media_page_template = 'template-parts/template-social-media.php';
 
-    // Check if the social-media page exists
-    $hwc_social_media_page = get_page_by_path($hwc_social_media_page_slug);
+    if (!$hwc_social_media_page_created) {
+        // Check if the social-media page exists
+        $hwc_social_media_page = get_page_by_path($hwc_social_media_page_slug);
 
-    if (!$hwc_social_media_page) {
-        // Create the social-media page if it doesn't exist
-        $hwc_social_media_page_data = array(
-            'post_title'    => $hwc_social_media_page_title,
-            'post_content'  => '<p><strong>Haverfordwest County AFC’s official social media channels are the best place to go if you want to keep up to date with all the goings on at the Ogi Bridge Meadow Stadium.</strong></p>
+        if (!$hwc_social_media_page) {
+            // Create the social-media page if it doesn't exist
+            $hwc_social_media_page_data = array(
+                'post_title'    => $hwc_social_media_page_title,
+                'post_content'  => '<p><strong>Haverfordwest County AFC’s official social media channels are the best place to go if you want to keep up to date with all the goings on at the Ogi Bridge Meadow Stadium.</strong></p>
 <p>Make sure you’re following us for all of the latest news, interviews, match highlights, behind-the-scenes and feature content, which includes our club documentary and club podcast series, You Can Have It All and The Bluebirds Nest.</p>
 <p>Please click on the various social media links below to be directed to the respective platforms:</p>',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_social_media_page_slug,
-            'page_template' => $hwc_social_media_page_template
-        );
-        $hwc_social_media_page_id = wp_insert_post($hwc_social_media_page_data);
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_social_media_page_slug,
+            );
+            $hwc_social_media_page_id = wp_insert_post($hwc_social_media_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_social_media_page_id, '_wp_page_template', $hwc_social_media_page_template);
+            // Set the page template
+            update_post_meta($hwc_social_media_page_id, '_wp_page_template', $hwc_social_media_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_social_media_page_id = $hwc_social_media_page->ID;
+        }
+
+        // Set the flag to indicate the social media page was created
+        update_option('hwc_social_media_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_social_media_page_id = $hwc_social_media_page->ID;
+        // If the social media page creation was already done, just get its ID
+        $hwc_social_media_page = get_page_by_path($hwc_social_media_page_slug);
+        if ($hwc_social_media_page) {
+            $hwc_social_media_page_id = $hwc_social_media_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in social-media page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the social-media page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_social_media_page',
-            'title' => 'Social Media Page Fields',
-            'fields' => array(
-                // Section Title for Social Media Page
-                array(
-                    'key' => 'hwc_social_media_section_title_1',
-                    'label' => 'HWC Social Media Section Title 1',
-                    'name' => 'hwc_social_media_section_title_1',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_social_media_section_title_2',
-                    'label' => 'HWC Social Media Section Title 2',
-                    'name' => 'hwc_social_media_section_title_2',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_social_media_button_link',
-                    'label' => 'Button Link',
-                    'name' => 'hwc_social_media_button_link',
-                    'type' => 'link',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_social_media_bg_image',
-                    'label' => 'Background Image',
-                    'name' => 'hwc_social_media_bg_image',
-                    'type' => 'image',
-                    'required' => 0,
-                ),
-                // Repeater for Social Media Cards
-                array(
-                    'key' => 'hwc_social_media_repeater_cards',
-                    'label' => 'HWC Social Media Cards Repeater',
-                    'name' => 'hwc_repeater_social_media_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_social_media_card_title',
-                            'label' => 'HWC Card Title',
-                            'name' => 'hwc_social_media_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_social_media_card_image',
-                            'label' => 'HWC Card Image',
-                            'name' => 'hwc_social_media_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_social_media_card_button_link',
-                            'label' => 'HWC Button Link',
-                            'name' => 'hwc_social_media_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_social_media_page_slug)) {
+        // Register ACF fields for the social-media page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_social_media_page',
+                'title' => 'Social Media Page Fields',
+                'fields' => array(
+                    // Section Title for Social Media Page
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_social_media_page_id, // Replace with your Social Media page template
+                        'key' => 'hwc_social_media_section_title_1',
+                        'label' => 'HWC Social Media Section Title 1',
+                        'name' => 'hwc_social_media_section_title_1',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_social_media_section_title_2',
+                        'label' => 'HWC Social Media Section Title 2',
+                        'name' => 'hwc_social_media_section_title_2',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_social_media_button_link',
+                        'label' => 'Button Link',
+                        'name' => 'hwc_social_media_button_link',
+                        'type' => 'link',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_social_media_bg_image',
+                        'label' => 'Background Image',
+                        'name' => 'hwc_social_media_bg_image',
+                        'type' => 'image',
+                        'required' => 0,
+                    ),
+                    // Repeater for Social Media Cards
+                    array(
+                        'key' => 'hwc_social_media_repeater_cards',
+                        'label' => 'HWC Social Media Cards Repeater',
+                        'name' => 'hwc_repeater_social_media_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_social_media_card_title',
+                                'label' => 'HWC Card Title',
+                                'name' => 'hwc_social_media_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_social_media_card_image',
+                                'label' => 'HWC Card Image',
+                                'name' => 'hwc_social_media_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_social_media_card_button_link',
+                                'label' => 'HWC Button Link',
+                                'name' => 'hwc_social_media_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_social_media_page_id, // Replace with your Social Media page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

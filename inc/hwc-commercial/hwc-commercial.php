@@ -21,86 +21,103 @@ function hwc_create_commercial_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
-    // Set variables for the commercial page
+    // Check if the Commercial page creation has already been run
+    $commercial_page_created = get_option('hwc_commercial_page_created');
+
+    // Set variables for the Commercial page
     $hwc_commercial_page_title = 'Commercial';
     $hwc_commercial_page_slug = 'commercial';
     $hwc_commercial_page_template = 'template-parts/template-commercial.php';
 
-    // Check if the commercial page exists
-    $hwc_commercial_page = get_page_by_path($hwc_commercial_page_slug);
+    if (!$commercial_page_created) {
+        // Check if the Commercial page exists
+        $hwc_commercial_page = get_page_by_path($hwc_commercial_page_slug);
 
-    if (!$hwc_commercial_page) {
-        // Create the commercial page if it doesn't exist
-        $hwc_commercial_page_data = array(
-            'post_title'    => $hwc_commercial_page_title,
-            'post_content'  => '',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_commercial_page_slug,
-            'page_template' => $hwc_commercial_page_template
-        );
-        $hwc_commercial_page_id = wp_insert_post($hwc_commercial_page_data);
+        if (!$hwc_commercial_page) {
+            // Create the Commercial page if it doesn't exist
+            $hwc_commercial_page_data = array(
+                'post_title'    => $hwc_commercial_page_title,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_commercial_page_slug,
+                'page_template' => $hwc_commercial_page_template
+            );
+            $hwc_commercial_page_id = wp_insert_post($hwc_commercial_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_commercial_page_id, '_wp_page_template', $hwc_commercial_page_template);
+            // Set the page template
+            update_post_meta($hwc_commercial_page_id, '_wp_page_template', $hwc_commercial_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_commercial_page_id = $hwc_commercial_page->ID;
+        }
+
+        // Set the flag to indicate Commercial page was created
+        update_option('hwc_commercial_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_commercial_page_id = $hwc_commercial_page->ID;
+        // If the Commercial page creation was already done, just get its ID
+        $hwc_commercial_page = get_page_by_path($hwc_commercial_page_slug);
+        if ($hwc_commercial_page) {
+            $hwc_commercial_page_id = $hwc_commercial_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in commercial page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the commercial page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_commercial_page',
-            'title' => 'Commercial Page Fields',
-            'fields' => array(
-                // Repeater for Commercial Cards
-                array(
-                    'key' => 'hwc_commercial_repeater_cards',
-                    'label' => 'HWC Commercial Cards Repeater',
-                    'name' => 'hwc_repeater_commercial_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_commercial_card_title',
-                            'label' => 'Card Title',
-                            'name' => 'hwc_commercial_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_commercial_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_commercial_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_commercial_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_commercial_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_commercial_page_slug)) {
+        // Register ACF fields for the commercial page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_commercial_page',
+                'title' => 'Commercial Page Fields',
+                'fields' => array(
+                    // Repeater for Commercial Cards
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_commercial_page_id, // Replace with your Commercial page template
+                        'key' => 'hwc_commercial_repeater_cards',
+                        'label' => 'HWC Commercial Cards Repeater',
+                        'name' => 'hwc_repeater_commercial_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_commercial_card_title',
+                                'label' => 'Card Title',
+                                'name' => 'hwc_commercial_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_commercial_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_commercial_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_commercial_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_commercial_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_commercial_page_id, // Replace with your Commercial page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

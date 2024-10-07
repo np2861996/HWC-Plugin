@@ -22,85 +22,102 @@ function hwc_create_stadium_page_with_acf_fields()
         >>> Add page with Template 
     ----------------------------------------------------------------*/
     // Set variables for the stadium page
+    // Check if the stadium page creation has already been run
+    $hwc_stadium_page_created = get_option('hwc_stadium_page_created');
+
+    // Set variables for the stadium page
     $hwc_stadium_page_title = 'Stadium';
     $hwc_stadium_page_slug = 'stadium';
     $hwc_stadium_page_template = 'template-parts/template-stadium.php';
 
-    // Check if the stadium page exists
-    $hwc_stadium_page = get_page_by_path($hwc_stadium_page_slug);
+    if (!$hwc_stadium_page_created) {
+        // Check if the stadium page exists
+        $hwc_stadium_page = get_page_by_path($hwc_stadium_page_slug);
 
-    if (!$hwc_stadium_page) {
-        // Create the stadium page if it doesn't exist
-        $hwc_stadium_page_data = array(
-            'post_title'    => $hwc_stadium_page_title,
-            'post_content'  => 'Everything you need to know for your visit to the Ogi Bridge Meadow Stadium.',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_stadium_page_slug,
-            'page_template' => $hwc_stadium_page_template
-        );
-        $hwc_stadium_page_id = wp_insert_post($hwc_stadium_page_data);
+        if (!$hwc_stadium_page) {
+            // Create the stadium page if it doesn't exist
+            $hwc_stadium_page_data = array(
+                'post_title'    => $hwc_stadium_page_title,
+                'post_content'  => 'Everything you need to know for your visit to the Ogi Bridge Meadow Stadium.',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_stadium_page_slug,
+            );
+            $hwc_stadium_page_id = wp_insert_post($hwc_stadium_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_stadium_page_id, '_wp_page_template', $hwc_stadium_page_template);
+            // Set the page template
+            update_post_meta($hwc_stadium_page_id, '_wp_page_template', $hwc_stadium_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_stadium_page_id = $hwc_stadium_page->ID;
+        }
+
+        // Set the flag to indicate the stadium page was created
+        update_option('hwc_stadium_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_stadium_page_id = $hwc_stadium_page->ID;
+        // If the stadium page creation was already done, just get its ID
+        $hwc_stadium_page = get_page_by_path($hwc_stadium_page_slug);
+        if ($hwc_stadium_page) {
+            $hwc_stadium_page_id = $hwc_stadium_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in stadium page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the stadium page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_stadium_page',
-            'title' => 'Stadium Page Fields',
-            'fields' => array(
-                // Repeater for Stadium Cards
-                array(
-                    'key' => 'hwc_stadium_repeater_cards',
-                    'label' => 'HWC Stadium Cards Repeater',
-                    'name' => 'hwc_repeater_stadium_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_stadium_card_title',
-                            'label' => 'Card Title',
-                            'name' => 'hwc_stadium_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_stadium_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_stadium_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_stadium_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_stadium_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_stadium_page_slug)) {
+        // Register ACF fields for the stadium page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_stadium_page',
+                'title' => 'Stadium Page Fields',
+                'fields' => array(
+                    // Repeater for Stadium Cards
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_stadium_page_id, // Replace with your Stadium page template
+                        'key' => 'hwc_stadium_repeater_cards',
+                        'label' => 'HWC Stadium Cards Repeater',
+                        'name' => 'hwc_repeater_stadium_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_stadium_card_title',
+                                'label' => 'Card Title',
+                                'name' => 'hwc_stadium_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_stadium_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_stadium_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_stadium_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_stadium_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_stadium_page_id, // Replace with your Stadium page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

@@ -21,94 +21,111 @@ function hwc_create_club_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
+    // Check if the Club page creation has already been run
+    $club_page_created = get_option('hwc_club_page_created');
+
     // Set variables for the club page
     $hwc_club_page_title = 'Club';
     $hwc_club_page_slug = 'club';
     $hwc_club_page_template = 'template-parts/template-club.php';
 
-    // Check if the club page exists
-    $hwc_club_page = get_page_by_path($hwc_club_page_slug);
+    if (!$club_page_created) {
+        // Check if the club page exists
+        $hwc_club_page = get_page_by_path($hwc_club_page_slug);
 
-    if (!$hwc_club_page) {
-        // Create the club page if it doesn't exist
-        $hwc_club_page_data = array(
-            'post_title'    => $hwc_club_page_title,
-            'post_content'  => '',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_club_page_slug,
-            'page_template' => $hwc_club_page_template
-        );
-        $hwc_club_page_id = wp_insert_post($hwc_club_page_data);
+        if (!$hwc_club_page) {
+            // Create the club page if it doesn't exist
+            $hwc_club_page_data = array(
+                'post_title'    => $hwc_club_page_title,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_club_page_slug,
+                'page_template' => $hwc_club_page_template
+            );
+            $hwc_club_page_id = wp_insert_post($hwc_club_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_club_page_id, '_wp_page_template', $hwc_club_page_template);
+            // Set the page template
+            update_post_meta($hwc_club_page_id, '_wp_page_template', $hwc_club_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_club_page_id = $hwc_club_page->ID;
+        }
+
+        // Set the flag to indicate the Club page was created
+        update_option('hwc_club_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_club_page_id = $hwc_club_page->ID;
+        // If the Club page creation was already done, just get its ID
+        $hwc_club_page = get_page_by_path($hwc_club_page_slug);
+        if ($hwc_club_page) {
+            $hwc_club_page_id = $hwc_club_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in club page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the club page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_club_page',
-            'title' => 'Club Page Fields',
-            'fields' => array(
-                // Section Title for Club Page
-                array(
-                    'key' => 'hwc_club_section_title',
-                    'label' => 'HWC Club Section Title',
-                    'name' => 'hwc_club_section_title',
-                    'type' => 'text',
-                    'required' => 1,
-                ),
-                // Repeater for Club Cards
-                array(
-                    'key' => 'hwc_club_repeater_cards',
-                    'label' => 'HWC Club Cards Repeater',
-                    'name' => 'hwc_repeater_club_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_club_card_title',
-                            'label' => 'HWC Card Title',
-                            'name' => 'hwc_club_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_club_card_image',
-                            'label' => 'HWC Card Image',
-                            'name' => 'hwc_club_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_club_card_button_link',
-                            'label' => 'HWC Button Link',
-                            'name' => 'hwc_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_club_page_slug)) {
+        // Register ACF fields for the club page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_club_page',
+                'title' => 'Club Page Fields',
+                'fields' => array(
+                    // Section Title for Club Page
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_club_page_id, // Replace with your Club page template
+                        'key' => 'hwc_club_section_title',
+                        'label' => 'HWC Club Section Title',
+                        'name' => 'hwc_club_section_title',
+                        'type' => 'text',
+                        'required' => 1,
+                    ),
+                    // Repeater for Club Cards
+                    array(
+                        'key' => 'hwc_club_repeater_cards',
+                        'label' => 'HWC Club Cards Repeater',
+                        'name' => 'hwc_repeater_club_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_club_card_title',
+                                'label' => 'HWC Card Title',
+                                'name' => 'hwc_club_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_club_card_image',
+                                'label' => 'HWC Card Image',
+                                'name' => 'hwc_club_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_club_card_button_link',
+                                'label' => 'HWC Button Link',
+                                'name' => 'hwc_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_club_page_id, // Replace with your Club page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

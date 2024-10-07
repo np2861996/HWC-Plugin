@@ -21,170 +21,187 @@ function hwc_create_academy_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
+    // Check if the Academy page creation has already been run
+    $academy_page_created = get_option('hwc_academy_page_created');
+
     // Set variables for the academy page
     $hwc_academy_page_title = 'Haverfordwest County AFC Academy';
     $hwc_academy_page_slug = 'academy';
     $hwc_academy_page_template = 'template-parts/template-academy.php';
 
-    // Check if the academy page exists
-    $hwc_academy_page = get_page_by_path($hwc_academy_page_slug);
+    if (!$academy_page_created) {
+        // Check if the academy page exists
+        $hwc_academy_page = get_page_by_path($hwc_academy_page_slug);
 
-    if (!$hwc_academy_page) {
-        // Create the academy page if it doesn't exist
-        $hwc_academy_page_data = array(
-            'post_title'    => $hwc_academy_page_title,
-            'post_content'  => 'Providing the best possible environment for young players to develop and flourish in Pembrokeshire.',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_academy_page_slug,
-            'page_template' => $hwc_academy_page_template
-        );
-        $hwc_academy_page_id = wp_insert_post($hwc_academy_page_data);
+        if (!$hwc_academy_page) {
+            // Create the academy page if it doesn't exist
+            $hwc_academy_page_data = array(
+                'post_title'    => $hwc_academy_page_title,
+                'post_content'  => 'Providing the best possible environment for young players to develop and flourish in Pembrokeshire.',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_academy_page_slug,
+                'page_template' => $hwc_academy_page_template
+            );
+            $hwc_academy_page_id = wp_insert_post($hwc_academy_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_academy_page_id, '_wp_page_template', $hwc_academy_page_template);
+            // Set the page template
+            update_post_meta($hwc_academy_page_id, '_wp_page_template', $hwc_academy_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_academy_page_id = $hwc_academy_page->ID;
+        }
+
+        // Set the flag to indicate the Academy page was created
+        update_option('hwc_academy_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_academy_page_id = $hwc_academy_page->ID;
+        // If the Academy page creation was already done, just get its ID
+        $hwc_academy_page = get_page_by_path($hwc_academy_page_slug);
+        if ($hwc_academy_page) {
+            $hwc_academy_page_id = $hwc_academy_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in academy page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the academy page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_academy_page',
-            'title' => 'Academy Page Fields',
-            'fields' => array(
-                // Section Title for Academy Page
-                // Repeater for Academy Cards
-                array(
-                    'key' => 'hwc_academy_repeater_cards',
-                    'label' => 'Academy Cards Repeater',
-                    'name' => 'hwc_repeater_academy_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_academy_card_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_academy_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_academy_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_academy_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_academy_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_academy_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_academy_section_title_1',
-                    'label' => 'HWC Academy Section Title 1',
-                    'name' => 'hwc_academy_section_title_1',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_our_academy_phases_repeater_cards',
-                    'label' => 'Our Academy Phases Repeater',
-                    'name' => 'hwc_repeater_our_academy_phases_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_our_academy_phases_card_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_our_academy_phases_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_our_academy_phases_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_our_academy_phases_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_our_academy_phases_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_our_academy_phases_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_academy_section_youtube_url',
-                    'label' => 'Youtube URL',
-                    'name' => 'hwc_academy_section_youtube_url',
-                    'type' => 'url',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_academy_select_team',
-                    'label' => 'Select Team',
-                    'name' => 'hwc_academy_select_team',
-                    'type' => 'post_object',
-                    'post_type' => array('team'),
-                    'return_format' => 'id',
-                    'multiple' => 0,
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_academy_faq_repeater_cards',
-                    'label' => 'Our Academy FAQ',
-                    'name' => 'hwc_academy_faq_repeater_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_our_academy_faq_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_our_academy_faq_title',
-                            'type' => 'text',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_our_academy_faq_text',
-                            'label' => 'Text',
-                            'name' => 'hwc_our_academy_faq_text',
-                            'type' => 'wysiwyg',
-                            'required' => 0,
-                            'toolbar' => 'basic', // You can customize the toolbar (optional)
-                            'media_upload' => 1, // Allow media upload (optional)
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_academy_page_slug)) {
+        // Register ACF fields for the academy page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_academy_page',
+                'title' => 'Academy Page Fields',
+                'fields' => array(
+                    // Section Title for Academy Page
+                    // Repeater for Academy Cards
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_academy_page_id, // Replace with your Academy page template
+                        'key' => 'hwc_academy_repeater_cards',
+                        'label' => 'Academy Cards Repeater',
+                        'name' => 'hwc_repeater_academy_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_academy_card_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_academy_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_academy_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_academy_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_academy_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_academy_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_academy_section_title_1',
+                        'label' => 'HWC Academy Section Title 1',
+                        'name' => 'hwc_academy_section_title_1',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_our_academy_phases_repeater_cards',
+                        'label' => 'Our Academy Phases Repeater',
+                        'name' => 'hwc_repeater_our_academy_phases_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_our_academy_phases_card_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_our_academy_phases_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_our_academy_phases_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_our_academy_phases_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_our_academy_phases_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_our_academy_phases_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_academy_section_youtube_url',
+                        'label' => 'Youtube URL',
+                        'name' => 'hwc_academy_section_youtube_url',
+                        'type' => 'url',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_academy_select_team',
+                        'label' => 'Select Team',
+                        'name' => 'hwc_academy_select_team',
+                        'type' => 'post_object',
+                        'post_type' => array('team'),
+                        'return_format' => 'id',
+                        'multiple' => 0,
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_academy_faq_repeater_cards',
+                        'label' => 'Our Academy FAQ',
+                        'name' => 'hwc_academy_faq_repeater_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_our_academy_faq_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_our_academy_faq_title',
+                                'type' => 'text',
+                                'required' => 0,
+                            ),
+                            array(
+                                'key' => 'hwc_our_academy_faq_text',
+                                'label' => 'Text',
+                                'name' => 'hwc_our_academy_faq_text',
+                                'type' => 'wysiwyg',
+                                'required' => 0,
+                                'toolbar' => 'basic', // You can customize the toolbar (optional)
+                                'media_upload' => 1, // Allow media upload (optional)
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_academy_page_id, // Replace with your Academy page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

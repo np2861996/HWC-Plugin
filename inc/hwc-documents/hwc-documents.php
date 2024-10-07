@@ -22,107 +22,126 @@ function hwc_create_documents_page_with_acf_fields()
         >>> Add page with Template 
     ----------------------------------------------------------------*/
     // Set variables for the documents page
+    // Check if the documents page creation has already been run
+    $documents_page_created = get_option('hwc_documents_page_created');
+
+    // Set variables for the documents page
     $hwc_documents_page_title = 'Documents';
     $hwc_documents_page_slug = 'documents';
     $hwc_documents_page_template = 'template-parts/template-documents.php';
 
-    // Check if the documents page exists
-    $hwc_documents_page = get_page_by_path($hwc_documents_page_slug);
+    if (!$documents_page_created) {
 
-    if (!$hwc_documents_page) {
-        // Create the documents page if it doesn't exist
-        $hwc_documents_page_data = array(
-            'post_title'    => $hwc_documents_page_title,
-            'post_content'  => '',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_documents_page_slug,
-            'page_template' => $hwc_documents_page_template
-        );
-        $hwc_documents_page_id = wp_insert_post($hwc_documents_page_data);
+        // Check if the documents page exists
+        $hwc_documents_page = get_page_by_path($hwc_documents_page_slug);
 
-        // Set the page template
-        update_post_meta($hwc_documents_page_id, '_wp_page_template', $hwc_documents_page_template);
+        if (!$hwc_documents_page) {
+            // Create the documents page if it doesn't exist
+            $hwc_documents_page_data = array(
+                'post_title'    => $hwc_documents_page_title,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_documents_page_slug,
+                'page_template' => $hwc_documents_page_template
+            );
+            $hwc_documents_page_id = wp_insert_post($hwc_documents_page_data);
+
+            // Set the page template
+            update_post_meta($hwc_documents_page_id, '_wp_page_template', $hwc_documents_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_documents_page_id = $hwc_documents_page->ID;
+        }
+
+        // Set the flag to indicate documents page was created
+        update_option('hwc_documents_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_documents_page_id = $hwc_documents_page->ID;
+        // If the documents page creation was already done, just get its ID
+        $hwc_documents_page = get_page_by_path($hwc_documents_page_slug);
+        if ($hwc_documents_page) {
+            $hwc_documents_page_id = $hwc_documents_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in documents page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the documents page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_documents_page',
-            'title' => 'Documents Page Fields',
-            'fields' => array(
-                // Section Title for Documents Page
-                array(
-                    'key' => 'hwc_documents_section_title',
-                    'label' => 'Documents Section Title',
-                    'name' => 'hwc_documents_section_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                // Repeater for Documents Cards
-                array(
-                    'key' => 'hwc_documents_repeater_cards',
-                    'label' => 'Documents Cards Repeater',
-                    'name' => 'hwc_repeater_documents_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_documents_card_title',
-                            'label' => 'Card Title',
-                            'name' => 'hwc_documents_card_title',
-                            'type' => 'text',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_documents_card_button_link',
-                            'label' => 'Document Link',
-                            'name' => 'hwc_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_documents_bottom_section_title',
-                    'label' => 'Documents bottom Section Title',
-                    'name' => 'hwc_documents_bottom_section_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_documents_bottom_section_textarea',
-                    'label' => 'Documents bottom Section Textarea',
-                    'name' => 'hwc_documents_bottom_section_textarea',
-                    'type' => 'textarea',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_documents_bottom_section_button',
-                    'label' => 'Documents bottom Section Button',
-                    'name' => 'hwc_documents_bottom_section_button',
-                    'type' => 'link',
-                    'required' => 0,
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_documents_page_slug)) {
+        // Register ACF fields for the documents page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_documents_page',
+                'title' => 'Documents Page Fields',
+                'fields' => array(
+                    // Section Title for Documents Page
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_documents_page_id, // Replace with your Documents page template
+                        'key' => 'hwc_documents_section_title',
+                        'label' => 'Documents Section Title',
+                        'name' => 'hwc_documents_section_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    // Repeater for Documents Cards
+                    array(
+                        'key' => 'hwc_documents_repeater_cards',
+                        'label' => 'Documents Cards Repeater',
+                        'name' => 'hwc_repeater_documents_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_documents_card_title',
+                                'label' => 'Card Title',
+                                'name' => 'hwc_documents_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_documents_card_button_link',
+                                'label' => 'Document Link',
+                                'name' => 'hwc_button_link',
+                                'type' => 'link',
+                                'required' => 1,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_documents_bottom_section_title',
+                        'label' => 'Documents bottom Section Title',
+                        'name' => 'hwc_documents_bottom_section_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_documents_bottom_section_textarea',
+                        'label' => 'Documents bottom Section Textarea',
+                        'name' => 'hwc_documents_bottom_section_textarea',
+                        'type' => 'textarea',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_documents_bottom_section_button',
+                        'label' => 'Documents bottom Section Button',
+                        'name' => 'hwc_documents_bottom_section_button',
+                        'type' => 'link',
+                        'required' => 0,
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_documents_page_id, // Replace with your Documents page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

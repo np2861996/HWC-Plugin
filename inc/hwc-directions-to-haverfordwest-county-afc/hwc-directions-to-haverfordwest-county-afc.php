@@ -21,19 +21,23 @@ function hwc_create_directions_to_haverfordwest_county_afc_page_with_acf_fields(
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
+    // Check if the directions-to-haverfordwest-county-afc page creation has already been run
+    $hwc_directions_to_haverfordwest_county_afc_created = get_option('hwc_directions_to_haverfordwest_county_afc_created');
+
     // Set variables for the directions-to-haverfordwest-county-afc page
     $hwc_directions_to_haverfordwest_county_afc_page_title = 'Directions to Haverfordwest County AFC';
     $hwc_directions_to_haverfordwest_county_afc_page_slug = 'directions-to-haverfordwest-county-afc';
     $hwc_directions_to_haverfordwest_county_afc_page_template = 'template-parts/template-directions-to-haverfordwest-county-afc.php';
 
-    // Check if the directions-to-haverfordwest-county-afc page exists
-    $hwc_directions_to_haverfordwest_county_afc_page = get_page_by_path($hwc_directions_to_haverfordwest_county_afc_page_slug);
+    if (!$hwc_directions_to_haverfordwest_county_afc_created) {
+        // Check if the directions-to-haverfordwest-county-afc page exists
+        $hwc_directions_to_haverfordwest_county_afc_page = get_page_by_path($hwc_directions_to_haverfordwest_county_afc_page_slug);
 
-    if (!$hwc_directions_to_haverfordwest_county_afc_page) {
-        // Create the directions-to-haverfordwest-county-afc page if it doesn't exist
-        $hwc_directions_to_haverfordwest_county_afc_page_data = array(
-            'post_title'    => $hwc_directions_to_haverfordwest_county_afc_page_title,
-            'post_content'  => '<p>The Ogi Bridge Meadow Stadium,</p>
+        if (!$hwc_directions_to_haverfordwest_county_afc_page) {
+            // Create the directions-to-haverfordwest-county-afc page if it doesn't exist
+            $hwc_directions_to_haverfordwest_county_afc_page_data = array(
+                'post_title'    => $hwc_directions_to_haverfordwest_county_afc_page_title,
+                'post_content'  => '<p>The Ogi Bridge Meadow Stadium,</p>
                                 <p>Bridge Meadow Lane,</p>
                                 <p>Sydney Rees Way,</p>
                                 <p>Haverfordwest,</p>
@@ -51,19 +55,30 @@ function hwc_create_directions_to_haverfordwest_county_afc_page_with_acf_fields(
                                 <p><strong>From Haverfordwest Station </strong>– From the main entrance, turn left and walk down the hill towards the town centre. Just before you reach the roundabout, bear right and cross the road to head towards the flyover bridge. Then, cross the road to reach the pavement adjacent to the County Hotel, before baring right to follow the pavement which leads you underneath the flyover bridge and towards the next roundabout.</p>
                                 <p>Follow the pavement until just before the next roundabout, where you bare left slightly to join another pavement which heads in the direction of Morrisons on the other side of the roundabout. Head down the slope, where you will then see two tunnels, take the left tunnel which has the sign ‘Bridge Meadow’ on it, and then follow the path forwards. You will need to bare left slightly just before reaching the stadium, however, at this point, you will be able to see the car park and the stadium in the background.</p>
                                 <p>&nbsp;</p>',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_directions_to_haverfordwest_county_afc_page_slug,
-            'page_template' => $hwc_directions_to_haverfordwest_county_afc_page_template
-        );
-        $hwc_directions_to_haverfordwest_county_afc_page_id = wp_insert_post($hwc_directions_to_haverfordwest_county_afc_page_data);
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_directions_to_haverfordwest_county_afc_page_slug,
+                'page_template' => $hwc_directions_to_haverfordwest_county_afc_page_template
+            );
+            $hwc_directions_to_haverfordwest_county_afc_page_id = wp_insert_post($hwc_directions_to_haverfordwest_county_afc_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_directions_to_haverfordwest_county_afc_page_id, '_wp_page_template', $hwc_directions_to_haverfordwest_county_afc_page_template);
+            // Set the page template
+            update_post_meta($hwc_directions_to_haverfordwest_county_afc_page_id, '_wp_page_template', $hwc_directions_to_haverfordwest_county_afc_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_directions_to_haverfordwest_county_afc_page_id = $hwc_directions_to_haverfordwest_county_afc_page->ID;
+        }
+
+        // Set the flag to indicate directions-to-haverfordwest-county-afc page was created
+        update_option('hwc_directions_to_haverfordwest_county_afc_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_directions_to_haverfordwest_county_afc_page_id = $hwc_directions_to_haverfordwest_county_afc_page->ID;
+        // If the page creation was already done, just get its ID
+        $hwc_directions_to_haverfordwest_county_afc_page = get_page_by_path($hwc_directions_to_haverfordwest_county_afc_page_slug);
+        if ($hwc_directions_to_haverfordwest_county_afc_page) {
+            $hwc_directions_to_haverfordwest_county_afc_page_id = $hwc_directions_to_haverfordwest_county_afc_page->ID;
+        }
     }
+
 
 
     /*--------------------------------------------------------------

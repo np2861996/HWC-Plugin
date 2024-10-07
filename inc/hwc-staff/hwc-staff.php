@@ -332,8 +332,8 @@ function hwc_populate_staff_data()
                 ),
                 'biography_title' => 'Biography',
                 'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                'big_image_1' => 'staff-image1.jpg',
-                'big_image_2' => 'staff-image2.jpg',
+                'big_image_1' => 'player-image1.jpg',
+                'big_image_2' => 'player-image2.jpg',
             ),
             array(
                 'background_image' => 'Hwest-County-vs-Cardiff-City-u21-151-scaled.jpg',

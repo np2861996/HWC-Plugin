@@ -22,141 +22,157 @@ function hwc_create_youth_phase_page_with_acf_fields()
         >>> Add page with Template 
     ----------------------------------------------------------------*/
     // Set variables for the youth_phase page
+    // Check if the youth_phase page creation has already been run
+    $hwc_youth_phase_page_created = get_option('hwc_youth_phase_page_created');
+
+    // Set variables for the youth_phase page
     $hwc_youth_phase_page_title = 'Youth Phase';
-    $hwc_youth_phase_page_slug = 'youth_phase';
+    $hwc_youth_phase_page_slug = 'youth-phase';
     $hwc_youth_phase_page_template = 'template-parts/template-youth-phase.php';
 
-    // Check if the youth_phase page exists
-    $hwc_youth_phase_page = get_page_by_path($hwc_youth_phase_page_slug);
+    if (!$hwc_youth_phase_page_created) {
+        // Check if the youth_phase page exists
+        $hwc_youth_phase_page = get_page_by_path($hwc_youth_phase_page_slug);
 
-    if (!$hwc_youth_phase_page) {
-        // Create the youth_phase page if it doesn't exist
-        $hwc_youth_phase_page_data = array(
-            'post_title'    => $hwc_youth_phase_page_title,
-            'post_content'  => 'FIXTURES: Cymru Premier Development League South 2023-24',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_youth_phase_page_slug,
-            'page_template' => $hwc_youth_phase_page_template
-        );
-        $hwc_youth_phase_page_id = wp_insert_post($hwc_youth_phase_page_data);
+        if (!$hwc_youth_phase_page) {
+            // Create the youth_phase page if it doesn't exist
+            $hwc_youth_phase_page_data = array(
+                'post_title'    => $hwc_youth_phase_page_title,
+                'post_content'  => 'FIXTURES: Cymru Premier Development League South 2023-24',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_youth_phase_page_slug,
+            );
+            $hwc_youth_phase_page_id = wp_insert_post($hwc_youth_phase_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_youth_phase_page_id, '_wp_page_template', $hwc_youth_phase_page_template);
+            // Set the page template
+            update_post_meta($hwc_youth_phase_page_id, '_wp_page_template', $hwc_youth_phase_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_youth_phase_page_id = $hwc_youth_phase_page->ID;
+        }
+
+        // Set the flag to indicate the youth_phase page was created
+        update_option('hwc_youth_phase_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_youth_phase_page_id = $hwc_youth_phase_page->ID;
+        // If the youth_phase page creation was already done, just get its ID
+        $hwc_youth_phase_page = get_page_by_path($hwc_youth_phase_page_slug);
+        if ($hwc_youth_phase_page) {
+            $hwc_youth_phase_page_id = $hwc_youth_phase_page->ID;
+        }
     }
 
     /*--------------------------------------------------------------
         >>> Add Fields data in youth_phase page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the youth_phase page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_youth_phase_page',
-            'title' => 'Youth Phase Page Fields',
-            'fields' => array(
-                // FAQ Repeater
-                array(
-                    'key' => 'hwc_youth_phase_faq_repeater_cards',
-                    'label' => 'Our Youth Phase FAQ',
-                    'name' => 'hwc_youth_phase_faq_repeater_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_our_youth_phase_faq_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_our_youth_phase_faq_title',
-                            'type' => 'text',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_our_youth_phase_faq_text',
-                            'label' => 'Text',
-                            'name' => 'hwc_our_youth_phase_faq_text',
-                            'type' => 'wysiwyg',
-                            'required' => 0,
-                            'toolbar' => 'basic', // You can customize the toolbar (optional)
-                            'media_upload' => 1, // Allow media upload (optional)
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_youth_phase_voap_section_title',
-                    'label' => 'View our other Academy Phases Title',
-                    'name' => 'hwc_youth_phase_voap_section_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                // Repeater for Youth Phase Cards
-                array(
-                    'key' => 'hwc_youth_phase_repeater_cards',
-                    'label' => 'View our other Academy Phases Repeater',
-                    'name' => 'hwc_repeater_youth_phase_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_youth_phase_card_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_youth_phase_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_youth_phase_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_youth_phase_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_youth_phase_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_youth_phase_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_youth_phase_section_title',
-                    'label' => 'Academy Online Shop Title',
-                    'name' => 'hwc_youth_phase_section_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_youth_phase_aos_button_link',
-                    'label' => 'Button Link',
-                    'name' => 'hwc_youth_phase_aos_button_link',
-                    'type' => 'link',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_youth_phase_aos_image',
-                    'label' => 'Image',
-                    'name' => 'hwc_youth_phase_aos_image',
-                    'type' => 'image',
-                    'required' => 0,
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_youth_phase_page_slug)) {
+        // Register ACF fields for the youth_phase page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_youth_phase_page',
+                'title' => 'Youth Phase Page Fields',
+                'fields' => array(
+                    // FAQ Repeater
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_youth_phase_page_id, // Replace with your Youth Phase page template
+                        'key' => 'hwc_youth_phase_faq_repeater_cards',
+                        'label' => 'Our Youth Phase FAQ',
+                        'name' => 'hwc_youth_phase_faq_repeater_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_our_youth_phase_faq_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_our_youth_phase_faq_title',
+                                'type' => 'text',
+                                'required' => 0,
+                            ),
+                            array(
+                                'key' => 'hwc_our_youth_phase_faq_text',
+                                'label' => 'Text',
+                                'name' => 'hwc_our_youth_phase_faq_text',
+                                'type' => 'wysiwyg',
+                                'required' => 0,
+                                'toolbar' => 'basic', // You can customize the toolbar (optional)
+                                'media_upload' => 1, // Allow media upload (optional)
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_youth_phase_voap_section_title',
+                        'label' => 'View our other Academy Phases Title',
+                        'name' => 'hwc_youth_phase_voap_section_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    // Repeater for Youth Phase Cards
+                    array(
+                        'key' => 'hwc_youth_phase_repeater_cards',
+                        'label' => 'View our other Academy Phases Repeater',
+                        'name' => 'hwc_repeater_youth_phase_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_youth_phase_card_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_youth_phase_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_youth_phase_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_youth_phase_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_youth_phase_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_youth_phase_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_youth_phase_section_title',
+                        'label' => 'Academy Online Shop Title',
+                        'name' => 'hwc_youth_phase_section_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_youth_phase_aos_button_link',
+                        'label' => 'Button Link',
+                        'name' => 'hwc_youth_phase_aos_button_link',
+                        'type' => 'link',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_youth_phase_aos_image',
+                        'label' => 'Image',
+                        'name' => 'hwc_youth_phase_aos_image',
+                        'type' => 'image',
+                        'required' => 0,
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_youth_phase_page_id, // Replace with your Youth Phase page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

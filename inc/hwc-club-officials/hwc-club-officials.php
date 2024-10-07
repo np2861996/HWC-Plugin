@@ -20,101 +20,118 @@ function hwc_create_club_officials_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
-    // Set variables for the club page
+    // Check if the Club Officials page creation has already been run
+    $club_officials_page_created = get_option('hwc_club_officials_page_created');
+
+    // Set variables for the Club Officials page
     $hwc_club_officials_page_title = 'Club Officials';
-    $hwc_club_officials_page_slug = 'club officials';
+    $hwc_club_officials_page_slug = 'club-officials';
     $hwc_club_officials_page_template = 'template-parts/template-club-officials.php';
 
-    // Check if the club officials page exists
-    $hwc_club_officials_page = get_page_by_path($hwc_club_officials_page_slug);
+    if (!$club_officials_page_created) {
+        // Check if the Club Officials page exists
+        $hwc_club_officials_page = get_page_by_path($hwc_club_officials_page_slug);
 
-    if (!$hwc_club_officials_page) {
-        // Create the club page if it doesn't exist
-        $hwc_club_officials_page_data = array(
-            'post_title'    => $hwc_club_officials_page_title,
-            'post_content'  => '',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_club_officials_page_slug,
-            'page_template' => $hwc_club_officials_page_template
-        );
-        $hwc_club_officials_page_id = wp_insert_post($hwc_club_officials_page_data);
+        if (!$hwc_club_officials_page) {
+            // Create the Club Officials page if it doesn't exist
+            $hwc_club_officials_page_data = array(
+                'post_title'    => $hwc_club_officials_page_title,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_club_officials_page_slug,
+                'page_template' => $hwc_club_officials_page_template
+            );
+            $hwc_club_officials_page_id = wp_insert_post($hwc_club_officials_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_club_officials_page_id, '_wp_page_template', $hwc_club_officials_page_template);
+            // Set the page template
+            update_post_meta($hwc_club_officials_page_id, '_wp_page_template', $hwc_club_officials_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_club_officials_page_id = $hwc_club_officials_page->ID;
+        }
+
+        // Set the flag to indicate the Club Officials page was created
+        update_option('hwc_club_officials_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_club_officials_page_id = $hwc_club_officials_page->ID;
+        // If the Club Officials page creation was already done, just get its ID
+        $hwc_club_officials_page = get_page_by_path($hwc_club_officials_page_slug);
+        if ($hwc_club_officials_page) {
+            $hwc_club_officials_page_id = $hwc_club_officials_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in club officials page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the club officials page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_club_officials_page',
-            'title' => 'Club Officials Page Fields',
-            'fields' => array(
-                // Section Title for Club officials Page
-                array(
-                    'key' => 'hwc_club_officials_section_title',
-                    'label' => 'Title',
-                    'name' => 'hwc_club_officials_section_title',
-                    'type' => 'text',
-                    'required' => 1,
-                ),
-                // Repeater for Club officials Cards
-                array(
-                    'key' => 'hwc_club_officials_repeater_cards',
-                    'label' => 'Club Officials Repeater',
-                    'name' => 'hwc_repeater_club_officials_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_club_officials_card_title_1',
-                            'label' => 'Card Title 1',
-                            'name' => 'hwc_club_officials_card_title_1',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_club_officials_card_title_2',
-                            'label' => 'Title 2',
-                            'name' => 'hwc_club_officials_card_title_2',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_club_officials_card_image',
-                            'label' => 'Image',
-                            'name' => 'hwc_club_officials_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_club_officials_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_club_officials_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_club_officials_page_slug)) {
+        // Register ACF fields for the club officials page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_club_officials_page',
+                'title' => 'Club Officials Page Fields',
+                'fields' => array(
+                    // Section Title for Club officials Page
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_club_officials_page_id, // Replace with your Club officials page template
+                        'key' => 'hwc_club_officials_section_title',
+                        'label' => 'Title',
+                        'name' => 'hwc_club_officials_section_title',
+                        'type' => 'text',
+                        'required' => 1,
+                    ),
+                    // Repeater for Club officials Cards
+                    array(
+                        'key' => 'hwc_club_officials_repeater_cards',
+                        'label' => 'Club Officials Repeater',
+                        'name' => 'hwc_repeater_club_officials_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_club_officials_card_title_1',
+                                'label' => 'Card Title 1',
+                                'name' => 'hwc_club_officials_card_title_1',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_club_officials_card_title_2',
+                                'label' => 'Title 2',
+                                'name' => 'hwc_club_officials_card_title_2',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_club_officials_card_image',
+                                'label' => 'Image',
+                                'name' => 'hwc_club_officials_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_club_officials_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_club_officials_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_club_officials_page_id, // Replace with your Club officials page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

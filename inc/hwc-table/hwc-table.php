@@ -72,6 +72,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Wins
                             array(
@@ -81,6 +82,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Draws
                             array(
@@ -90,6 +92,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Losses
                             array(
@@ -99,6 +102,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Goals For
                             array(
@@ -108,6 +112,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Goals Against
                             array(
@@ -117,6 +122,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Plus/Minus (Goals Difference)
                             array(
@@ -126,6 +132,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Points
                             array(
@@ -135,6 +142,7 @@ function hwc_add_acf_fields_league_table()
                                 'type' => 'number',
                                 'default_value' => 0,
                                 'min' => 0,
+                                'required' => 1,
                             ),
                             // Last 6 Games (Repeater for Win/Loss/Draw)
                             array(

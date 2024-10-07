@@ -21,19 +21,23 @@ function hwc_create_development_phase_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
+    // Check if the development_phase page creation has already been run
+    $development_phase_created = get_option('hwc_development_phase_created');
+
     // Set variables for the development_phase page
     $hwc_development_phase_page_title = 'Development Phase';
-    $hwc_development_phase_page_slug = 'development_phase';
+    $hwc_development_phase_page_slug = 'development-phase';
     $hwc_development_phase_page_template = 'template-parts/template-development-phase.php';
 
-    // Check if the development_phase page exists
-    $hwc_development_phase_page = get_page_by_path($hwc_development_phase_page_slug);
+    if (!$development_phase_created) {
+        // Check if the development_phase page exists
+        $hwc_development_phase_page = get_page_by_path($hwc_development_phase_page_slug);
 
-    if (!$hwc_development_phase_page) {
-        // Create the development_phase page if it doesn't exist
-        $hwc_development_phase_page_data = array(
-            'post_title'    => $hwc_development_phase_page_title,
-            'post_content'  => '<h5>FIXTURES: Cymru Premier Development League South 2023-24</h5>
+        if (!$hwc_development_phase_page) {
+            // Create the development_phase page if it doesn't exist
+            $hwc_development_phase_page_data = array(
+                'post_title'    => $hwc_development_phase_page_title,
+                'post_content'  => '<h5>FIXTURES: Cymru Premier Development League South 2023-24</h5>
             <p>August 20 – <a href="https://haverfordwestcountyafc.com/matches/2023-24/8757/haverfordwest-county-vs-briton-ferry-llansawel/">Haverfordwest County 1-2 Briton Ferry Llansawel</a></p>
             <p>August 27 – Llanelli Town 1-2 Haverfordwest County</p>
             <p>September 10 – Pontardawe Town (home)</p>
@@ -63,106 +67,119 @@ function hwc_create_development_phase_page_with_acf_fields()
             <p>April 14 – Cardiff Metropolitan (home)</p>
             <p>April 21 – Pontypridd United (away)</p>
             <p>April 28 – Cambrian and Clydach Vale (home)</p>',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_development_phase_page_slug,
-            'page_template' => $hwc_development_phase_page_template
-        );
-        $hwc_development_phase_page_id = wp_insert_post($hwc_development_phase_page_data);
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_development_phase_page_slug,
+                'page_template' => $hwc_development_phase_page_template
+            );
+            $hwc_development_phase_page_id = wp_insert_post($hwc_development_phase_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_development_phase_page_id, '_wp_page_template', $hwc_development_phase_page_template);
+            // Set the page template
+            update_post_meta($hwc_development_phase_page_id, '_wp_page_template', $hwc_development_phase_page_template);
+
+            // Set the flag to indicate development phase page was created
+            update_option('hwc_development_phase_created', true);
+        } else {
+            // If the page exists, get its ID
+            $hwc_development_phase_page_id = $hwc_development_phase_page->ID;
+        }
     } else {
-        // If the page exists, get its ID
-        $hwc_development_phase_page_id = $hwc_development_phase_page->ID;
+        // If the development phase page creation was already done, just get its ID
+        $hwc_development_phase_page = get_page_by_path($hwc_development_phase_page_slug);
+        if ($hwc_development_phase_page) {
+            $hwc_development_phase_page_id = $hwc_development_phase_page->ID;
+        }
     }
+
 
     /*--------------------------------------------------------------
         >>> Add Fields data in development_phase page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the development_phase page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_development_phase_page',
-            'title' => 'Development Phase Page Fields',
-            'fields' => array(
-                // Player Repeater
-                array(
-                    'key' => 'hwc_development_phase_player_repeater_cards',
-                    'label' => 'Our Development Phase Player',
-                    'name' => 'hwc_development_phase_player_repeater_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_our_development_phase_player_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_our_development_phase_player_title',
-                            'type' => 'text',
-                            'required' => 0,
-                        ),
-                        array(
-                            'key' => 'hwc_our_development_phase_player_image',
-                            'label' => 'Image',
-                            'name' => 'hwc_our_development_phase_player_image',
-                            'type' => 'image',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-                array(
-                    'key' => 'hwc_development_phase_voap_section_title',
-                    'label' => 'View our other Academy Phases Title',
-                    'name' => 'hwc_development_phase_voap_section_title',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                // Repeater for Development Phase Cards
-                array(
-                    'key' => 'hwc_development_phase_repeater_cards',
-                    'label' => 'View our other Academy Phases Repeater',
-                    'name' => 'hwc_repeater_development_phase_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_development_phase_card_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_development_phase_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_development_phase_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_development_phase_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_development_phase_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_development_phase_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_development_phase_page_slug)) {
+        // Register ACF fields for the development_phase page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_development_phase_page',
+                'title' => 'Development Phase Page Fields',
+                'fields' => array(
+                    // Player Repeater
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_development_phase_page_id, // Replace with your Development Phase page template
+                        'key' => 'hwc_development_phase_player_repeater_cards',
+                        'label' => 'Our Development Phase Player',
+                        'name' => 'hwc_development_phase_player_repeater_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_our_development_phase_player_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_our_development_phase_player_title',
+                                'type' => 'text',
+                                'required' => 0,
+                            ),
+                            array(
+                                'key' => 'hwc_our_development_phase_player_image',
+                                'label' => 'Image',
+                                'name' => 'hwc_our_development_phase_player_image',
+                                'type' => 'image',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
+                    ),
+                    array(
+                        'key' => 'hwc_development_phase_voap_section_title',
+                        'label' => 'View our other Academy Phases Title',
+                        'name' => 'hwc_development_phase_voap_section_title',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    // Repeater for Development Phase Cards
+                    array(
+                        'key' => 'hwc_development_phase_repeater_cards',
+                        'label' => 'View our other Academy Phases Repeater',
+                        'name' => 'hwc_repeater_development_phase_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_development_phase_card_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_development_phase_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_development_phase_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_development_phase_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_development_phase_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_development_phase_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_development_phase_page_id, // Replace with your Development Phase page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------

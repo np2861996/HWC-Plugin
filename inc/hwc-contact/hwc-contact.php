@@ -17,19 +17,23 @@ function hwc_create_contact_page()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
-    // Set variables for the contact page
+    // Check if the Contact page creation has already been run
+    $contact_page_created = get_option('hwc_contact_page_created');
+
+    // Set variables for the Contact page
     $hwc_contact_page_title = 'Contact';
     $hwc_contact_page_slug = 'contact';
     $hwc_contact_page_template = 'template-parts/template-contact.php';
 
-    // Check if the contact page exists
-    $hwc_contact_page = get_page_by_path($hwc_contact_page_slug);
+    if (!$contact_page_created) {
+        // Check if the Contact page exists
+        $hwc_contact_page = get_page_by_path($hwc_contact_page_slug);
 
-    if (!$hwc_contact_page) {
-        // Create the contact page if it doesn't exist
-        $hwc_contact_page_data = array(
-            'post_title'    => $hwc_contact_page_title,
-            'post_content'  => '<blockquote>
+        if (!$hwc_contact_page) {
+            // Create the Contact page if it doesn't exist
+            $hwc_contact_page_data = array(
+                'post_title'    => $hwc_contact_page_title,
+                'post_content'  => '<blockquote>
 <h2>How to find us</h2>
 </blockquote>
 <p>The Ogi Bridge Meadow Stadium,</p>
@@ -71,25 +75,37 @@ function hwc_create_contact_page()
 <p>Alaric Jones</p>
 <p><span style="text-decoration: underline;"><strong>Videographer</strong></span></p>
 <p>Ryan Evans</p>',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_contact_page_slug,
-            'page_template' => $hwc_contact_page_template
-        );
-        $hwc_contact_page_id = wp_insert_post($hwc_contact_page_data);
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_contact_page_slug,
+                'page_template' => $hwc_contact_page_template
+            );
+            $hwc_contact_page_id = wp_insert_post($hwc_contact_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_contact_page_id, '_wp_page_template', $hwc_contact_page_template);
+            // Set the page template
+            update_post_meta($hwc_contact_page_id, '_wp_page_template', $hwc_contact_page_template);
+
+            // Set the flag to indicate the Contact page was created
+            update_option('hwc_contact_page_created', true);
+        } else {
+            // If the page exists, get its ID
+            $hwc_contact_page_id = $hwc_contact_page->ID;
+        }
     } else {
-        // If the page exists, get its ID
-        $hwc_contact_page_id = $hwc_contact_page->ID;
+        // If the Contact page creation was already done, just get its ID
+        $hwc_contact_page = get_page_by_path($hwc_contact_page_slug);
+        if ($hwc_contact_page) {
+            $hwc_contact_page_id = $hwc_contact_page->ID;
+        }
     }
 
-    $contact_page_image_id = hwc_create_image_from_plugin('K336021-scaled-1.jpg', $hwc_contact_page_id);
-    if ($contact_page_image_id) {
-        set_post_thumbnail($hwc_contact_page_id, $contact_page_image_id);
-    } else {
-        error_log('Failed to set featured image for Contact Page');
+    if (get_page_by_path($hwc_contact_page_slug)) {
+        $contact_page_image_id = hwc_create_image_from_plugin('K336021-scaled-1.jpg', $hwc_contact_page_id);
+        if ($contact_page_image_id) {
+            set_post_thumbnail($hwc_contact_page_id, $contact_page_image_id);
+        } else {
+            error_log('Failed to set featured image for Contact Page');
+        }
     }
 }
 //end

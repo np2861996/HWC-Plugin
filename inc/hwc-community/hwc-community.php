@@ -21,101 +21,117 @@ function hwc_create_community_page_with_acf_fields()
     /*--------------------------------------------------------------
         >>> Add page with Template 
     ----------------------------------------------------------------*/
-    // Set variables for the community page
+    // Check if the Community page creation has already been run
+    $community_page_created = get_option('hwc_community_page_created');
+
+    // Set variables for the Community page
     $hwc_community_page_title = 'Community';
     $hwc_community_page_slug = 'community';
     $hwc_community_page_template = 'template-parts/template-community.php';
 
-    // Check if the community page exists
-    $hwc_community_page = get_page_by_path($hwc_community_page_slug);
+    if (!$community_page_created) {
+        // Check if the Community page exists
+        $hwc_community_page = get_page_by_path($hwc_community_page_slug);
 
-    if (!$hwc_community_page) {
-        // Create the community page if it doesn't exist
-        $hwc_community_page_data = array(
-            'post_title'    => $hwc_community_page_title,
-            'post_content'  => 'More information on our upcoming community projects will be announced in due course.',
-            'post_status'   => 'publish',
-            'post_type'     => 'page',
-            'post_name'     => $hwc_community_page_slug,
-            'page_template' => $hwc_community_page_template
-        );
-        $hwc_community_page_id = wp_insert_post($hwc_community_page_data);
+        if (!$hwc_community_page) {
+            // Create the Community page if it doesn't exist
+            $hwc_community_page_data = array(
+                'post_title'    => $hwc_community_page_title,
+                'post_content'  => 'More information on our upcoming community projects will be announced in due course.',
+                'post_status'   => 'publish',
+                'post_type'     => 'page',
+                'post_name'     => $hwc_community_page_slug,
+                'page_template' => $hwc_community_page_template
+            );
+            $hwc_community_page_id = wp_insert_post($hwc_community_page_data);
 
-        // Set the page template
-        update_post_meta($hwc_community_page_id, '_wp_page_template', $hwc_community_page_template);
+            // Set the page template
+            update_post_meta($hwc_community_page_id, '_wp_page_template', $hwc_community_page_template);
+        } else {
+            // If the page exists, get its ID
+            $hwc_community_page_id = $hwc_community_page->ID;
+        }
+
+        // Set the flag to indicate Community page was created
+        update_option('hwc_community_page_created', true);
     } else {
-        // If the page exists, get its ID
-        $hwc_community_page_id = $hwc_community_page->ID;
+        // If the Community page creation was already done, just get its ID
+        $hwc_community_page = get_page_by_path($hwc_community_page_slug);
+        if ($hwc_community_page) {
+            $hwc_community_page_id = $hwc_community_page->ID;
+        }
     }
 
     /*--------------------------------------------------------------
         >>> Add Fields data in community page. 
     ----------------------------------------------------------------*/
-    // Register ACF fields for the community page
-    if (function_exists('acf_add_local_field_group')) {
-        acf_add_local_field_group(array(
-            'key' => 'group_hwc_community_page',
-            'title' => 'Community Page Fields',
-            'fields' => array(
-                // Section Title for Community Page
-                array(
-                    'key' => 'hwc_community_section_title_1',
-                    'label' => 'HWC Community Section Title 1',
-                    'name' => 'hwc_community_section_title_1',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                array(
-                    'key' => 'hwc_community_section_title_2',
-                    'label' => 'HWC Community Section Title 2',
-                    'name' => 'hwc_community_section_title_2',
-                    'type' => 'text',
-                    'required' => 0,
-                ),
-                // Repeater for Community Cards
-                array(
-                    'key' => 'hwc_community_repeater_cards',
-                    'label' => 'Community Cards Repeater',
-                    'name' => 'hwc_repeater_community_cards',
-                    'type' => 'repeater',
-                    'sub_fields' => array(
-                        array(
-                            'key' => 'hwc_community_card_title',
-                            'label' => 'Title',
-                            'name' => 'hwc_community_card_title',
-                            'type' => 'text',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_community_card_image',
-                            'label' => 'Card Image',
-                            'name' => 'hwc_community_card_image',
-                            'type' => 'image',
-                            'required' => 1,
-                        ),
-                        array(
-                            'key' => 'hwc_community_card_button_link',
-                            'label' => 'Button Link',
-                            'name' => 'hwc_community_card_button_link',
-                            'type' => 'link',
-                            'required' => 0,
-                        ),
-                    ),
-                    'min' => 0,
-                    'layout' => 'block', // You can change to 'row' if preferred
-                    'button_label' => 'Add Card',
-                ),
-            ),
-            'location' => array(
-                array(
+    if (get_page_by_path($hwc_community_page_slug)) {
+        // Register ACF fields for the community page
+        if (function_exists('acf_add_local_field_group')) {
+            acf_add_local_field_group(array(
+                'key' => 'group_hwc_community_page',
+                'title' => 'Community Page Fields',
+                'fields' => array(
+                    // Section Title for Community Page
                     array(
-                        'param' => 'page',
-                        'operator' => '==',
-                        'value' => $hwc_community_page_id, // Replace with your Community page template
+                        'key' => 'hwc_community_section_title_1',
+                        'label' => 'HWC Community Section Title 1',
+                        'name' => 'hwc_community_section_title_1',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    array(
+                        'key' => 'hwc_community_section_title_2',
+                        'label' => 'HWC Community Section Title 2',
+                        'name' => 'hwc_community_section_title_2',
+                        'type' => 'text',
+                        'required' => 0,
+                    ),
+                    // Repeater for Community Cards
+                    array(
+                        'key' => 'hwc_community_repeater_cards',
+                        'label' => 'Community Cards Repeater',
+                        'name' => 'hwc_repeater_community_cards',
+                        'type' => 'repeater',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'hwc_community_card_title',
+                                'label' => 'Title',
+                                'name' => 'hwc_community_card_title',
+                                'type' => 'text',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_community_card_image',
+                                'label' => 'Card Image',
+                                'name' => 'hwc_community_card_image',
+                                'type' => 'image',
+                                'required' => 1,
+                            ),
+                            array(
+                                'key' => 'hwc_community_card_button_link',
+                                'label' => 'Button Link',
+                                'name' => 'hwc_community_card_button_link',
+                                'type' => 'link',
+                                'required' => 0,
+                            ),
+                        ),
+                        'min' => 0,
+                        'layout' => 'block', // You can change to 'row' if preferred
+                        'button_label' => 'Add Card',
                     ),
                 ),
-            ),
-        ));
+                'location' => array(
+                    array(
+                        array(
+                            'param' => 'page',
+                            'operator' => '==',
+                            'value' => $hwc_community_page_id, // Replace with your Community page template
+                        ),
+                    ),
+                ),
+            ));
+        }
     }
 
     /*--------------------------------------------------------------
